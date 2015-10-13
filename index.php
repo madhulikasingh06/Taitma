@@ -14,19 +14,26 @@
       <div class="carousel-inner" role="listbox"> <!--carousel-inner div starts-->
        
         <div class="item active">
-          <img src="images/carousel-img/carousel-img-1.png" alt="" width="460" height="345">
-            <div class="carousel-caption">
-             <p>house of the <br><span style="padding-left:100px;">toy makers...</span></p>
-           </div>
+          <img src="images/carousel-img/carousel-img.png" height="">
+            <!-- <div class="carousel-caption">
+             <p>house of the <br><span style="">toy makers...</span></p>
+           </div> -->
+        </div>
+
+        <div class="item">
+          <img src="images/carousel-img/carousel-img-0.png" height="">
+            <!-- <div class="carousel-caption">
+             <p>house of the <br><span style="">toy makers...</span></p>
+           </div> -->
         </div>
 
 
-        <div class="item">
+        <!-- <div class="item">
           <img src="images/carousel-img/carousel-img-2.png" alt="" width="460" height="345">
             <div class="carousel-caption">
            <p>house of the <br><span style="padding-left:100px;">toy makers...</span></p>
           </div>
-        </div>
+        </div> -->
 
           <!-- <div class="carousel-caption">
            <p>house of the <br><span style="padding-left:100px;">toy makers...</span></p>

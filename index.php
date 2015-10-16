@@ -14,26 +14,19 @@
       <div class="carousel-inner" role="listbox"> <!--carousel-inner div starts-->
        
         <div class="item active">
-          <img src="images/carousel-img/carousel-img.png" height="">
-            <!-- <div class="carousel-caption">
-             <p>house of the <br><span style="">toy makers...</span></p>
-           </div> -->
+          <img src="images/carousel-img/carousel-img-1.jpg" alt="" width="1024" height="333">
+            <div class="carousel-caption">
+             <p>house of the <br><span style="padding-left:100px;">toy makers...</span></p>
+           </div>
         </div>
+
 
         <div class="item">
-          <img src="images/carousel-img/carousel-img-0.png" height="">
-            <!-- <div class="carousel-caption">
-             <p>house of the <br><span style="">toy makers...</span></p>
-           </div> -->
-        </div>
-
-
-        <!-- <div class="item">
-          <img src="images/carousel-img/carousel-img-2.png" alt="" width="460" height="345">
+          <img src="images/carousel-img/carousel-img-2.jpg" alt="" width="1024" height="333">
             <div class="carousel-caption">
            <p>house of the <br><span style="padding-left:100px;">toy makers...</span></p>
           </div>
-        </div> -->
+        </div>
 
           <!-- <div class="carousel-caption">
            <p>house of the <br><span style="padding-left:100px;">toy makers...</span></p>
@@ -73,7 +66,7 @@
         <div  class="col-sm-offset-1  col-sm-4 inner-menu">
             <ul>
                   <li><a href="notice-board.php">Notice Board</a></li>
-                  <li><a href="register.php">Register</a></li>
+                  <li><a href="register.php">Login / Register</a></li>
                   <li><a href="contact.php">Contact</a></li>
             </ul>
         <div class="col-sm-7"></div>
@@ -81,25 +74,16 @@
 
 
      <div class="row">
-            <div class="col-sm-offset-4  col-sm-7 home-text">
-              <!-- 
-<p>THE ALL INDIA TOY MANUFACTURERS’ ASSOCIATION<br>
+            <div class="col-sm-offset-  col-sm-7 home-text">
+              <p>THE ALL INDIA TOY MANUFACTURERS’ ASSOCIATION<br>
               (TAITMA) was established in 1976 with the prime object of <br>fostering integrated and accelerated growth and development of<br>
               the toy industry in India, in a systematic and scientific manner,<br>
               and to exploit its export potential to earn valuable foreign<br>exchange for the country.</p>
 
               <p>The toy industry in India has tremendous potential to raise its<br> productivity, create employment and for all-round development of<br>the economy. The industry also presents vast potential for export<br> of toys, dolls, games and playthings. However, the toy industry<br>has not received adequate attention for its development.
                 
- -->
               </p>
            </div>
            <div class="col-sm-1"></div>
      </div>
-
-  
-
-
-
 <?php include_once "common/footer.php"; ?>
-  
-

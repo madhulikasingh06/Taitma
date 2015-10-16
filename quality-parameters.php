@@ -11,11 +11,15 @@
           <?php include_once "common/inner-nav-bar.php"; ?>
 
           <div id="quality-parameter-contents" class="row">
-               <div class="col-sm-offset-2  col-sm-7 trasparent-bg  page-content-style">
-                <h4 ><a href="#" class="text-color-blue" >Toy Test Comparison (Click to download)</a></h4>
-                <p>EXTRACTS FROM THE STANDARDS OF WEIGHTS &amp; MEASURES ACT, 1976<p>
+               <div class="col-sm-offset-2  col-sm-8 trasparent-bg  page-content-style">
+                <h4 ><a href="files/toy%20test%20comparision.pdf" class="text-color-blue" target="_blank">Toy Test Comparison (Click to download)</a></h4>
               </div>
           </div>
+          <div class="row">
+               <div class="col-sm-offset-2  col-sm-8 trasparent-bg  page-content-style">
+                <h4 ><a href="files/std_of_weights_and_measures_act76.doc" class="text-color-blue" target="_blank">EXTRACTS FROM THE STANDARDS OF WEIGHTS &amp; MEASURES ACT, 1976</a></h4>
+              </div>
+          </div>          
 
    
     </div> <!--quality-parameter-page div ends  -->

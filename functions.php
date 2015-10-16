@@ -80,9 +80,9 @@
             }elseif ($current=="commitee-members.php") {                 
                   return  $pageName = "Commitee Members";
             }elseif ($current=="news-events.php") {
-                  return  $pageName = "News Events";
+                  return  $pageName = "News & Events";
             }elseif ($current=="useful-links.php") {
-                 return  $pageName = "Useful Lnks ";            
+                 return  $pageName = "Useful Links ";            
             }elseif ($current=="quality-parameters.php") {           
                   return  $pageName = "Quality parameters";           
             }elseif ($current=="toy-guide.php") {           

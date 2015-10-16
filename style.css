@@ -10,24 +10,26 @@ Version: 1.0
 
 */
 
-#container{
-
-	width: 1288px;
-
-}
-
 
 
 body {
 
-/*   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
-*/	font-family: sans-serif;
-
-	font-weight:500;
-	letter-spacing: .5px;
-	font-size: 16px;
-	color: #000000;
+/*   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; */
+/*	font-family:sans-serif;*/
+/*	letter-spacing: .5px;*/
+	font-size: 13px;
+	color: #585757;
+	background-color:#F8F8F8;
 }
+
+
+#container {
+	width:1024px;
+	margin:auto;
+	background-color:#FFF;
+}
+
+
 
 a:link,
 a:visited 
@@ -42,23 +44,24 @@ a:hover {
 }
 
 .logo{
-	padding: 10px 15px 10px 40px;
+	float:left;
+	padding: 5px 7px;
 }
 
 .site-header{
-
 	background-color: #0ABDC8;
-	padding-top: 20px;
-	margin: 0;
+	margin:0;
 }
 
 
 .logo-text {
-	
+	float:left;
 	text-align: left;
-	padding : 60px 10px 10px 20px;
-	font-size: 22px;
+	padding-left: 14px;
+	margin-top:60px;
+	font-size: 18px;
 	line-height: 1.13em;
+	border-left:#CCC 1px solid;
 }
 
 .logo-text a:link,
@@ -110,25 +113,26 @@ a:hover {
 .nav-menu-style ul {
     list-style-type: none;
     margin: 0;
-    padding: 130px 0 0 0;
+    padding: 130px 0 0 5px;
 
 }
 
 .nav-menu-style ul li {
     display: inline;
-    padding: 10px 19px 10px 0px;
+
     text-decoration: none;
     position: relative;
 }
 
 
 .nav-menu-style a{
-
+    padding: 10px 0px 10px 0px;
+	margin:0 7px 0 7px;
 	text-decoration: none; 
 	color:#EDEBE7 ; 
 	padding-bottom: 3px;
 	border-bottom: 1px solid #EDEBE7; 
-	outline: none; 
+	outline: none;
 }
 
 /*.nav-menu-style a:link,
@@ -182,7 +186,7 @@ a:hover {
 
 #homeCarousel img{
 background-color: #F4F4F5;
-width: 100%;
+width: 1024px;
 margin: 0px auto;
 float: right;
 
@@ -199,12 +203,12 @@ float: right;
 
 
 div.carousel-inner {
-	height: 370px;
+	height: 333px;
 
 }
 
 div.carousel-caption {
-	height: 300px;
+	height: 333px;
 
 }
 
@@ -215,6 +219,7 @@ div.carousel-caption {
 
 
 .carousel-caption {
+	display:none;
     position: relative;
     left: auto;
     right: auto;
@@ -227,10 +232,6 @@ div.carousel-caption {
     left: auto;
     right: auto;
     color: #000000;
-    font-size: 70px;
-	padding: 100px 0px 100px 50px;
-	line-height: 1em;
-	margin:0px;
 	font-weight: normal;
 }
 
@@ -244,9 +245,11 @@ div.carousel-caption {
 
 .chevron-left {
     left:10%;
+	top:40%;
 }
 .chevron-right {
     right:10%;
+	top:40%;
 }
 
 
@@ -255,40 +258,43 @@ div.carousel-caption {
 .inner-menu {
 	 background-color: #0ABDC8; 
 	 max-width: 380px;
+	 margin-left:50px;
 
 }
 
 .inner-menu ul {
-    list-style-type: none;
+/*    list-style-type: none;*/
     margin: 0;
-    padding: 10px 0px 0 0;
+	padding:0;
+/*    padding: 20px 0px 0 0; */
 }
 
 .inner-menu ul li{
-	display: inline;
-	float: left;
-	text-decoration: none;
     position: relative;
-    padding: 10px 20px 10px 10px;
-    font-size: 19px;
-    font-weight: 500;
+	list-style:none;
+/*    font-size: 19px;
+    font-weight: 500;*/
 }
 
 
 .inner-menu a:link,
 .inner-menu a:visited { 
-	text-decoration: none; 
+	float:left;
+	text-decoration: none;
 	color:#EDEBE7 ; 
 	padding-bottom: 3px;
-	border-bottom: 1px solid #EDEBE7; 
+	border-bottom: 1px solid #EDEBE7;
 	outline: none; 
+    padding: 28px 0px 0px 0px;
+	margin-right:15px;
+	margin-left:15px;
+	margin-bottom:3px;
+	font-size:14px;
 }
 
 .inner-menu a:hover {
-	text-decoration: none; 
 	color: #000000;
-	border-bottom:1px solid #000000;
-
+	border-bottom: 1px solid #000;
 }
 
 
@@ -304,14 +310,23 @@ div.carousel-caption {
 }*/
 
 .inner-tab-heading {
-	 background-color: #0ABDC8; 
+	 padding:0;
 	 max-width: 50%;
+}
+
+.page-heading {
+	 float:left;
+	 background-color: #0ABDC8; 
+	 text-align:left;
+	 font-size:17px;
+	 color:#EDEBE7;
+	 padding:15px 20px 5px 20px;
 }
 
 .inner-tab-heading ul {
     list-style-type: none;
     margin: 0;
-    padding: 0px 0 0 0;
+    padding: 8px 0 0 0;
 }
 
 .inner-tab-heading ul li{
@@ -319,7 +334,7 @@ div.carousel-caption {
 	float: left;
 	text-decoration: none;
     position: relative;
-    padding: 10px 0px 10px 0px;
+    padding: 20px 0px 10px 0px;
 
 }
 
@@ -338,6 +353,7 @@ div.carousel-caption {
 }
 
 /*Inner right menu*/
+.inner-right-menu { text-align:right; }
 
 .inner-right-menu ul{
 	list-style-type: none;
@@ -345,8 +361,7 @@ div.carousel-caption {
 .inner-right-menu ul li{
 	display: inline;
 	float: left;
-	color: #000000;
-	padding: 10px 8px 10px 0px;
+	padding: 10px 8px;
 
 }
 /*
@@ -363,7 +378,6 @@ div.carousel-caption {
 .inner-right-menu a{
 	text-decoration: none; 
 	color: #000000;
-	font-size: 15px;
 	padding-bottom: 3px;
 	border-bottom: 1px solid #000000; 
 	outline: none; 
@@ -387,8 +401,7 @@ div.carousel-caption {
 /* Main home*/
 
 .page-background {
-	/*background-image: url('images/Tiatma-Website-bg.jpg');*/
-	background-image: url('images/Tiatma-Website-bg1.jpg');
+	background-image: url('images/bg.jpg');
 	background-size: cover;
 	min-height: 530px;
 	padding: 0 0 10px 0;
@@ -397,17 +410,22 @@ div.carousel-caption {
 .home-text {
 	background-image: url('images/home-text-01.png');
 	background-size: contain;
-	min-height: 500px;
-	padding: 80px 10px 30px 200px;
+	width:500px;
+	height:400px;
+	padding: 60px 10px 10px 45px;
     background-repeat: no-repeat;
     background-position: right;
+	float:right;
+	right:100px;
+	top:25px;
+
 }
 
 
 .home-text p{
 
 	color: #000000;
-	font-size: 16px;
+	font-size: 13px;
 }
 
 .page-contents {
@@ -419,24 +437,23 @@ div.carousel-caption {
 /* site footer */
 
 .site-footer {
-	/*position: absolute;*/
-	width: 100%;
 	height: auto;
 	max-height: 220px;
+	background-color:#FFF;
+	padding-bottom:20px;
 }
 
 
 .site-footer img{
-	padding: 0px 20px 0 20px;
-	width: 140px;
-	height: auto;
+	padding: 0px 11px;
+	height: 50px;
 	max-height: 190px;
-	margin-right: 10px;
 }
 
 .site-footer ul {
 	padding: 10px 0px 0px 0px;
 	list-style-type: none;
+
 
 }
 
@@ -448,12 +465,14 @@ div.carousel-caption {
 
 
 .site-footer-links{
-	
 }
 
 .site-footer-links ul{
 	list-style-type: none;
 	padding-top: 10px;
+	width:700px;
+	margin:auto;
+
 }
 .site-footer-links ul li{
 	display: inline;
@@ -467,7 +486,6 @@ div.carousel-caption {
 .site-footer-links a:visited{
 	text-decoration: none; 
 	color: #000000;
-	font-size: 15px;
 	outline: none; 
 }
 
@@ -481,11 +499,13 @@ General page content settings
 */
 .page-content-style {
 
-    padding: 20px 20px 10px 20px;
+	padding: 20px 20px 10px 20px;
     margin-top: 20px;
-    font-size: 14px;
-    color: #000000;
+    font-size: 13px;
+	color:#585757;
 }
+
+.h4, h4 { font-size:17px; }
 
 .text-color-blue {
 color: #0ABDC8;	
@@ -497,10 +517,13 @@ About us page styles
 
 
 .trasparent-bg {
+	background-image:url(images/transp-bg.png);
 
-   	background-color: #F5F4EF;
-    opacity: 0.7;
-    filter: alpha(opacity=70); /* For IE8 and earlier */
+/*   	background-color: #F5F4EF;
+    opacity: 0.6;
+    filter: alpha(opacity=60);
+*/
+
 }
 
 
@@ -519,7 +542,7 @@ Useful links page style
 
 #useful-links-contents a:link,
 #useful-links-contents a:visited {
-	color: #000000;
+	color: #585757;
 	padding-top: 0;
 	
 }
@@ -548,39 +571,23 @@ Contact us form style
 #contact-form label {
 
 font-size: 12px;
-`
-}
-
-
-/*
-Commitee members Page starts
-*/
-
-#commitee-members p,p a:link{
-
-	text-decoration: none;
-	font-size: 11.5px;
-	line-height: 1.125em;
-	color: #000000;
-
 
 }
 
+
+#commitee-members p, p a:link {
+    font-size: 11.5px;
+/*    line-height: 1.2em;*/
+    text-decoration: none;
+}
 #commitee-members h5 {
-
-	color:#3994A1;
+    color: #3994a1;
+	
 }
 
-/*
-Commitee members Page ends
-*/
-
-
-
-
-
-
-
+.h5, h5 {
+    font-size: 13px;
+}
 
 
 

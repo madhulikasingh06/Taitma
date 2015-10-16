@@ -2,7 +2,7 @@
 
     
   <div id="" class="page-background"> <!--home-main starts -->
-
+	
       <div id="commitee-members-page" class="page-contents"> <!--commitee-members-page div starts  -->
 
       <!--   <?php //$pageName="Commitee Members" ?> -->
@@ -10,26 +10,34 @@
         <?php include_once "common/inner-nav-bar.php"; ?>
 
 
-	<div id="commitee-members"><!-- commitee-members div starts-->
+<p></p>
+
+<div id="commitee-members"><!-- commitee-members div starts-->
 
 				 <div class="row"> 
    	 
 					   	 <div class="col-sm-offset-1  col-sm-3">
 					             <h5><b>FOUNDER</b></h5>
-						             <p><b>Mr. Gulu M. Jhanger</b><br>
+			               <p><b>Mr. Gulu Jhangiani</b><br>
 										United Importers Corporation<br>
-										101, T. V. Industrial Estate, 248, Worli Road, Vorli <br>
+										101, T. V. Industrial Estate,<br>
+248, Worli Road, Vorli <br>
 										Tel.: 24939739.24927227/66603008<br>
-										Fax: 24934487 | E-mail: <a href="mailto:gulu@unitedtoys.net.">gulu@unitedtoys.net.</a>
-									</p><br>
+							  Fax: 24934487 <br>
+							 E-mail: <a href="mailto:gulu@unitedtoys.net.">gulu@unitedtoys.net.</a>
+							 </p>
+						             <br>
 									
 
 									<h5><b>PRESIDENT</b></h5>
-						             <p><b>Mr. Vivek G. Ghangiani</b><br>
-						             	Pleasantime Products, 101, T. V. Industrial Estate <br>
+						             <p><b>Mr. Vivek Jhangiani</b><br>
+						             	Pleasantime Products, <br>
+					             	   101, T. V. Industrial Estate <br>
 						             	248. Worli Road, Worli, MUMBAI - 400 030<br>
 										Tel.: 24939739/24927227/66603008<br>
-										Fax: 24934487 | E-mail: <a href="mailto:vivekj@unitedtoys.net">vivekj@unitedtoys.net</a><br><br>
+										Fax: 24934487<br>
+									   E-mail: <a href="mailto:vivekj@unitedtoys.net">vivekj@unitedtoys.net</a><br>
+										<br>
 									</p>
 
 									<h5><b>VICE PRESIDENTS</b></h5>
@@ -65,7 +73,7 @@
 										Min Toys Pvt. Ltd. Laxmi Vijay Society<br>
 										Bldg.35, Unit 146, Laxmi Indl. Estate<br>
 										New Link Road, Andheri (E), MUMBAI - 400 053<br> 
-										Tel.26364115 / Mbl.: 9820062683 Fax: 26366049<br>
+										Tel.:26364115 / Mbl.: 9820062683 Fax: 26366049<br>
 										E-mail: <a href="mailto:manish@shinsei.in ">manish@shinsei.in </a>/ 
 										<a href="mailto:shinseitoys@gmail.com">shinseitoys@gmail.com</a>
 						          		<br><br></p>
@@ -120,7 +128,8 @@
 					              	<p><b>Mr. Vikram Goel</b><br>
 					              		Infotech Resources, 402 Sharda Chambers<br>
 					              		 New Marine Lines, MUMBAI - 400 020<br>
-										Mbl.: 9820063987 | E-mail:<a href="mailto:infotech@vsnl.in">infotech@vsnl.in</a> 
+										Mbl.: 9820063987<br>
+									  E-mail:<a href="mailto:infotech@vsnl.in">infotech@vsnl.in</a> 
 					              	</p><br>
 
 
@@ -129,8 +138,8 @@
 					              		Speed Age Corporation<br>
 					              		602, Satyadev House, 6th Floor<br>
 					              		Veera Desai Road Extn., Andheri (W)<br>
-					              		MUMBAI - 400 053
-										Tel.: 26732153 / Fax: 26731439<br> 
+					              		MUMBAI - 400 053<br>
+				              		  Tel.: 26732153 / Fax: 26731439<br> 
 										Mbl.: 9820010491<br>
 										E-mail:<a href="mailto:vijayspeedage@gmail.com"> vijayspeedage@gmail.com</a>
 					              	</p>
@@ -164,8 +173,6 @@
 
       </div> <!--commitee-members-page div ends  -->
 
-
-   
 
 
 

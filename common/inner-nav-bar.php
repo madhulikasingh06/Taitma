@@ -1,13 +1,13 @@
         	<div class="row"> <!-- row div starts -->
               	<div class="col-sm-2"></div>
-                <div  class="col-sm-2 inner-tab-heading">
-                    <ul>
-                      <li><a href="#"><?php echo getPageName(getCurrentPage());?></a></li>
-                    </ul>
+                <div  class="col-sm-4 inner-tab-heading">
+                	<div class="page-heading">
+                      <?php echo getPageName(getCurrentPage());?>
+                    </div>
                 </div>
-        		    <div class="col-sm-5"></div>
+        		    <div class="col-sm-2"></div>
 
-                <div class="col-sm-3 inner-right-menu">
+                <div class="col-sm-4 inner-right-menu">
                      <ul>
 
                       <?php getInnerNavBar() ;?>

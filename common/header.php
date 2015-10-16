@@ -35,9 +35,8 @@
   //  });
 
    </script>
-  </head
-  
-<body>
+  </head>
+  <body>
 
 
  <?php include_once "functions.php";?>
@@ -45,11 +44,11 @@
 
   <div class="row site-header"> <!--site-header start-->
 
-    <div class="col-sm-2 logo">
-      <a href="index.php"><img id="logo" src="images/Logo.png"></a></img>
+    <div class="logo">
+      <a href="index.php"><img id="logo" src="images/taitma-logo-s.png" height="150"></a></img>
 
     </div>    
-    <div class="col-sm-2 logo-text"><a href="index.php">The All India Toy Manufacturers' Association<br>(TAITMA)</a></div>
+    <div class="logo-text"><a href="index.php">The All India Toy <br>Manufacturers' <br>Association<br>(TAITMA)</a></div>
     
     <div id="nav-menu" class="col-sm-8 nav-menu-style">
        <ul>

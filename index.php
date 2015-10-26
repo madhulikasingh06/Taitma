@@ -92,7 +92,7 @@
                          ?><div class="error"> <?php 
                           echo $statusMsg;?></div> <?php
                       } else {
-                          echo "<meta http-equiv='refresh' content='0;/taitma/index.php'>";
+                          echo "<meta http-equiv='refresh' content='0;/index.php'>";
                          exit;
                       }
                    

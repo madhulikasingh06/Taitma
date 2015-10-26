@@ -213,15 +213,7 @@ class taitmaMembersOperation {
 
                             while ($stmt->fetch()){
 
-                                echo "verified status   : $verified";
-
-                                
-                                
-                                echo getenv('HTTP_HOST');
-                                                                echo $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-
-                                                                echo "Doc root ::". $_SERVER["DOCUMENT_ROOT"];
-
+                    
                                 if($verified==1){
 
                                    $result= array(SUCCESS ,MSG_ACCOUNT_VERIFIED_SUCCESS);

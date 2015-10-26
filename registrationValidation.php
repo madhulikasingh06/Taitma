@@ -79,10 +79,10 @@
 	   	 	$pincodeErr=ERR_PINCODE_REQUIRED;
 	   } else {
 	   		$pincode = test_input($_POST["pincode"]);
-	   		// if(! preg_match('/^\[0-9]$/', $pincode) ){
-	   	 // 		$isErrored = true;	   	
-	   		// 	$pincodeErr=ERR_PINCODE_INVALID;
-	   		// }
+	   		 if(!preg_match('/^\d{6}$/', $pincode)){
+	   	  		$isErrored = true;	   	
+	   			$pincodeErr=ERR_PINCODE_INVALID;
+	   		 }
 
 	   }
 
@@ -98,10 +98,9 @@
 	   	 	$phoneErr=ERR_PHONE_REQUIRED;
 	   } else {
 	   		$phone=test_input($_POST["phone"]);
-	   		// if(! preg_match('/^\d{10}$/', $mobile) ){
-	   		// 	// $mobileErr=ERR_MOBILE_INVALID;
-	   		// 	$mobileErr=ERR_MOBILE_LENGTH;
-	   		// }
+	   		if(! preg_match('/^\d+$/', $phone) ){
+	   			$phoneErr=ERR_PHONE_INVALID;
+	   		}
 
 	   }
 

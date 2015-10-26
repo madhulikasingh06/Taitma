@@ -1,3 +1,13 @@
+<?php
+header( 'Cache-Control: no-store, no-cache, must-revalidate' ); 
+header( 'Cache-Control: post-check=0, pre-check=0', false ); 
+header( 'Pragma: no-cache' ); 
+?>
+<?php
+//include_once "common/constants.db.php";
+include_once "common/db_connect.php";
+include_once "inc/user.operations.inc.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,22 +34,13 @@
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="js/taitma.member.js"></script>
  
-   <script>
-  //  $(document).ready(function(){
-  
-  //    $("#nav-menu").click(function(){
-  //     $("#nav-menu").removeClass("nav-menu-style");
-  //     $(this).addClass("active");
-  //    });
-  //  });
-
-   </script>
   </head>
+ 
   <body>
-
-
  <?php include_once "functions.php";?>
+
    <div id="container"> <!-- container div start--> 
 
   <div class="row site-header"> <!--site-header start-->
@@ -50,23 +51,28 @@
     </div>    
     <div class="logo-text"><a href="index.php">The All India Toy <br>Manufacturers' <br>Association<br>(TAITMA)</a></div>
     
-    <div id="nav-menu" class="col-sm-8 nav-menu-style">
+    <div class="nav-menu-right">
+      <ul>
+        <?php if(isset($_SESSION["loggedIN"])) { ?>
+          <li style="color:#EDEBE7;">Welcome! <?php echo $_SESSION["userID"] ?></li>
+          <li><a href="profile.php">Profile</a></li> 
+          <li><a href="logout.php">Logout</a></li>
+          <?php } else { ?>
+                  <li style="color:#EDEBE7;">Hello! </li>
+                <li><a href="register.php">Register</a></li>
+         <?php } ?>       
+      </ul>
+    </div>
+
+ <div id="nav-menu" class="col-sm-8 nav-menu-style">
+
        <ul>
             <?php getNavBar();?>
-         <!--   <li><a href="index.php">Home</a></li>
-          <li><a href="about-us.php">About us</a></li>
-          <li><a href="commitee-members.php">Commitee Members</a></li>
-          <li><a href="news-events.php">News &amp; Events</a></li>
-          <li><a href="useful-links.php">Useful Links</a></li>
-          <li><a href="quality-parameters.php">Quality Parameter</a> </li>
-          <li><a href="toy-guide.php">Toy Guide</a></li>
-  -->
         </ul>
     </div>
 
   </div><!--site-header end-->
-
-    <div id="body"> <!-- body div start-->
+<div id="body"> <!-- body div start-->
 
 
 

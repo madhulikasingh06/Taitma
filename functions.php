@@ -93,7 +93,9 @@
                   return   $pageName = "Contact";
             }elseif ($current=="register.php") {             
                   return   $pageName = "Register";
-            }         
+            }else if ($current=="profile.php") {
+                  return   $pageName = "Profile";
+            }    
     }
  
 ?>

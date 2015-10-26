@@ -145,7 +145,10 @@ class taitmaMembersOperation {
 
 
                                 // echo $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
-                                 $verificationLink = $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/taitma/verifyAccount.php?oper=ver&ver=$verCode&em=$serialNumber";
+//                                  $verificationLink = $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/verifyAccount.php?oper=ver&ver=$verCode&em=$serialNumber";
+                                 
+                                $verificationLink = $_SERVER["SERVER_NAME"]."/verifyAccount.php?oper=ver&ver=$verCode&em=$serialNumber";
+
 
                                 // echo "Verification link is :: ".$verificationLink;
 
@@ -164,7 +167,7 @@ class taitmaMembersOperation {
 
                 }else {
                          echo "error  ::". $this->_db->error;
-                         $returnMessage[] ="Error occurred : ". $this->_db->error;                         $result= array(ERROR ,ERR_ACCOUNT_VERIFIED_FAILED);
+                         $returnMessage[] ="Error occurred : ". $this->_db->error;                         
                          $result= array(ERROR ,ERR_ACCOUNT_REGISTRATION_FAILED);
 
                 }
@@ -197,7 +200,7 @@ class taitmaMembersOperation {
         $returnMessage = array();
 
 
-        echo "account verified verification_code : $verification_code and serialNumber : $serialNumber";
+//         echo "account verified verification_code : $verification_code and serialNumber : $serialNumber";
 
         try {
             
@@ -219,10 +222,15 @@ class taitmaMembersOperation {
 
                                                                 echo "Doc root ::". $_SERVER["DOCUMENT_ROOT"];
 
-                                if($verified){
-                                    $result= array(SUCCESS ,MSG_ACCOUNT_VERIFIED_SUCCESS);
+                                if($verified==1){
 
-                                }else {
+                                   $result= array(SUCCESS ,MSG_ACCOUNT_VERIFIED_SUCCESS);
+
+                                }else if ($verified==0) {
+                                     $result= array(ERROR ,ERR_ACCOUNT_ALREADY_VERIFIED);
+
+                                }
+                                else if ($verified==-1){
                                     $result= array(ERROR ,ERR_ACCOUNT_VERIFIED_FAILED);
 
                                 }
@@ -266,68 +274,71 @@ class taitmaMembersOperation {
 
         $email = $_POST["email"];
         $password = $_POST["pwd"];  
-        $returnMessage = "";
+        // $result = "";
 
 
-        echo "email : $email | password :  $password.";
+        // echo "email : $email | password :  $password.";
         $password = md5(stripslashes($password));
 
-        $sql = "SELECT email FROM Members_Profile WHERE email=? and password =?";
+        // $sql = "SELECT email FROM Members_Profile WHERE email=? and password =?";
 
 
-            if($stmt = $this->_db->prepare($sql)) {
+        try {
 
-               $stmt->bind_param("ss", $email,$password);
-                
-                if($stmt->execute()){
-
-
-                    $stmt->store_result();
-
-                    echo "no of rows : ".$rows=$stmt->num_rows; 
+            $stmt = $this->_db->prepare("CALL verifyMemberLogin(?,?,@accountStatus)");
+            $stmt -> bind_param ("ss",$email,$password);
 
 
-                    if($rows == 1){
+            
+                     if ($select=$stmt->execute()) {
 
-                        echo "user exists";
-                        $_SESSION["loggedIN"]=1;
-                        $_SESSION['userID']="$email";
+                        $stmt->bind_result($accountStatus);
 
-                        $returnMessage = "Successfully logged in.";
+                            while ($stmt->fetch()){
+
+                                // echo "account Status   : $accountStatus";
+                                         
+                                if($accountStatus== -1 ){
+
+                                    $result= array(ERROR ,ERR_ACCOUNT_LOGIN_FAILED);
+
+                                }else if ($accountStatus==0) {
+                                    
+                                    $result= array(ERROR ,ERR_ACCOUNT_LOGIN_UNVERIFIED);
+
+                                }else if ($accountStatus==1 OR $accountStatus==2){
+                                    if($accountStatus==1){
+                                        $_SESSION["accountStatus"]=$accountStatus;
+
+                                    }
+                                    $_SESSION["loggedIN"]=1;
+                                    $_SESSION['userID']="$email";
+
+                                    $result= array(SUCCESS ,MSG_ACCOUNT_LOGIN_SUCCESS);
 
 
-                    }else {
-                        $returnMessage = "Username or Password is invalid";
-                    }
+                                }
 
-                    // $stmt->bind_result($localEmail);
-
-                    // while ($stmt->fetch()){
-
-                    //     echo "user exists with id : $localEmail";
-                    // }
-
-
-                }else {
-                    echo "error  ::". $this->_db->error;
-                }   
-
+                            }
 
                 $stmt->close();
 
             }else {
-                echo "something wrong in SQL!\n";
-                echo "error  ::". $this->_db->error;
+                          echo "error  ::". $this->_db->error;
+                         $result= array(ERROR ,ERR_ACCOUNT_VERIFIED_FAILED);
+
             }
 
 
 
+        } catch (Exception $pe) {
+            echo "in login method error msg: ".$pe->getMessage();
+              die("Error occurred:" . $pe->getMessage());
+            $result= array(ERROR ,ERR_ACCOUNT_VERIFIED_FAILED);
 
+        }
 
-
-        return $returnMessage;
-
-
+            return $result;
 
 
     }

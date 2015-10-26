@@ -74,30 +74,41 @@
               <?php 
                  if(isset($_POST["operation"])) {
 
-                  echo "operation set";
+                  // echo "operation set";
 
                  if($_SESSION["logInToken"]==$_POST["logInTokenPost"]){
 
                     $_SESSION["logInToken"]='';
-                    include_once "user-operations.php"; ?>
+                    include_once "user-operations.php"; 
+                      $statusCode = $status[0];
+                      $statusMsg = $status[1] ;
+
+                    ?>
 
                  <div class="row">
-                  <div  id ="message" class="col-sm-offset-2 col-sm-10"  >  echo $status<?php 
-                       echo "<meta http-equiv='refresh' content='0;/taitma/index.php'>";
-                   exit;
+                  <div  id ="message" > <?php 
 
-                  echo $status ?>
+                      if ($statusCode==ERROR) {
+                         ?><div class="error"> <?php 
+                          echo $statusMsg;?></div> <?php
+                      } else {
+                          echo "<meta http-equiv='refresh' content='0;/taitma/index.php'>";
+                         exit;
+                      }
+                   
+                  ?>
                  </div>
                  </div>
 
                  <?php }
-                       else { echo "Please do not refresh!" ; } 
+                       // else { echo "Please do not refresh!" ; } 
                      } //else { echo "operation not set!" ; }
                 ?>
               <div class="row"><!-- inside row 2 starts  -->
-                
 
-                  <div  id="login-box"  class="col-sm-12  trasparent-bg " style="display:none;">
+                    
+                    <div  id="login-box"  class="col-sm-12  trasparent-bg " style="display:none;">
+
                       <section id="">
                         <form action="<?php  echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" role="form"   method="post"   >
                         <!--Generate a unique token-->

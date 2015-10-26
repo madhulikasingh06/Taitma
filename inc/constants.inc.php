@@ -44,10 +44,15 @@ define("ERR_DOC_2_INVALID", ".");
 // define("ERR_", ".");
 
 DEFINE("MSG_ACCOUNT_VERIFIED_SUCCESS","Your account is verified. Please log in to continue.");
+define("ERR_ACCOUNT_ALREADY_VERIFIED", "Your account is already verified.Please log in to continue");
 define("ERR_ACCOUNT_VERIFIED_FAILED", "Your account could not be verified.");
 
 define("MSG_ACCOUNT_REGISTRATION_SUCCESS", "Your registration was successful. <br/>We've sent you a verification link to your email.Please verify your account!");
-define("ERR_ACCOUNT_REGISTRATION_FAILED", "There was some error processing your request.Your registration was not successful. Please try again.")
+define("ERR_ACCOUNT_REGISTRATION_FAILED", "There was some error processing your request.Your registration was not successful. Please try again.");
+
+define("ERR_ACCOUNT_LOGIN_FAILED","Your id or password is incorrect. Please try again.");
+define("ERR_ACCOUNT_LOGIN_UNVERIFIED","Your account is not verified. Please verify your account before logging in.");
+define("MSG_ACCOUNT_LOGIN_SUCCESS","Logged in successfully.");
 
 
 

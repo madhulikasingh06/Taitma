@@ -90,13 +90,13 @@
                         <span  id="address1Message" class="col-sm-offset-4 error" ><?php echo $address1Err;?></span>
                          <div class="form-group">
                               <label for="address1" class="col-sm-4">Address 1:&nbsp;<sup>*</sup></label>
-                              <textarea  class="rounded-Box col-sm-6<?php if(!$address1Err==""){echo " errorBox" ;} ?>" rows="5" id="address1"  name="address1" value="" ><?php echo $address1; ?></textarea>
+                              <input  class="input-box col-sm-8<?php if(!$address1Err==""){echo " errorBox" ;} ?>" type="text" id="address1"  name="address1" value="<?php echo $address1; ?>" />
                           </div>
 
                         <span  id="address2Message" class="col-sm-offset-4 error" ><?php echo $address2Err;?></span>
                              <div class="form-group">
                               <label for="address2" class="col-sm-4">Address 2:</label>
-                              <textarea  class="rounded-Box col-sm-6<?php if(!$address2Err==""){echo " errorBox" ;} ?>" rows="5" id="address2"  name="address2" value="" ><?php echo $address2; ?></textarea>
+                              <input  class="input-box col-sm-8<?php if(!$address2Err==""){echo " errorBox" ;} ?>" type="text" id="address2"  name="address2" value="<?php echo $address2; ?>" />
                           </div>
 
                          <span  id="cityMessage" class="col-sm-offset-4 error" ><?php echo $cityErr;?></span>
@@ -141,11 +141,11 @@
                               <label for="region" class="col-sm-4">Region:&nbsp;<sup>*</sup></label>
                               <select class="input-box col-sm-8 form-control <?php if(!$regionErr==""){echo " errorBox" ;} ?>" id="region"  name="region">
                                 <option value="<?php echo $region; ?>" ><?php echo $region; ?></option>
-                                <option value="N" >North</option>
-                                <option value="E" >East</option>
-                                <option value="W" >West</option>
-                                <option value="S" >South</option>
-                                <option value="C" >Country</option>
+                                <option value="North" >North</option>
+                                <option value="East" >East</option>
+                                <option value="West" >West</option>
+                                <option value="South" >South</option>
+                                <option value="Country" >Country</option>
                               </select>
                           </div>
       
@@ -167,7 +167,7 @@
                                          //    echo "id: " . $row["ID"]. " - category_ID: " . $row["category_ID"]. "  - category_desc:" . $row["category_desc"]. "<br>";
                                         
                                         ?>
-                                 <option value= "<?php echo $row["category_ID"]; ?>" ><?php echo $row["category_desc"]; ?></option>
+                                 <option value= "<?php echo $row["category_desc"]; ?>" ><?php echo $row["category_desc"]; ?></option>
 
                                         <?php }
                                     } //else {
@@ -201,7 +201,7 @@
                                               // echo "id: " . $memberType["ID"]. " - category_ID: " . $memberType["member_type"]. "  - category_desc:" . $memberType["member_desc"]. "<br>";
                                         
                                         ?>
-                                        <option value= "<?php echo $member["member_type"];  ?>" ><?php echo $member["member_desc"]; ?></option>
+                                        <option value= "<?php echo $member["member_desc"];  ?>" ><?php echo $member["member_desc"]; ?></option>
 
                                         <?php }
                                      }

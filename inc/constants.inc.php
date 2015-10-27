@@ -55,6 +55,18 @@ define("ERR_ACCOUNT_LOGIN_UNVERIFIED","Your account is not verified. Please veri
 define("MSG_ACCOUNT_LOGIN_SUCCESS","Logged in successfully.");
 
 
+define("EMAIL_VERIFICAITON_SUBJECT","[TAITMA]- Email verification.");
+
+define("EMAILID_FROM", "donotreply@taitma.cleari.in");
+define("EMAIL_FROM", "TAITMA");
+define("SMTP_SERVER", "taitma.cleari.in");
+define("SMTP_PORT", 587);
+define("SMTP_USER","taitmacl");
+define("SMTP_PASSWORD","tait@123");
+
+
+
+
 
 
 

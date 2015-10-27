@@ -1,12 +1,8 @@
 <?php 
-
-/**
-*Handles admin operation
-**/
-
  include_once "common/constants.db.php";
  include_once "common/db_connect.php";
  include_once "constants.inc.php";
+ include_once "swiftmailer-5/lib/swift_required.php";
 
 
 
@@ -87,6 +83,8 @@ class taitmaMembersOperation {
         if(!empty($_FILES["doc1"]['tmp_name'])) {
                    $doc1_tmpname=$_FILES['doc1']['tmp_name'];
                   $doc_1 = file_get_contents($doc1_tmpname);
+
+
          
         }
         if(!empty($_FILES["doc2"]['tmp_name'])) {
@@ -95,10 +93,10 @@ class taitmaMembersOperation {
          
         }
 
- 
         $serial_number ="";
         $verCode= sha1(time());       
         $returnMessage = array();
+        $result =  array();
 
         $email = stripslashes($email);
         //$email = mysql_real_escape_string($email);
@@ -110,7 +108,7 @@ class taitmaMembersOperation {
             $password = md5(stripslashes($password));
 
             $stmt = $this->_db->prepare("CALL RegisterNewMemeber(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@serialNumber)");
-            $stmt -> bind_param("ssssssississsssisbbs",$password, 
+            $stmt -> bind_param("ssssssississsssssbbs",$password, 
                                                        $company_name , 
                                                         $contact_person, 
                                                         $address_1, 
@@ -139,7 +137,7 @@ class taitmaMembersOperation {
 
                             while ($stmt->fetch()){
 
-                                // echo "user created with  id : $serialNumber";
+                                 // echo "user created with  id : $serialNumber";
 
                                //create the verification link link
 
@@ -154,6 +152,7 @@ class taitmaMembersOperation {
 
                                  //send the email 
 
+                                $this->sendVerificationEmail($email,$verificationLink);
 
                                 $returnMessage1 = MSG_ACCOUNT_REGISTRATION_SUCCESS."\n User created with verfication  link : $verificationLink ";
                                 // $returnMessage[] = MSG_ACCOUNT_REGISTRATION_SUCCESS;
@@ -181,6 +180,37 @@ class taitmaMembersOperation {
         }
 
         return  $result;
+    }
+
+
+
+    private function sendVerificationEmail($email,$verificationLink){
+            
+             $subject = EMAIL_VERIFICAITON_SUBJECT;
+            $from = array(EMAILID_FROM =>EMAIL_FROM);
+            $to = array( $email => $email);
+
+            $text = "Please verify by clicking on below link :". $verificationLink;
+            $html = "Please verify by clicking on below link <br/>".$verificationLink;
+
+            $transport = Swift_SmtpTransport::newInstance(SMTP_SERVER, SMTP_PORT);
+            $transport->setUsername(SMTP_USER);
+            $transport->setPassword(SMTP_PASSWORD);
+            $swift = Swift_Mailer::newInstance($transport);
+
+            $message = new Swift_Message($subject);
+            $message->setFrom($from);
+            $message->setBody($html, 'text/html');
+            $message->setTo($to);
+            $message->addPart($text, 'text/plain');
+
+            if ($recipients = $swift->send($message, $failures))
+            {
+             // echo 'Message successfully sent!';
+            } else {
+             // echo "There was an error:\n";
+             // print_r($failures);
+            }
     }
 
 

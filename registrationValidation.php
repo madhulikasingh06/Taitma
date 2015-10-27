@@ -148,7 +148,7 @@
 	   	 	$isErrored = true;	   	
 	   		$memberTypeErr=ERR_MEMBER_TYPE_REQUIRED;
 	   	}else{
-	   		$memberType = intval($_POST["memberType"]);
+	   		$memberType = test_input($_POST["memberType"]);
 	   	}
 
 

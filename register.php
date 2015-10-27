@@ -236,7 +236,7 @@
                             <!-- <button type="Submit">Submit</button> -->
                             <button type="Button" onClick="submitRegistrationForm();" >Submit</button>
                             <button type="Reset" onClick="document.write('<?php resetRegistrationForm() ?>'); ">Reset</button>
-                     </div>
+                    	 </div>
 
 
                     </form>

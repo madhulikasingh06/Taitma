@@ -172,7 +172,7 @@ class taitmaMembersOperation {
                 }
 
 
-
+           $stmt->close();  
         } catch (Exception $pe) {
             echo "in registerUser method error msg: ".$pe->getMessage();
             die("Error occurred:" . $pe->getMessage());
@@ -191,7 +191,7 @@ class taitmaMembersOperation {
             $to = array( $email => $email);
 
             $text = "Please verify by clicking on below link :". $verificationLink;
-            $html = "Please verify by clicking on below link <br/>".$verificationLink;
+            $html = "Please verify by clicking on below link <br/>"."http://".$verificationLink;
 
             $transport = Swift_SmtpTransport::newInstance(SMTP_SERVER, SMTP_PORT);
             $transport->setUsername(SMTP_USER);
@@ -268,7 +268,7 @@ class taitmaMembersOperation {
 
             }
 
-
+             $stmt->close();
 
         } catch (Exception $pe) {
             echo "in verfityAccount method error msg: ".$pe->getMessage();

@@ -95,7 +95,9 @@
                   return   $pageName = "Register";
             }else if ($current=="profile.php") {
                   return   $pageName = "Profile";
-            }    
+            }else if ($current=="verifyAccount.php") {
+                  return   $pageName = "Register";
+            }   
     }
  
 ?>

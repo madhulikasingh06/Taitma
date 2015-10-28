@@ -2,40 +2,46 @@
 	
 	$isErrored=false;
 
- 		$email = test_input($_POST["email"]);
- 
- 		if (empty($_POST["email"])) {
- 		  $isErrored = true;
-    	  $emailErr = "Email is required";
-    	}
+		if(!$_POST["operation"]=="edit-profile"){
+					$email = test_input($_POST["email"]);
+		 
+		 		if (empty($_POST["email"])) {
+		 		  $isErrored = true;
+		    	  $emailErr = "Email is required";
+		    	}
 
-		//validate password
-	   if (empty($_POST["password"])) {
-	   	   	$isErrored = true;
-	   		$passwordErr=ERR_PASSWORD_REQUIRED;
+				//validate password
+			   if (empty($_POST["password"])) {
+			   	   	$isErrored = true;
+			   		$passwordErr=ERR_PASSWORD_REQUIRED;
 
-	   } else{
-	   	   	 $password = test_input($_POST["password"]);
-	   	 
-	   	 if(strlen($password)<6){
-	   	 	$isErrored = true;
-	   	 	$passwordErr= ERR_PASSWORD_LENGTH;
-	   	 }
+			   } else{
+			   	   	 $password = test_input($_POST["password"]);
+			   	 
+			   	 if(strlen($password)<6){
+			   	 	$isErrored = true;
+			   	 	$passwordErr= ERR_PASSWORD_LENGTH;
+			   	 }
 
-	   }
+			   }
 
-	   //validate confirm password 
-	   if (empty($_POST["confirmPassword"])) {
-	   	 	$isErrored = true;	   	
-	   		$confirmPasswordErr=ERR__CONFIRM_PASSWORD_REQUIRED;
+			   //validate confirm password 
+			   if (empty($_POST["confirmPassword"])) {
+			   	 	$isErrored = true;	   	
+			   		$confirmPasswordErr=ERR__CONFIRM_PASSWORD_REQUIRED;
 
-	   } else{
-	   		$confirmPassword= test_input($_POST["confirmPassword"]);
-	   		if(strcmp($password,$confirmPassword)){
-	   	 		$isErrored = true;	   	
-	   			$confirmPasswordErr=ERR_PASS_NO_MATCH;
-	   		}
-	   }
+			   } else{
+			   		$confirmPassword= test_input($_POST["confirmPassword"]);
+			   		if(strcmp($password,$confirmPassword)){
+			   	 		$isErrored = true;	   	
+			   			$confirmPasswordErr=ERR_PASS_NO_MATCH;
+			   		}
+			   }
+
+		}
+
+
+ 		
 
 
 
@@ -195,34 +201,11 @@
 
 	
 if (!$isErrored) {
-	include_once "register-success.php"; ?>
-<!-- 	                 <div class="row">
-                  <div  id ="message" class="col-sm-offset-2 col-sm-10"  > 
-                    <ul>
-                    <?php 
+	include_once "user-operations.php";
+	include_once "register-success.php";
+	 exit;
+ ?>
 
-
-
-                      $statusCode = $status[0]; 
-
-                   if(!$statusCode){
-                   	 echo "<meta http-equiv='refresh' content='0;/taitma/register-success.php'>";
-                   exit;
-
-                    }
-                      if($statusCode) { ?><div style="color:red;"> <?php }
-                        
-                    foreach ($status[1] as $key) {?>
-
-                        <li><?php echo "\n$key\n"; ?></li>
-                      
-                       <?php }
-                      
-                       if($statusCode) { ?></div>  <?php }                   
-                    ?>
-                    </ul>
-                 </div>
-                 </div> -->
 <?php }
 
 

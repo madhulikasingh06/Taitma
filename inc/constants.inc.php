@@ -64,6 +64,12 @@ define("SMTP_PORT", 587);
 define("SMTP_USER","taitmacl");
 define("SMTP_PASSWORD","tait@123");
 
+define("MSG_ADMIN_APPROVAL_PENDING", "Your account approval is pending.");
+define('MSG_ACCOUNT_EDIT_PROFILE_SUCCESS', 'Your account is successfully updated.');
+define("ERR_ACCOUNT_EDIT_PROFILE", "Your account could not be updated. Please try again.");
+
+
+
 
 
 

@@ -13,7 +13,7 @@
  -->
 
 		<?php 
-			include_once "user-operations.php"; 
+			  // include_once "user-operations.php"; 
 		         $statusCode = $status[0]; 
          		$statusMsg = $status[1];
 

@@ -54,9 +54,16 @@ include_once "inc/user.operations.inc.php";
     <div class="nav-menu-right">
       <ul>
         <?php if(isset($_SESSION["loggedIN"])) { ?>
-          <li style="color:#EDEBE7;">Welcome! <?php echo $_SESSION["userID"] ?></li>
+          <li style="color:#EDEBE7;">Welcome! <?php echo $_SESSION["userID"] ;
+          if (isset($_SESSION["accountStatus"])) {
+              if ($_SESSION["accountStatus"]==1) {?>
+               <span style="color:#000;"> <?php echo MSG_ADMIN_APPROVAL_PENDING;?></span>
+            <?php }
+          } 
+          ?></li>
           <li><a href="profile.php">Profile</a></li> 
           <li><a href="logout.php">Logout</a></li>
+
           <?php } else { ?>
                   <li style="color:#EDEBE7;">Hello! </li>
                 <li><a href="register.php">Register</a></li>

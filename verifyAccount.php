@@ -4,7 +4,7 @@
 
     if(isset($_GET["oper"]) &&isset($_GET['ver']) && isset($_GET['em']))
     {	
-//     	echo "this is a get request";
+    	// echo "this is a get request";
     		include_once "user-operations.php"; 
         
 

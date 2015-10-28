@@ -401,6 +401,8 @@ div.carousel-caption {
 	background-size: cover;
 	min-height: 530px;
 	padding: 0 0 10px 0;
+	width: 1024px;
+	margin: auto;
 }
 
 .home-text {

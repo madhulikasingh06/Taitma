@@ -45,13 +45,15 @@ class taitmaMembersOperation {
     		 return $this->registerUser();
     	}else if ($operation=="log-in"){
             return $this->login();
-        }else if ($operation=="log-in"){
+        }else if ($operation=="log-out"){
             return $this->logOut();
         }else if ($operation=="emailExists"){
             // return $this->checkIfEmailExistsOld();
            return $this-> validateEmail();
         }else if ($operation == "ver"){
             return $this -> verfityAccount();
+        }else if ($operation == "edit-profile"){
+            return $this -> updateProfile();
         }
 
     }
@@ -108,7 +110,7 @@ class taitmaMembersOperation {
             $password = md5(stripslashes($password));
 
             $stmt = $this->_db->prepare("CALL RegisterNewMemeber(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@serialNumber)");
-            $stmt -> bind_param("ssssssississsssssbbs",$password, 
+            $stmt -> bind_param("sssssssssssssssssbbs",$password, 
                                                        $company_name , 
                                                         $contact_person, 
                                                         $address_1, 
@@ -154,8 +156,8 @@ class taitmaMembersOperation {
 
                                 $this->sendVerificationEmail($email,$verificationLink);
 
-                                $returnMessage1 = MSG_ACCOUNT_REGISTRATION_SUCCESS."\n User created with verfication  link : $verificationLink ";
-                                // $returnMessage[] = MSG_ACCOUNT_REGISTRATION_SUCCESS;
+                                 $returnMessage1 = MSG_ACCOUNT_REGISTRATION_SUCCESS."\n User created with verfication  link : $verificationLink ";
+//                                  $returnMessage[] = MSG_ACCOUNT_REGISTRATION_SUCCESS;
 
                                 $result =  array(SUCCESS ,$returnMessage1);
 
@@ -230,7 +232,7 @@ class taitmaMembersOperation {
         $returnMessage = array();
 
 
-//         echo "account verified verification_code : $verification_code and serialNumber : $serialNumber";
+        // echo "account verified verification_code : $verification_code and serialNumber : $serialNumber";
 
         try {
             
@@ -242,8 +244,7 @@ class taitmaMembersOperation {
                         $stmt->bind_result($verified);
 
                             while ($stmt->fetch()){
-
-                    
+                          
                                 if($verified==1){
 
                                    $result= array(SUCCESS ,MSG_ACCOUNT_VERIFIED_SUCCESS);
@@ -517,6 +518,117 @@ class taitmaMembersOperation {
        $data = stripslashes($data);
        $data = htmlspecialchars($data);
        return $data;
+    }
+
+
+    private function updateProfile(){
+
+        $result =  array();
+         $email = $_POST["email"];
+        $company_name = $_POST["companyName"];
+        $contact_person = $_POST["contactPerson"];
+        $address_1 = $_POST["address1"];
+        $address_2 = $_POST["address2"];
+        $city = $_POST["city"];
+        $pincode = $_POST["pincode"];
+        $state = $_POST["state"];
+        $phone = $_POST["phone"];
+        $mobile = $_POST["mobile"];
+        $website = $_POST["website"];
+        $region = $_POST["region"];
+        $category = $_POST["category"];
+        $member_specified_category = $_POST["memberSpecifiedCategory"];
+        $member_type = $_POST["memberType"];
+        $other_details = $_POST["otherDetails"];
+        $doc_1 = array();;
+        $doc_2 = NULL;
+        if(!empty($_FILES["doc1"]['tmp_name'])) {
+                   $doc1_tmpname=$_FILES['doc1']['tmp_name'];
+                  $doc_1 = file_get_contents($doc1_tmpname);
+
+
+         
+        }
+        if(!empty($_FILES["doc2"]['tmp_name'])) {
+                   $doc2_tmpname=$_FILES['doc2']['tmp_name'];
+                  $doc_2 = file_get_contents($doc2_tmpname);
+         
+        }
+
+        $serial_number ="";
+
+        $result =  array();
+
+        $email = stripslashes($email);
+
+
+        try {
+
+           // encrypt the password
+            // $password = md5(stripslashes($password));
+
+            $stmt = $this->_db->prepare("CALL updateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
+            $stmt -> bind_param("ssssssssssssssssbb",
+                                                       $company_name , 
+                                                        $contact_person, 
+                                                        $address_1, 
+                                                        $address_2, 
+                                                        $city, 
+                                                        $pincode,
+                                                        $state, 
+                                                        $phone,
+                                                        $mobile,
+                                                        $email, 
+                                                        $website, 
+                                                        $region, 
+                                                        $category,
+                                                        $member_specified_category, 
+                                                        $member_type,
+                                                        $other_details,
+                                                        $doc_1,
+                                                        $doc_2
+                                                        );
+
+
+                    
+                if ($select=$stmt->execute()) {
+
+                        $stmt->bind_result($status);
+
+                            while ($stmt->fetch()){
+                              // echo " status : $status";
+                              if($status==1){
+                                  $result = array(SUCCESS ,MSG_ACCOUNT_EDIT_PROFILE_SUCCESS);
+                              }else {
+                                  $result = array(ERROR ,ERR_ACCOUNT_EDIT_PROFILE);
+
+                              }
+
+                            }
+
+
+
+
+                }else {
+                         echo "error  ::". $this->_db->error;
+                         $returnMessage[] ="Error occurred : ". $this->_db->error;                         
+                         $result= array(ERROR ,ERR_ACCOUNT_EDIT_PROFILE);
+
+                }
+
+
+           $stmt->close();  
+        } catch (Exception $pe) {
+            echo "in registerUser method error msg: ".$pe->getMessage();
+            die("Error occurred:" . $pe->getMessage());
+            $result =  array(ERROR ,ERR_ACCOUNT_EDIT_PROFILE);
+        }
+
+
+       
+
+        return $result;
+
     }
 
 

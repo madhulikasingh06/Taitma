@@ -140,12 +140,12 @@
                           <div class="form-group">
                               <label for="region" class="col-sm-4">Region:&nbsp;<sup>*</sup></label>
                               <select class="input-box col-sm-8 form-control <?php if(!$regionErr==""){echo " errorBox" ;} ?>" id="region"  name="region">
-                                <option value="<?php echo $region; ?>" ><?php echo $region; ?></option>
-                                <option value="North" >North</option>
-                                <option value="East" >East</option>
-                                <option value="West" >West</option>
-                                <option value="South" >South</option>
-                                <option value="Country" >Country</option>
+                                <option value="" ></option>
+                                <option value="North" <?php if($region=="North"){ echo "selected" ;}?>   <?php if($region=="North"){ echo "selected" ;}?> >North</option>
+                                <option value="East" <?php if($region=="East"){ echo "selected" ;}?> >East</option>
+                                <option value="West" <?php if($region=="West"){ echo "selected" ;}?> >West</option>
+                                <option value="South" <?php if($region=="South"){ echo "selected" ;}?> >South</option>
+                                <option value="Country" <?php if($region=="Country"){ echo "selected" ;}?> >Country</option>
                               </select>
                           </div>
       
@@ -153,7 +153,7 @@
                          <div class="form-group">
                               <label for="category" class="col-sm-4">Category:&nbsp;<sup>*</sup></label>
                                 <select class="input-box col-sm-8 form-control<?php if(!$categoryErr==""){echo " errorBox" ;} ?>" id="category"  name="category" >
-                                <option value="<?php echo $category; ?>" ><?php echo $category; ?></option>
+                                <option value="" ></option>
 
                                 <?php
                                  // $sql="select * from Members_Categories" ;
@@ -167,7 +167,7 @@
                                          //    echo "id: " . $row["ID"]. " - category_ID: " . $row["category_ID"]. "  - category_desc:" . $row["category_desc"]. "<br>";
                                         
                                         ?>
-                                 <option value= "<?php echo $row["category_desc"]; ?>" ><?php echo $row["category_desc"]; ?></option>
+                                 <option value= "<?php echo $row["category_desc"]; ?>" <?php if($category==$row["category_desc"]){echo "selected";} ?> ><?php echo $row["category_desc"]; ?></option>
 
                                         <?php }
                                     } //else {
@@ -187,7 +187,7 @@
                           <div class="form-group">
                             <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
                              <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
-                                <option value="<?php echo $memberType; ?>" ><?php echo $memberType; ?></option>
+                                <option value="" ></option>
 
                                 <?php
                                   $sql="select * from Members_Type" ;
@@ -201,7 +201,7 @@
                                               // echo "id: " . $memberType["ID"]. " - category_ID: " . $memberType["member_type"]. "  - category_desc:" . $memberType["member_desc"]. "<br>";
                                         
                                         ?>
-                                        <option value= "<?php echo $member["member_desc"];  ?>" ><?php echo $member["member_desc"]; ?></option>
+                                        <option value= "<?php echo $member["member_desc"];  ?>" <?php if($memberType==$member["member_desc"]){ echo "selected" ;}  ?>><?php echo $member["member_desc"]; ?></option>
 
                                         <?php }
                                      }
@@ -221,6 +221,7 @@
                         <div>
                           <label for="doc1" class="col-sm-4">Select file to upload: </label>                          
                           <input type="file" name="doc1" id="doc1">
+
                         </div>
 
 
@@ -236,7 +237,7 @@
                             <!-- <button type="Submit">Submit</button> -->
                             <button type="Button" onClick="submitRegistrationForm();" >Submit</button>
                             <button type="Reset" onClick="document.write('<?php resetRegistrationForm() ?>'); ">Reset</button>
-                    	 </div>
+                     </div>
 
 
                     </form>

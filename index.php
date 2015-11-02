@@ -61,9 +61,13 @@
                 <div class="  col-sm-12">
                 <ul>
                       <li><a href="notice-board.php">Notice Board</a></li>
-                      <!-- <li><a href="register.php">Login / Register</a></li> -->
-                      <li><a href='javascript:onclick=showLoginBox();'>Login</a></li>
                       <li><a href="contact.php">Contact</a></li>
+                      <!-- <li><a href="register.php">Login / Register</a></li> -->
+                      <li><?php if(!isset($_SESSION["loggedIN"])) { ?>
+
+                        <a href='javascript:onclick=showLoginBox();'>Login</a>
+                        <?php }else { ?><a href="logout.php">Logout</a> <?php }?></li>
+                      
 
 
                 </ul>
@@ -88,11 +92,8 @@
                  <div class="row">
                   <div  id ="message" > <?php 
 
-                      if ($statusCode==ERROR) {
-                         ?><div class="error"> <?php 
-                          echo $statusMsg;?></div> <?php
-                      } else {
-                          echo "<meta http-equiv='refresh' content='0;/index.php'>";
+                      if ($statusCode==SUCCESS) {
+                          echo "<meta http-equiv='refresh' content='0;/taitma/index.php'>";
                          exit;
                       }
                    
@@ -109,7 +110,15 @@
                     
                     <div  id="login-box"  class="col-sm-12  trasparent-bg " style="display:none;">
 
-                      <section id="">
+                      <section id="" style="padding-top:0px;">
+                      <?php 
+                        if ((!empty($statusCode)) && $statusCode==ERROR) {
+                         ?><div class="error"><script type="text/javascript"> document.getElementById("login-box").style.display='block'; </script> <?php 
+                          echo $statusMsg;?></div> <?php
+                      } 
+
+                      ?>
+
                         <form action="<?php  echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" role="form"   method="post"   >
                         <!--Generate a unique token-->
                         <?php $newToken= sha1(time());
@@ -131,7 +140,9 @@
 
                           <div style="width:100%;">
                             <!-- <input class="button-style" type="submit" value="Log in" /> -->
+                             
                              <button type="submit" class="button-style">Log in</button>
+
                           </div>
                           <div>
                             <a href="#">Forgot password?</a>
@@ -170,12 +181,12 @@
                   //alert ("inside  showLoginBoxd!");
 
                     var e = document.getElementById("login-box");
-                     e.style.display = '';
+                     // e.style.display = '';
 
-                       // if(e.style.display == 'block')
-                       //    e.style.display = 'none';
-                       // else
-                       //    e.style.display = 'block';
+                       if(e.style.display == 'block')
+                          e.style.display = 'none';
+                       else
+                          e.style.display = 'block';
             }
     </script>
 

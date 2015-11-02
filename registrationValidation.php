@@ -2,7 +2,7 @@
 	
 	$isErrored=false;
 
-		if(!$_POST["operation"]=="edit-profile"){
+		if($_POST["operation"]=="register-user"){
 					$email = test_input($_POST["email"]);
 		 
 		 		if (empty($_POST["email"])) {
@@ -103,10 +103,10 @@
 	   	 	$isErrored = true;	   	
 	   	 	$phoneErr=ERR_PHONE_REQUIRED;
 	   } else {
-	   		$phone=test_input($_POST["phone"]);
-	   		if(! preg_match('/^\d+$/', $phone) ){
-	   			$phoneErr=ERR_PHONE_INVALID;
-	   		}
+	   		$phone=($_POST["phone"]);
+	   		// if(! preg_match('/^d+$/', $phone) ){
+	   		// 	$phoneErr=ERR_PHONE_INVALID;
+	   		// }
 
 	   }
 
@@ -173,22 +173,27 @@
 
 			
 		if(!empty($_FILES["doc1"]["tmp_name"])){
-			$filename = $_FILES["doc1"]["tmp_name"];
+			$filetmpname = $_FILES["doc1"]["tmp_name"];
 			
 			$fileSize = $_FILES["doc1"]["size"];
+			$filename= $_FILES["doc1"]["name"];
 
-			 echo $fileSize;
+
+			 echo $fileSize.":".$filename;
 			if($fileSize>1048576){
 				$doc1Err = ERR_DOC_INVALID_SIZE;
 			}
 		}
 
 		if(!empty($_FILES["doc2"]["tmp_name"])){
-			$filename = $_FILES["doc2"]["tmp_name"];
+			$filetmpname = $_FILES["doc2"]["tmp_name"];
 			
 			$fileSize = $_FILES["doc2"]["size"];
+				$filename= $_FILES["doc2"]["name"];
+		
+			 // echo $fileSize.":".$filename;
 
-			 echo $fileSize;
+			 // echo $fileSize;
 			if($fileSize>1048576){
 				$doc2Err = ERR_DOC_INVALID_SIZE;
 			}
@@ -202,8 +207,10 @@
 	
 if (!$isErrored) {
 	include_once "user-operations.php";
+	if($_POST["operation"]=="register-user"){
 	include_once "register-success.php";
 	 exit;
+	}
  ?>
 
 <?php }

@@ -82,35 +82,24 @@ class taitmaMembersOperation {
         // $doc_1 = file_get_contents($_POST["doc1"]) ;
         $doc_1 = NULL;
         $doc_2 = NULL;
-        if(!empty($_FILES["doc1"]['tmp_name'])) {
-                   $doc1_tmpname=$_FILES['doc1']['tmp_name'];
-                  $doc_1 = file_get_contents($doc1_tmpname);
-
-
-         
-        }
-        if(!empty($_FILES["doc2"]['tmp_name'])) {
-                   $doc2_tmpname=$_FILES['doc2']['tmp_name'];
-                  $doc_2 = file_get_contents($doc2_tmpname);
-         
-        }
+        $doc_2_size=0;
 
         $serial_number ="";
         $verCode= sha1(time());       
         $returnMessage = array();
         $result =  array();
 
+
         $email = stripslashes($email);
-        //$email = mysql_real_escape_string($email);
-        //$password = mysql_real_escape_string($password);
+
 
         try {
 
            // encrypt the password
             $password = md5(stripslashes($password));
 
-            $stmt = $this->_db->prepare("CALL RegisterNewMemeber(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@serialNumber)");
-            $stmt -> bind_param("sssssssssssssssssbbs",$password, 
+            $stmt = $this->_db->prepare("CALL RegisterNewMemeber(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@serialNumber)");
+            $stmt -> bind_param("ssssssssssssssssss",$password, 
                                                        $company_name , 
                                                         $contact_person, 
                                                         $address_1, 
@@ -127,13 +116,11 @@ class taitmaMembersOperation {
                                                         $member_specified_category, 
                                                         $member_type,
                                                         $other_details,
-                                                        $doc_1,
-                                                        $doc_2, 
                                                         $verCode);
 
 
                     
-                if ($select=$stmt->execute()) {
+                if($select=$stmt->execute()) {
 
                         $stmt->bind_result($serialNumber);
 
@@ -154,10 +141,31 @@ class taitmaMembersOperation {
 
                                  //send the email 
 
-                                $this->sendVerificationEmail($email,$verificationLink);
 
-                                 $returnMessage1 = MSG_ACCOUNT_REGISTRATION_SUCCESS."\n User created with verfication  link : $verificationLink ";
-//                                  $returnMessage[] = MSG_ACCOUNT_REGISTRATION_SUCCESS;
+
+                                         if(!empty($_FILES["doc1"]['tmp_name'])) {
+                                            
+                                              $doc1_tmpname=$_FILES['doc1']['tmp_name'];
+                                              $doc_1 = file_get_contents($doc1_tmpname);
+                                              $doc_1_filename=$serialNumber."_1_".$_FILES["doc1"]["name"];
+                                               move_uploaded_file($doc1_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_1_filename);
+
+
+                                         
+                                        }
+                                        if(!empty($_FILES["doc2"]['tmp_name'])) {
+                                                   $doc2_tmpname=$_FILES['doc2']['tmp_name'];
+                                                  $doc_2 = file_get_contents($doc2_tmpname);
+                                                  $doc_2_filename= $serialNumber."_2_".$_FILES["doc2"]["name"];
+                                                  move_uploaded_file($doc2_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_2_filename);
+
+                                        }
+
+
+                                        $this->sendVerificationEmail($email,$verificationLink);
+
+                                $returnMessage1 = MSG_ACCOUNT_REGISTRATION_SUCCESS."\n User created with verfication  link : $verificationLink ";
+                                // $returnMessage[] = MSG_ACCOUNT_REGISTRATION_SUCCESS;
 
                                 $result =  array(SUCCESS ,$returnMessage1);
 
@@ -525,6 +533,7 @@ class taitmaMembersOperation {
 
         $result =  array();
          $email = $_POST["email"];
+         $serial_no =$_POST["serial_no"];
         $company_name = $_POST["companyName"];
         $contact_person = $_POST["contactPerson"];
         $address_1 = $_POST["address1"];
@@ -540,22 +549,8 @@ class taitmaMembersOperation {
         $member_specified_category = $_POST["memberSpecifiedCategory"];
         $member_type = $_POST["memberType"];
         $other_details = $_POST["otherDetails"];
-        $doc_1 = array();;
+        $doc_1 = NULL;
         $doc_2 = NULL;
-        if(!empty($_FILES["doc1"]['tmp_name'])) {
-                   $doc1_tmpname=$_FILES['doc1']['tmp_name'];
-                  $doc_1 = file_get_contents($doc1_tmpname);
-
-
-         
-        }
-        if(!empty($_FILES["doc2"]['tmp_name'])) {
-                   $doc2_tmpname=$_FILES['doc2']['tmp_name'];
-                  $doc_2 = file_get_contents($doc2_tmpname);
-         
-        }
-
-        $serial_number ="";
 
         $result =  array();
 
@@ -567,8 +562,8 @@ class taitmaMembersOperation {
            // encrypt the password
             // $password = md5(stripslashes($password));
 
-            $stmt = $this->_db->prepare("CALL updateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
-            $stmt -> bind_param("ssssssssssssssssbb",
+            $stmt = $this->_db->prepare("CALL updateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
+            $stmt -> bind_param("ssssssssssssssss",
                                                        $company_name , 
                                                         $contact_person, 
                                                         $address_1, 
@@ -584,9 +579,7 @@ class taitmaMembersOperation {
                                                         $category,
                                                         $member_specified_category, 
                                                         $member_type,
-                                                        $other_details,
-                                                        $doc_1,
-                                                        $doc_2
+                                                        $other_details
                                                         );
 
 
@@ -598,6 +591,87 @@ class taitmaMembersOperation {
                             while ($stmt->fetch()){
                               // echo " status : $status";
                               if($status==1){
+
+                                  //update the files 
+                                        if(!empty($_FILES["doc1"]['tmp_name']) || !empty($_FILES["doc2"]['tmp_name'])) {
+                                          
+                                               $iterator = new FilesystemIterator(MEMBER_FILE_UPLOAD_FOLDER);
+                                              $filter = new RegexIterator($iterator, "/($serial_no)_*.*$/");
+                                              $filelist = array();
+
+                                              if (iterator_count( $filter)>0) {
+
+
+                                                foreach($filter as $entry) {
+                                                  $filelist[] = $entry->getFilename();
+                                                   $filename= $entry->getFilename();
+                                                   // echo "class filename ::".$filename;
+                                                  $filenameArray = explode("_", $filename);
+                                                 
+                                                  if($filenameArray[1]=="1"){
+
+                                                        if(!empty($_FILES["doc1"]['tmp_name']) ){
+                                                         
+                                                          $docNew_tmpname=$_FILES['doc1']['tmp_name'];
+                                                          // $docNew_size=$_FILES['doc1']['size'];
+                                                          $docNew_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
+
+                                                          unlink(MEMBER_FILE_UPLOAD_FOLDER.$filename);
+                                                          move_uploaded_file($docNew_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$docNew_filename);
+                                                           
+                                             
+                                                        }
+
+                                                  }else if ($filenameArray[1]=="2"){
+
+                                                          if(!empty($_FILES["doc2"]['tmp_name']) ){
+                                                            $doc2New_tmpname=$_FILES['doc2']['tmp_name'];
+                                                             // $doc2New_size=$_FILES['doc2']['size'];
+                                                            $doc2New_filename=$serial_no."_2_".$_FILES["doc2"]["name"];
+
+                                                          unlink(MEMBER_FILE_UPLOAD_FOLDER.$filename);
+                                                          move_uploaded_file($doc2New_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc2New_filename);
+                                                           
+                                                 
+                                                          }
+
+                                                  }
+
+
+
+                                                }
+                                             
+
+                                              }else {
+
+
+                                                 if(!empty($_FILES["doc1"]['tmp_name'])) {
+                                                
+                                                    $doc1_tmpname=$_FILES['doc1']['tmp_name'];
+                                                    $doc_1_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
+                                                     move_uploaded_file($doc1_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_1_filename);
+
+                                                 }
+
+                                                  if(!empty($_FILES["doc2"]['tmp_name'])) {
+
+                                                       $doc2_tmpname=$_FILES['doc2']['tmp_name'];
+                                                      $doc_2_filename= $serial_no."_2_".$_FILES["doc2"]["name"];
+                                                      move_uploaded_file($doc2_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_2_filename);
+
+                                                    }
+
+
+                                              }
+
+ 
+                                        
+
+                                          }
+                                          
+
+
+
                                   $result = array(SUCCESS ,MSG_ACCOUNT_EDIT_PROFILE_SUCCESS);
                               }else {
                                   $result = array(ERROR ,ERR_ACCOUNT_EDIT_PROFILE);

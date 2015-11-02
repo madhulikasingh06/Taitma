@@ -10,7 +10,8 @@
 
       }else if ($_SERVER['REQUEST_METHOD']==="GET"){
 
-            $operation=$_GET["oper"];
+            if(isset($_GET["oper"])){
+            $operation=$_GET["oper"];}
       }
 
        //echo "\n\noperation : ee.$operation";

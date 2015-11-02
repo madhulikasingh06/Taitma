@@ -50,7 +50,7 @@ define("ERR_ACCOUNT_VERIFIED_FAILED", "Your account could not be verified.");
 define("MSG_ACCOUNT_REGISTRATION_SUCCESS", "Your registration was successful. <br/>We've sent you a verification link to your email.Please verify your account!");
 define("ERR_ACCOUNT_REGISTRATION_FAILED", "There was some error processing your request.Your registration was not successful. Please try again.");
 
-define("ERR_ACCOUNT_LOGIN_FAILED","Your id or password is incorrect. Please try again.");
+define("ERR_ACCOUNT_LOGIN_FAILED","Your Username or password is incorrect. Please try again.");
 define("ERR_ACCOUNT_LOGIN_UNVERIFIED","Your account is not verified. Please verify your account before logging in.");
 define("MSG_ACCOUNT_LOGIN_SUCCESS","Logged in successfully.");
 
@@ -67,6 +67,9 @@ define("SMTP_PASSWORD","tait@123");
 define("MSG_ADMIN_APPROVAL_PENDING", "Your account approval is pending.");
 define('MSG_ACCOUNT_EDIT_PROFILE_SUCCESS', 'Your account is successfully updated.');
 define("ERR_ACCOUNT_EDIT_PROFILE", "Your account could not be updated. Please try again.");
+define("INACTIVE_DURATION", 1200);
+
+define("MEMBER_FILE_UPLOAD_FOLDER", "MembersFiles/");
 
 
 

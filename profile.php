@@ -10,7 +10,8 @@
 
 
                 <?php  
-              $email = $password = $confirmPassword = $companyName = $contactPerson = $address1 = $address2 =$city = $pincode = $state = $phone = $mobile = $website = $region = $category = $memberSpecifiedCategory = $memberType = $otherDetails ="";
+        $serial_no=$email = $password = $confirmPassword = $companyName = $contactPerson = $address1 = $address2 =$city = $pincode = $state = $phone = $mobile = $website = $region = $category = $memberSpecifiedCategory = $memberType = $otherDetails = $doc1 = $doc2= 
+        $doc1_name = $doc2_name = $doc1_ref =$doc2_ref ="";
        $emailErr = $passwordErr = $confirmPasswordErr = $companyNameErr = $contactPersonErr = $address1Err = $address2Err =$cityErr = $pincodeErr = $stateErr = $phoneErr = $mobileErr = $websiteErr = $regionErr = $categoryErr = $memberSpecifiedCategoryErr = $memberTypeErr = $otherDetailsErr = $doc1Err = $doc2Err = "";
 
 
@@ -31,6 +32,7 @@
          while($row = $result->fetch_assoc()) 
 
          {
+            $serial_no=$row["serial_no"];
             $companyName = $row["company_name"];
             $contactPerson = $row["contact_person"];
             $address1 = $row["address_1"];
@@ -45,6 +47,8 @@
             $memberSpecifiedCategory = $row["member_specified_category"];
             $memberType_id = $row["member_type"];
             $other_details = $row["other_details"];
+          
+
 
          }
 
@@ -67,15 +71,63 @@
       } 
 
       }
-                
-                 if(isset($_POST["operation"])) {
+
+
+
+ // Get the user updated files 
+
+
+      $iterator = new FilesystemIterator(MEMBER_FILE_UPLOAD_FOLDER);
+                                              $filter = new RegexIterator($iterator, "/($serial_no)_*.*$/");
+                                              $filelist = array();
+
+                                              if (iterator_count( $filter)>0) {
+
+
+                                                foreach($filter as $entry) {
+                                                  $filelist[] = $entry->getFilename();
+                                                   $filename= $entry->getFilename();
+                                                   // echo "filename : $filename";
+
+                                                    $filenameArray = explode("_", $filename);
+                                                 
+                                                  if($filenameArray[1]=="1"){
+                                                      $doc1_name =$filenameArray[2];
+                                                      $doc1_ref=MEMBER_FILE_UPLOAD_FOLDER.$filename;
+                                                    }
+
+                                                   if($filenameArray[1]=="2"){
+                                                      $doc2_name =$filenameArray[2];
+                                                      $doc2_ref=MEMBER_FILE_UPLOAD_FOLDER.$filename;
+                                                    }
+                                                  }
+
+                                                  // echo "\n$doc1_name and $doc2_name";
+                                              }
+
+
+
+
+      ?> 
+                                <div class="col-sm-offset-2  col-sm-8 trasparent-bg  page-content-style">
+
+          <?php        if(isset($_POST["operation"])) {
+
 
                       if($_SESSION["editProfileToken"]==$_POST["editProfileTokenPost"]){
 
                         // echo $_POST["editProfileTokenPost"];
                         $_SESSION["editProfileToken"]='';
                           include_once "registrationValidation.php";
-                        }
+
+                             $statusCode = $status[0]; 
+                            $statusMsg = $status[1];  
+
+                    ?>
+
+            <p style="text-align:center;"><?php echo  $statusMsg ?></p>
+
+                      <?php   }
                       }
             
                ?>
@@ -84,7 +136,7 @@
 
                 <!-- register-contents div starts -->
 
-                <div class="col-sm-offset-2  col-sm-8 trasparent-bg  page-content-style">
+                <!-- <div class="col-sm-offset-2  col-sm-8 trasparent-bg  page-content-style"> -->
                     <!-- <p> You can download the Registration form here. (Right click &amp;Save link As)</p>
                     <p> You will need to post a hard copy of the filled in Membership form to TAITMA office address along
                         with a cheque of Rs.3000/- (Rs.1000/- annual fee &amp; Rs.2000/- one time joining fee).</p>
@@ -103,6 +155,8 @@
                       <input type="hidden" name="operation" value="edit-profile"/>
                       <input type="hidden" id="editProfileTokenPost" name="editProfileTokenPost" value="<?php echo $newToken; ?>"/>
                       <input type="hidden" name="email" value="<?php echo $email; ?>"/>
+                      <input type="hidden" name="serial_no" value="<?php echo $serial_no; ?>"/>
+
                             
 
                         <span  id="companyNameMessage" class="col-sm-offset-4 error" ><?php echo $companyNameErr;?></span>
@@ -170,12 +224,12 @@
                           <div class="form-group">
                               <label for="region" class="col-sm-4">Region:&nbsp;<sup>*</sup></label>
                               <select class="input-box col-sm-8 form-control <?php if(!$regionErr==""){echo " errorBox" ;} ?>" id="region"  name="region">
-                                <option value="<?php echo $region; ?>" ><?php echo $region; ?></option>
-                                <option value="North" >North</option>
-                                <option value="East" >East</option>
-                                <option value="West" >West</option>
-                                <option value="South" >South</option>
-                                <option value="Country" >Country</option>
+                                <option value="" ></option>
+                                <option value="North"  <?php if($region=="North"){ echo "selected" ;}?> >North</option>
+                                <option value="East" <?php if($region=="East"){ echo "selected" ;}?> >East</option>
+                                <option value="West" <?php if($region=="West"){ echo "selected" ;}?>>West</option>
+                                <option value="South" <?php if($region=="South"){ echo "selected" ;}?> >South</option>
+                                <option value="Country" <?php if($region=="Country"){ echo "selected" ;}?> >Country</option>
                               </select>
                           </div>
       
@@ -183,7 +237,7 @@
                          <div class="form-group">
                               <label for="category" class="col-sm-4">Category:&nbsp;<sup>*</sup></label>
                                 <select class="input-box col-sm-8 form-control<?php if(!$categoryErr==""){echo " errorBox" ;} ?>" id="category"  name="category" >
-                                <option value="<?php echo $category; ?>" ><?php echo $category; ?></option>
+                                <option value="" ></option>
 
                                 <?php
                                  // $sql="select * from Members_Categories" ;
@@ -197,7 +251,7 @@
                                          //    echo "id: " . $row["ID"]. " - category_ID: " . $row["category_ID"]. "  - category_desc:" . $row["category_desc"]. "<br>";
                                         
                                         ?>
-                                 <option value= "<?php echo $row["category_desc"]; ?>" ><?php echo $row["category_desc"]; ?></option>
+                                 <option value= "<?php echo $row["category_desc"]; ?>" <?php if($category_id==$row["category_ID"]){echo "selected";} ?> ><?php echo $row["category_desc"]; ?></option>
 
                                         <?php }
                                     } //else {
@@ -217,7 +271,7 @@
                           <div class="form-group">
                             <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
                              <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
-                                <option value="<?php echo $memberType; ?>" ><?php echo $memberType; ?></option>
+                                <option value="" ></option>
 
                                 <?php
                                   $sql="select * from Members_Type" ;
@@ -231,7 +285,7 @@
                                               // echo "id: " . $memberType["ID"]. " - category_ID: " . $memberType["member_type"]. "  - category_desc:" . $memberType["member_desc"]. "<br>";
                                         
                                         ?>
-                                        <option value= "<?php echo $member["member_desc"];  ?>" ><?php echo $member["member_desc"]; ?></option>
+                                        <option value= "<?php echo $member["member_desc"]; ?>" <?php if($memberType_id==$member["member_type"]){ echo "selected" ;}  ?>  ><?php echo $member["member_desc"]; ?></option>
 
                                         <?php }
                                      }
@@ -247,22 +301,44 @@
                              <textarea  class="rounded-Box col-sm-6<?php if(!$otherDetailsErr==""){echo " errorBox" ;} ?>" rows="5" id="otherDetails"  name="otherDetails"><?php echo $otherDetails ?></textarea>
                           </div>
 
-                        <span  id="doc1Message" class="col-sm-offset-4 error" ><?php echo $doc1Err;?></span>
+
+
+
+                        <?php if(!empty($doc1_name)) { ?>
+                          <div>
+                            <div id="doc1_name" class="col-sm-4"  style="font-weight: bold;">Uploaded File 1 :</div>                 
+                            <div  class="col-sm-8"><a href="<?php echo $doc1_ref ;?>"  target="_blank"><?php echo $doc1_name;?></a></div>
+                          </div>
+                         <?php }?>
+
+                       <?php if(!empty($doc2_name)) { ?>
+                           <div>
+                            <div id="doc2_name" class="col-sm-4" style="font-weight: bold; padding-bottom:10px;">Uploaded File 2 :</div>
+                            <div  class="col-sm-8"><a href="<?php echo $doc2_ref ;?>"  target="_blank"><?php echo $doc2_name;?></a></div>
+                          </div>
+                            
+                         <?php }?>
+
+
+
+
+
+                        <span  id="doc1Message" class="col-sm-offset-4 col-sm-8 error" ><?php echo $doc1Err;?></span>
                         <div>
-                          <label for="doc1" class="col-sm-4">Select file to upload: </label>                          
-                          <input type="file" name="doc1" id="doc1">
+                          <label for="doc1" class="col-sm-4">New File 1 to upload: </label>                          
+                          <input  class="col-sm-8" type="file" name="doc1" id="doc1" />
                         </div>
 
 
-                        <span  id="doc2Message" class="col-sm-offset-4 error" ><?php echo $doc2Err;?></span>
+                        <span  id="doc2Message" class="col-sm-offset-4 col-sm-8 error" ><?php echo $doc2Err;?></span>
                         <div>
-                          <label for="doc2" class="col-sm-4">Select file to upload: </label>                          
-                          <input type="file" name="doc2" id="doc1">
+                          <label for="doc2" class="col-sm-4">New File 2 to upload: </label>                          
+                          <input  class="col-sm-8" type="file" name="doc2" id="doc2" />
                         </div>
 
 
 
-                        <div class="col-sm-offset-4 col-sm-8">
+                        <div class="col-sm-offset-4 col-sm-8"  style="padding-top:10px;">
                             <!-- <button type="Submit">Submit</button> -->
                             <button type="Submit">Submit</button>
                             <button type="Reset">Reset</button>

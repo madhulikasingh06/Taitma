@@ -67,6 +67,8 @@ define("SMTP_PASSWORD","tait@123");
 define("MSG_ADMIN_APPROVAL_PENDING", "Your account approval is pending.");
 define('MSG_ACCOUNT_EDIT_PROFILE_SUCCESS', 'Your account is successfully updated.');
 define("ERR_ACCOUNT_EDIT_PROFILE", "Your account could not be updated. Please try again.");
+define("ERR_ACCOUNT_EDIT_FORM_VAL_FAILED", "There is some error in the form! Please check and Submit again.");
+
 define("INACTIVE_DURATION", 1200);
 
 define("MEMBER_FILE_UPLOAD_FOLDER", "MembersFiles/");

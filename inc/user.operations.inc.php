@@ -532,8 +532,11 @@ class taitmaMembersOperation {
     private function updateProfile(){
 
         $result =  array();
+             $password = NULL;
+        $confirmPassword = NULL;
+  
          $email = $_POST["email"];
-         $serial_no =$_POST["serial_no"];
+         $serial_no =intval($_POST["serial_no"]);
         $company_name = $_POST["companyName"];
         $contact_person = $_POST["contactPerson"];
         $address_1 = $_POST["address1"];
@@ -556,14 +559,24 @@ class taitmaMembersOperation {
 
         $email = stripslashes($email);
 
+        if(isset($_POST["password"]) AND $_POST["confirmPassword"]){
+                  $password = $_POST["password"];
+                  $confirmPassword = $_POST["confirmPassword"];
+                    $password = md5(stripslashes($password));
+
+        }
+
+
+
 
         try {
 
            // encrypt the password
-            // $password = md5(stripslashes($password));
-
-            $stmt = $this->_db->prepare("CALL updateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
-            $stmt -> bind_param("ssssssssssssssss",
+           
+            $stmt = $this->_db->prepare("CALL updateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
+            $stmt -> bind_param("isssssssssssssssss",
+                                                      $serial_no,
+                                                      $password,
                                                        $company_name , 
                                                         $contact_person, 
                                                         $address_1, 

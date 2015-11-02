@@ -41,6 +41,32 @@
 		}
 
 
+		if($_POST["operation"]=="edit-profile"){
+			if (!empty($_POST["password"])) {
+
+			     $password = test_input($_POST["password"]);
+			   	 
+			   	 if(strlen($password)<6){
+			   	 	$isErrored = true;
+			   	 	$passwordErr= ERR_PASSWORD_LENGTH;
+			   	 }
+
+			   	  if (empty($_POST["confirmPassword"])) {
+			   	 	$isErrored = true;	   	
+			   		$confirmPasswordErr=ERR__CONFIRM_PASSWORD_REQUIRED;
+
+			   } else{
+			   		$confirmPassword= test_input($_POST["confirmPassword"]);
+			   		if(strcmp($password,$confirmPassword)){
+			   	 		$isErrored = true;	   	
+			   			$confirmPasswordErr=ERR_PASS_NO_MATCH;
+			   		}
+			   }
+
+			   }			  
+		}
+
+
  		
 
 
@@ -179,8 +205,9 @@
 			$filename= $_FILES["doc1"]["name"];
 
 
-			 echo $fileSize.":".$filename;
+			 // echo $fileSize.":".$filename;
 			if($fileSize>1048576){
+				$isErrored = true;	 
 				$doc1Err = ERR_DOC_INVALID_SIZE;
 			}
 		}
@@ -195,6 +222,7 @@
 
 			 // echo $fileSize;
 			if($fileSize>1048576){
+				$isErrored = true;	 
 				$doc2Err = ERR_DOC_INVALID_SIZE;
 			}
 		}

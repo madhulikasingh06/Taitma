@@ -93,7 +93,7 @@
                   <div  id ="message" > <?php 
 
                       if ($statusCode==SUCCESS) {
-                          echo "<meta http-equiv='refresh' content='0;/taitma/index.php'>";
+                          echo "<meta http-equiv='refresh' content='0;/index.php'>";
                          exit;
                       }
                    

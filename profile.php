@@ -120,14 +120,28 @@
                         $_SESSION["editProfileToken"]='';
                           include_once "registrationValidation.php";
 
-                             $statusCode = $status[0]; 
+                            // echo "isErrored :: ".intval($isErrored);
+                           
+                           if (!$isErrored) {
+                            $statusCode = $status[0]; 
                             $statusMsg = $status[1];  
+
 
                     ?>
 
             <p style="text-align:center;"><?php echo  $statusMsg ?></p>
 
-                      <?php   }
+                      <?php  } else {  ?>
+
+            <p style="text-align:center;color:#FF5050;"><?php echo  ERR_ACCOUNT_EDIT_FORM_VAL_FAILED ?></p>
+
+                      <?php 
+
+
+                          }
+
+
+                       }
                       }
             
                ?>
@@ -157,6 +171,17 @@
                       <input type="hidden" name="email" value="<?php echo $email; ?>"/>
                       <input type="hidden" name="serial_no" value="<?php echo $serial_no; ?>"/>
 
+                        <span  id="passwordMessage" class="col-sm-offset-4 error" ><?php echo $passwordErr;?></span>
+                         <div class="form-group">
+                            <label for="password" class="col-sm-4">Password:</label>
+                            <input  class="input-box col-sm-8 <?php if(!$passwordErr==""){echo " errorBox" ;} ?>" type="password" id="password"  name="password" value="<?php echo $password; ?>"/><br>
+                          </div>
+
+                        <span  id="confirmPasswordMessage" class="col-sm-offset-4 error" ><?php echo $confirmPasswordErr;?></span>
+                        <div class="form-group">
+                            <label for="confirmPassword" class="col-sm-4">Confirm Password:</label>
+                            <input  class="input-box col-sm-8 <?php if(!$confirmPasswordErr==""){echo " errorBox" ;} ?>" type="password" id="confirmPassword"  name="confirmPassword" value="<?php echo $confirmPassword; ?>" />
+                          </div>
                             
 
                         <span  id="companyNameMessage" class="col-sm-offset-4 error" ><?php echo $companyNameErr;?></span>

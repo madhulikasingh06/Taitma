@@ -79,7 +79,10 @@
 	   		$companyName = test_input($_POST["companyName"]);
 	   	}
 
-	   	if(!empty($_POST["contactPerson"])) {
+	   	if(empty($_POST["contactPerson"])) {
+			$ßßisErrored=true;
+			$contactPersonErr = ERR_CONTACT_PERSON_REQUIRED;
+		}else{
 			$contactPerson = test_input($_POST["contactPerson"]);
 		}
 

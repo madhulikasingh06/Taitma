@@ -554,15 +554,17 @@ class taitmaMembersOperation {
         $other_details = $_POST["otherDetails"];
         $doc_1 = NULL;
         $doc_2 = NULL;
+        $oldFile1 = "";
+        $oldFile2 = "";
 
         $result =  array();
 
         $email = stripslashes($email);
 
-        if(isset($_POST["password"]) AND $_POST["confirmPassword"]){
+        if(!empty($_POST["password"])){
                   $password = $_POST["password"];
                   $confirmPassword = $_POST["confirmPassword"];
-                    $password = md5(stripslashes($password));
+                  $password = md5(stripslashes($password));
 
         }
 
@@ -606,87 +608,84 @@ class taitmaMembersOperation {
                               if($status==1){
 
                                   //update the files 
-                                        if(!empty($_FILES["doc1"]['tmp_name']) || !empty($_FILES["doc2"]['tmp_name'])) {
-                                          
-                                               $iterator = new FilesystemIterator(MEMBER_FILE_UPLOAD_FOLDER);
-                                              $filter = new RegexIterator($iterator, "/($serial_no)_*.*$/");
-                                              $filelist = array();
-
-                                              if (iterator_count( $filter)>0) {
 
 
+                                  // Get the local files 
+
+
+
+                                   $iterator = new FilesystemIterator(MEMBER_FILE_UPLOAD_FOLDER);
+                                   $filter = new RegexIterator($iterator, "/($serial_no)_*.*$/");
+                                      if (iterator_count( $filter)>0) {
                                                 foreach($filter as $entry) {
-                                                  $filelist[] = $entry->getFilename();
-                                                   $filename= $entry->getFilename();
-                                                   // echo "class filename ::".$filename;
-                                                  $filenameArray = explode("_", $filename);
+
+                                                        $filename = $entry->getFilename();
+                                                        $filenameArray = explode("_", $filename);
                                                  
-                                                  if($filenameArray[1]=="1"){
-
-                                                        if(!empty($_FILES["doc1"]['tmp_name']) ){
-                                                         
-                                                          $docNew_tmpname=$_FILES['doc1']['tmp_name'];
-                                                          // $docNew_size=$_FILES['doc1']['size'];
-                                                          $docNew_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
-
-                                                          unlink(MEMBER_FILE_UPLOAD_FOLDER.$filename);
-                                                          move_uploaded_file($docNew_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$docNew_filename);
-                                                           
-                                             
+                                                        if($filenameArray[1]=="1"){
+                                                            $oldFile1 = $filename;
+                                                        }else if ($filenameArray[1]=="2"){
+                                                          $oldFile2 = $filename;
                                                         }
 
-                                                  }else if ($filenameArray[1]=="2"){
-
-                                                          if(!empty($_FILES["doc2"]['tmp_name']) ){
-                                                            $doc2New_tmpname=$_FILES['doc2']['tmp_name'];
-                                                             // $doc2New_size=$_FILES['doc2']['size'];
-                                                            $doc2New_filename=$serial_no."_2_".$_FILES["doc2"]["name"];
-
-                                                          unlink(MEMBER_FILE_UPLOAD_FOLDER.$filename);
-                                                          move_uploaded_file($doc2New_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc2New_filename);
-                                                           
-                                                 
-                                                          }
-
-                                                  }
-
-
-
-                                                }
-                                             
-
-                                              }else {
-
-
-                                                 if(!empty($_FILES["doc1"]['tmp_name'])) {
-                                                
-                                                    $doc1_tmpname=$_FILES['doc1']['tmp_name'];
-                                                    $doc_1_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
-                                                     move_uploaded_file($doc1_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_1_filename);
-
-                                                 }
-
-                                                  if(!empty($_FILES["doc2"]['tmp_name'])) {
-
-                                                       $doc2_tmpname=$_FILES['doc2']['tmp_name'];
-                                                      $doc_2_filename= $serial_no."_2_".$_FILES["doc2"]["name"];
-                                                      move_uploaded_file($doc2_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_2_filename);
-
-                                                    }
-
+                                                     }
+                                                        
 
                                               }
 
- 
-                                        
+
+                                    if(!empty($_FILES["doc1"]['tmp_name'])) {
+
+                                          if(!empty($oldFile1)){
+                                          
+                                            // Delete the old file and store new file
+                                            $docNew_tmpname=$_FILES['doc1']['tmp_name'];
+                                            $docNew_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
+
+                                            echo "updating doc 1";
+                                            unlink(MEMBER_FILE_UPLOAD_FOLDER.$oldFile1);
+                                            move_uploaded_file($docNew_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$docNew_filename);
+                                                      
+
+                                          }else {
+
+                                            // store the new file
+                                             $doc1_tmpname=$_FILES['doc1']['tmp_name'];
+                                             $doc_1_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
+                                             move_uploaded_file($doc1_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_1_filename);
+
+                                         
 
                                           }
-                                          
 
 
+                                    }
 
+
+                                  if(!empty($_FILES["doc2"]['tmp_name'])) {
+
+                                          if(!empty($oldFile2)){
+
+                                                $doc2New_tmpname=$_FILES['doc2']['tmp_name'];
+                                                $doc2New_filename=$serial_no."_2_".$_FILES["doc2"]["name"];
+
+                                               // echo "updating doc 2";
+
+                                                 unlink(MEMBER_FILE_UPLOAD_FOLDER.$oldFile2);
+                                                 move_uploaded_file($doc2New_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc2New_filename);
+                                                   
+                                          }else {
+
+                                                  //echo "inside class doc 2";
+                                                  $doc2_tmpname=$_FILES['doc2']['tmp_name'];
+                                                  $doc_2_filename= $serial_no."_2_".$_FILES["doc2"]["name"];
+                                                  move_uploaded_file($doc2_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_2_filename);
+                                           
+                                          }
+                                    }
+                                         
                                   $result = array(SUCCESS ,MSG_ACCOUNT_EDIT_PROFILE_SUCCESS);
-                              }else {
+                              } else {
                                   $result = array(ERROR ,ERR_ACCOUNT_EDIT_PROFILE);
 
                               }

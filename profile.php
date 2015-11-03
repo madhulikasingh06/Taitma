@@ -10,8 +10,7 @@
 
 
                 <?php  
-        $serial_no=$email = $password = $confirmPassword = $companyName = $contactPerson = $address1 = $address2 =$city = $pincode = $state = $phone = $mobile = $website = $region = $category = $memberSpecifiedCategory = $memberType = $otherDetails = $doc1 = $doc2= 
-        $doc1_name = $doc2_name = $doc1_ref =$doc2_ref ="";
+        $serial_no=$email = $password = $confirmPassword = $companyName = $contactPerson = $address1 = $address2 =$city = $pincode = $state = $phone = $mobile = $website = $region = $category = $memberSpecifiedCategory = $memberType = $otherDetails = $doc1 = $doc2= $doc1_name = $doc2_name = $doc1_ref =$doc2_ref ="";
        $emailErr = $passwordErr = $confirmPasswordErr = $companyNameErr = $contactPersonErr = $address1Err = $address2Err =$cityErr = $pincodeErr = $stateErr = $phoneErr = $mobileErr = $websiteErr = $regionErr = $categoryErr = $memberSpecifiedCategoryErr = $memberTypeErr = $otherDetailsErr = $doc1Err = $doc2Err = "";
 
 
@@ -36,6 +35,7 @@
             $companyName = $row["company_name"];
             $contactPerson = $row["contact_person"];
             $address1 = $row["address_1"];
+            $address2 = $row["address_2"];
             $city = $row["city"];
             $pincode = $row["pincode"];
             $state = $row["state"];
@@ -46,9 +46,7 @@
             $category_id = $row["category"];
             $memberSpecifiedCategory = $row["member_specified_category"];
             $memberType_id = $row["member_type"];
-            $other_details = $row["other_details"];
-          
-
+            $otherDetails = $row["other_details"];
 
          }
 
@@ -109,7 +107,8 @@
 
 
       ?> 
-                                <div class="col-sm-offset-2  col-sm-8 trasparent-bg  page-content-style">
+
+    <div class="col-sm-offset-2  col-sm-8 trasparent-bg  page-content-style">
 
           <?php        if(isset($_POST["operation"])) {
 
@@ -129,7 +128,11 @@
 
                     ?>
 
-            <p style="text-align:center;"><?php echo  $statusMsg ?></p>
+            <p style="text-align:center;"><?php 
+//             echo  $statusMsg; 
+          	header('location:'.$_SERVER["PHP_SELF"].'?status=1');
+          	exit;
+            ?></p>
 
                       <?php  } else {  ?>
 
@@ -143,6 +146,12 @@
 
                        }
                       }
+
+
+
+                    if (isset($_GET["status"]) AND $_GET["status"]==1 ) {
+                      echo MSG_ACCOUNT_EDIT_PROFILE_SUCCESS;
+                    }
             
                ?>
 
@@ -170,19 +179,7 @@
                       <input type="hidden" id="editProfileTokenPost" name="editProfileTokenPost" value="<?php echo $newToken; ?>"/>
                       <input type="hidden" name="email" value="<?php echo $email; ?>"/>
                       <input type="hidden" name="serial_no" value="<?php echo $serial_no; ?>"/>
-
-                        <span  id="passwordMessage" class="col-sm-offset-4 error" ><?php echo $passwordErr;?></span>
-                         <div class="form-group">
-                            <label for="password" class="col-sm-4">Password:</label>
-                            <input  class="input-box col-sm-8 <?php if(!$passwordErr==""){echo " errorBox" ;} ?>" type="password" id="password"  name="password" value="<?php echo $password; ?>"/><br>
-                          </div>
-
-                        <span  id="confirmPasswordMessage" class="col-sm-offset-4 error" ><?php echo $confirmPasswordErr;?></span>
-                        <div class="form-group">
-                            <label for="confirmPassword" class="col-sm-4">Confirm Password:</label>
-                            <input  class="input-box col-sm-8 <?php if(!$confirmPasswordErr==""){echo " errorBox" ;} ?>" type="password" id="confirmPassword"  name="confirmPassword" value="<?php echo $confirmPassword; ?>" />
-                          </div>
-                            
+                        
 
                         <span  id="companyNameMessage" class="col-sm-offset-4 error" ><?php echo $companyNameErr;?></span>
                         <div class="form-group">
@@ -249,7 +246,7 @@
                           <div class="form-group">
                               <label for="region" class="col-sm-4">Region:&nbsp;<sup>*</sup></label>
                               <select class="input-box col-sm-8 form-control <?php if(!$regionErr==""){echo " errorBox" ;} ?>" id="region"  name="region">
-                                <option value="" ></option>
+                                <option value="" >Please choose a region.</option>
                                 <option value="North"  <?php if($region=="North"){ echo "selected" ;}?> >North</option>
                                 <option value="East" <?php if($region=="East"){ echo "selected" ;}?> >East</option>
                                 <option value="West" <?php if($region=="West"){ echo "selected" ;}?>>West</option>
@@ -262,7 +259,7 @@
                          <div class="form-group">
                               <label for="category" class="col-sm-4">Category:&nbsp;<sup>*</sup></label>
                                 <select class="input-box col-sm-8 form-control<?php if(!$categoryErr==""){echo " errorBox" ;} ?>" id="category"  name="category" >
-                                <option value="" ></option>
+                                <option value="" >Please choose a category.</option>
 
                                 <?php
                                  // $sql="select * from Members_Categories" ;
@@ -296,7 +293,7 @@
                           <div class="form-group">
                             <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
                              <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
-                                <option value="" ></option>
+                                <option value="" >Please choose a member type.</option>
 
                                 <?php
                                   $sql="select * from Members_Type" ;
@@ -327,17 +324,30 @@
                           </div>
 
 
+                     <span  id="passwordMessage" class="col-sm-offset-4 error" ><?php echo $passwordErr;?></span>
+                         <div class="form-group">
+                            <label for="password" class="col-sm-4">Set New Password:</label>
+                            <input  class="input-box col-sm-8 <?php if(!$passwordErr==""){echo " errorBox" ;} ?>" type="password" id="password"  name="password" value="<?php echo $password; ?>"/><br>
+                          </div>
+
+                        <span  id="confirmPasswordMessage" class="col-sm-offset-4 error" ><?php echo $confirmPasswordErr;?></span>
+                        <div class="form-group">
+                            <label for="confirmPassword" class="col-sm-4">Confirm New Password:</label>
+                            <input  class="input-box col-sm-8 <?php if(!$confirmPasswordErr==""){echo " errorBox" ;} ?>" type="password" id="confirmPassword"  name="confirmPassword" value="<?php echo $confirmPassword; ?>" />
+                          </div>
+
+
 
 
                         <?php if(!empty($doc1_name)) { ?>
-                          <div>
+                          <div class="form-group">
                             <div id="doc1_name" class="col-sm-4"  style="font-weight: bold;">Uploaded File 1 :</div>                 
                             <div  class="col-sm-8"><a href="<?php echo $doc1_ref ;?>"  target="_blank"><?php echo $doc1_name;?></a></div>
                           </div>
                          <?php }?>
 
                        <?php if(!empty($doc2_name)) { ?>
-                           <div>
+                           <div class="form-group">
                             <div id="doc2_name" class="col-sm-4" style="font-weight: bold; padding-bottom:10px;">Uploaded File 2 :</div>
                             <div  class="col-sm-8"><a href="<?php echo $doc2_ref ;?>"  target="_blank"><?php echo $doc2_name;?></a></div>
                           </div>
@@ -349,14 +359,14 @@
 
 
                         <span  id="doc1Message" class="col-sm-offset-4 col-sm-8 error" ><?php echo $doc1Err;?></span>
-                        <div>
+                        <div class="form-group">
                           <label for="doc1" class="col-sm-4">New File 1 to upload: </label>                          
                           <input  class="col-sm-8" type="file" name="doc1" id="doc1" />
                         </div>
 
 
                         <span  id="doc2Message" class="col-sm-offset-4 col-sm-8 error" ><?php echo $doc2Err;?></span>
-                        <div>
+                        <div class="form-group">
                           <label for="doc2" class="col-sm-4">New File 2 to upload: </label>                          
                           <input  class="col-sm-8" type="file" name="doc2" id="doc2" />
                         </div>

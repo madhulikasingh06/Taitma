@@ -18,6 +18,8 @@ define( "ERR_CONFIRM_PASSWORD_INVALID", "Please enter a valid confrim password."
 define("ERR_PASS_NO_MATCH", "Password and Confirm password do not match.");
 
 define("ERR_COMPANY_REQUIRED", "Please enter a Company Name.");
+define("ERR_CONTACT_PERSON_REQUIRED", "Please enter a Contact Person.");
+
 
 define("ERR_ADDRESS1_REQUIRED", "Please enter Address 1.");
 define("ERR_CITY_REQUIRED", "Please enter a City.");

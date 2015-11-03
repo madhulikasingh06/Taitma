@@ -93,7 +93,8 @@
                   <div  id ="message" > <?php 
 
                       if ($statusCode==SUCCESS) {
-                          echo "<meta http-equiv='refresh' content='0;/index.php'>";
+                           echo "<meta http-equiv='refresh' content='0;/index.php'>";
+                        // header('location:/index.php');	
                          exit;
                       }
                    
@@ -123,7 +124,7 @@
                         <!--Generate a unique token-->
                         <?php $newToken= sha1(time());
                              $_SESSION["logInToken"]=$newToken;
-                             //echo $_SESSION["logInToken"];
+                             // echo $_SESSION["logInToken"];
                          ?>   
                             <input type="hidden" name="operation" value="log-in"/>
                             <input type="hidden" id="logInTokenPost" name="logInTokenPost" value="<?php echo $newToken; ?>"/>

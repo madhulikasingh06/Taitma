@@ -2,46 +2,13 @@
 	
 	$isErrored=false;
 
-		if($_POST["operation"]=="register-user"){
-					$email = test_input($_POST["email"]);
-		 
-		 		if (empty($_POST["email"])) {
-		 		  $isErrored = true;
-		    	  $emailErr = "Email is required";
-		    	}
 
-				//validate password
-			   if (empty($_POST["password"])) {
-			   	   	$isErrored = true;
-			   		$passwordErr=ERR_PASSWORD_REQUIRED;
-
-			   } else{
-			   	   	 $password = test_input($_POST["password"]);
-			   	 
-			   	 if(strlen($password)<6){
-			   	 	$isErrored = true;
-			   	 	$passwordErr= ERR_PASSWORD_LENGTH;
-			   	 }
-
-			   }
-
-			   //validate confirm password 
-			   if (empty($_POST["confirmPassword"])) {
-			   	 	$isErrored = true;	   	
-			   		$confirmPasswordErr=ERR__CONFIRM_PASSWORD_REQUIRED;
-
-			   } else{
-			   		$confirmPassword= test_input($_POST["confirmPassword"]);
-			   		if(strcmp($password,$confirmPassword)){
-			   	 		$isErrored = true;	   	
-			   			$confirmPasswordErr=ERR_PASS_NO_MATCH;
-			   		}
-			   }
-
+		if(empty($_POST["membershipNumber"])){
+			$isErrored = true;
+			$membershipNumberErr=ERR_MEMBERSHIP_NO_REQUIRED;
 		}
 
 
-		if($_POST["operation"]=="edit-profile"){
 			if (!empty($_POST["password"])) {
 
 			     $password = test_input($_POST["password"]);
@@ -64,7 +31,8 @@
 			   }
 
 			   }			  
-		}
+		
+
 
 
  		
@@ -79,10 +47,7 @@
 	   		$companyName = test_input($_POST["companyName"]);
 	   	}
 
-	   	if(empty($_POST["contactPerson"])) {
-			$isErrored=true;
-			$contactPersonErr = ERR_CONTACT_PERSON_REQUIRED;
-		}else{
+	   	if(!empty($_POST["contactPerson"])) {
 			$contactPerson = test_input($_POST["contactPerson"]);
 		}
 
@@ -237,7 +202,7 @@
 
 	
 if (!$isErrored) {
-	include_once "user-operations.php";
+	include_once "admin-operations.php";
 	if($_POST["operation"]=="register-user"){
 	include_once "register-success.php";
 	 exit;

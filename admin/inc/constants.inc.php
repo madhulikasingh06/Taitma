@@ -53,6 +53,8 @@ define("ERR_ACCOUNT_REGISTRATION_FAILED", "There was some error processing your 
 define("ERR_ACCOUNT_LOGIN_FAILED","Your Username or password is incorrect. Please try again.");
 define("ERR_ACCOUNT_LOGIN_UNVERIFIED","Your account is not verified. Please verify your account before logging in.");
 define("MSG_ACCOUNT_LOGIN_SUCCESS","Logged in successfully.");
+define("ERR_ACCOUNT_ADMIN_LOGIN_FAILED","Your are not authorized to view this page.");
+
 
 
 define("EMAIL_VERIFICAITON_SUBJECT","[TAITMA]- Email verification.");
@@ -71,7 +73,7 @@ define("ERR_ACCOUNT_EDIT_FORM_VAL_FAILED", "There is some error in the form! Ple
 
 define("INACTIVE_DURATION", 1200);
 
-define("MEMBER_FILE_UPLOAD_FOLDER", "MembersFiles/");
+define("MEMBER_FILE_UPLOAD_FOLDER", "../MembersFiles/");
 
 
 // Admin constants
@@ -86,6 +88,17 @@ define("COMPANY", 4);
 define("UNAPPROVED", 5);
 
 define("NO_SEARCH_RESULT", "No matching Members were found with the search criteria you have given.<br>Please check the search criteria and try again.");
+
+define("ACTION_DELETE","d");
+define("ACTION_UPDATE", "u");
+define("MSG_LINK_UPDATE_SUCCESS","The link was successfully updated.");
+define("ERR_LINK_UPDATE_FAILED","There was some error processing your request.The link could not be updated.");
+
+define("MSG_LINK_DELETE_SUCCESS","The link was successfully deleted.");
+
+define("MSG_LINK_ADD_SUCCESS","The link was successfully added.");
+define("ERR_LINK_ADD_FAILED","There was some error processing your request.The link could not be added.");
+
 
 
 

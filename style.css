@@ -705,8 +705,22 @@ font-size: 12px;
 }
 
 
+.heading{
+	font-weight:bold;
+	/*border-bottom: 1px solid #000;*/
+	padding-bottom: 20px;
+}
+
+.sign-link{
+
+	font-size: 20px;
+	 text-align: center;
+	 /*padding: 3px;*/
+	 font-weight: bolder;
+	 color: #0ABDC8;
+}
 
 
-
-
-
+.center{
+	text-align: center;
+}

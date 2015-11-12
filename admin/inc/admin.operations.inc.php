@@ -6,6 +6,7 @@
 
 include_once "common/constants.db.php";
 include_once "common/db_connect.php";
+include_once "constants.inc.php";
 
 
 
@@ -53,7 +54,10 @@ class taitmaAdminOperation {
       		 return $this->addUsefulLinks();
     	}else if ($operation === "edsul"){
             return $this->editShowUsefulLinks();
+        }else if ($operation === "edul"){
+            return $this->updateUsefulLinks();
         }
+
 
     }
 
@@ -257,7 +261,7 @@ class taitmaAdminOperation {
 
 
 
-    private function registerUser() {
+    private function registerUserByAdmin() {
 
         $email = $_POST["email"];
         $password = $_POST["password"];
@@ -299,7 +303,7 @@ class taitmaAdminOperation {
            // encrypt the password
             $password = md5(stripslashes($password));
 
-            $stmt = $this->_db->prepare("CALL RegisterNewMemeber(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@serialNumber)");
+            $stmt = $this->_db->prepare("CALL RegisterNewMemeberFromAdmin(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@serialNumber)");
             $stmt -> bind_param("ssssssssssssssssss",$password, 
                                                        $company_name , 
                                                         $contact_person, 
@@ -360,7 +364,7 @@ class taitmaAdminOperation {
                                         }
 
 
-                                        $this->sendVerificationEmail($email,$verificationLink);
+                                        // $this->sendVerificationEmail($email,$verificationLink);
 
                                 $returnMessage1 = MSG_ACCOUNT_REGISTRATION_SUCCESS."\n User created with verfication  link : $verificationLink ";
                                 // $returnMessage[] = MSG_ACCOUNT_REGISTRATION_SUCCESS;
@@ -429,7 +433,12 @@ class taitmaAdminOperation {
                                          
                                 if($accountStatus== 0 ){
 
-                                    $result= array(ERROR ,ERR_ACCOUNT_LOGIN_FAILED);
+                                    $result= array(ERROR ,ERR_ACCOUNT_ADMIN_LOGIN_FAILED);
+
+                                }else if ($accountStatus == -1 ){
+
+                                  $result= array(ERROR ,ERR_ACCOUNT_LOGIN_FAILED);
+
 
                                 }else if ($accountStatus==1){
 
@@ -473,49 +482,110 @@ class taitmaAdminOperation {
 
     private function addUsefulLinks() {
 
+        $status = "";
         $title=$_POST["title"];
-        $url=$_POST["url"];
+        $urls=$_POST["urls"];
         $premium_val=$_POST["premium_val"];
         $enabled=$_POST["enabled"];
 
+        $urlsCount = count($urls);
+        $urlsConcatinated = "";
+        for ($i=0; $i < $urlsCount; $i++) { 
+           $urlsConcatinated =$urlsConcatinated.$urls[$i];
+           if($i<($urlsCount-1)){
+              $urlsConcatinated=$urlsConcatinated."|";
+           }
+         } 
 
          $sql = "INSERT INTO Useful_links(title, url,premium_val,enabled)
                 VALUES(?, ?,?,?)";
 
         if($stmt = $this->_db->prepare($sql)) {
-            $stmt->bind_param("ssii", $title, $url, $premium_val,$enabled);
-            $stmt->execute();
-            $stmt->close();
+            $stmt->bind_param("ssii", $title, $urlsConcatinated, $premium_val,$enabled);
+           
+            if($stmt->execute()){
+              $status = MSG_LINK_ADD_SUCCESS;
+              // $userID = $this->_db->insert_id;
 
-
-            $userID = $this->_db->insert_id;
+            }else {
+              $status = ERR_LINK_ADD_FAILED;
+            }              
+        }else {
+              $status = ERR_LINK_ADD_FAILED;
 
         }
+         $stmt->close();
 
-        // return;
-    	 return  "<p>Successfully added new links - $title - $url - $premium_val - $enabled with id -$userID</p>";;
+    	 // return  "<p>Successfully added new links - $title - $urlsConcatinated - $premium_val - $enabled with id -$userID</p>";;
+        return $status;
+
     }
 
 
     private function editShowUsefulLinks(){
 
-         // echo "inside editUsefulLinks";
-
         $id= intval($_GET["id"]);
-
         $sql = "SELECT * FROM Useful_links WHERE id=$id";
-
         $result = $this->_db->query($sql);
 
-
             if ($result->num_rows > 0) {
-
                 while($row = $result->fetch_assoc()) {
                          return $row;
                 }
             }
+    }
 
+    private function updateUsefulLinks(){
 
+         $status="";
+
+         if ($_SERVER['REQUEST_METHOD']==="POST"){
+               
+                $action= $_POST["action"];
+
+                if ($action==ACTION_UPDATE) {       
+
+                    $id= intval($_POST["id"]);
+                    $title = $_POST["title"];
+                    $urls=$_POST["urls"];
+                    $urlsCount = count($urls);           
+                    $urlsConcatinated=str_replace(",", "|", $urls[0]);           
+                    $premium_val = intval($_POST["premium_val"]);
+                    $enabled = intval($_POST["enabled"]);
+
+                    $sql = "UPDATE Useful_links set title=?, url=?,premium_val=?,enabled=? where id=?";
+
+                    if($stmt = $this->_db->prepare($sql)) {
+                        $stmt->bind_param("ssiii", $title, $urlsConcatinated, $premium_val,$enabled,$id);
+                        
+                        if($stmt->execute()){
+                               $status = MSG_LINK_UPDATE_SUCCESS;
+                        }else {
+                              $status = ERR_LINK_UPDATE_FAILED;
+                        }
+              
+                    }else {
+                          $status = ERR_LINK_UPDATE_FAILED;
+                    }
+                        $stmt->close();
+                    }
+
+              }else if ($_SERVER['REQUEST_METHOD']==="GET"){
+
+                  $action= $_GET["action"];
+                  
+                  if ($action==ACTION_DELETE){
+          
+                    $id= intval($_GET["id"]);
+                    $sql = "DELETE FROM Useful_links WHERE id=$id";
+                    $result = $this->_db->query($sql);
+                    $status = MSG_LINK_DELETE_SUCCESS;
+
+                    echo "<meta http-equiv='refresh' content='0;/taitma/admin/useful-links.php'>";
+                    exit;
+                 }
+              }
+             return $status;
     }
 
 

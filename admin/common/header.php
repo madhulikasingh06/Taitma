@@ -6,7 +6,8 @@ header( 'Pragma: no-cache' );
 <?php
 //include_once "common/constants.db.php";
 include_once "common/db_connect.php";
-include_once "inc/user.operations.inc.php";
+include_once "inc/constants.inc.php";
+include_once "inc/admin.operations.inc.php";
 
 if(isset($_SESSION['timeout']) ) {
   // echo "".$_SESSION['timeout'];
@@ -50,6 +51,8 @@ if(isset($_SESSION['timeout']) ) {
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="../js/taitma.member.js"></script>
   <script  src="../js/bootstrap.min.js"></script>
+  <script src="js/taitma.admin.js"></script>
+
  
   </head>
  

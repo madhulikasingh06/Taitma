@@ -6,6 +6,9 @@
 		if(empty($_POST["membershipNumber"])){
 			$isErrored = true;
 			$membershipNumberErr=ERR_MEMBERSHIP_NO_REQUIRED;
+		}else {
+			$membershipNumber = test_input($_POST["membershipNumber"]);
+			
 		}
 
 

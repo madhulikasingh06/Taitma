@@ -12,11 +12,13 @@
     define('DB_NAME', 'taitmacl_taitma');
 
     //Sps
-    define('getUsefulLinks', 'GetUsefulLinks()');
+    // define('getUsefulLinks', 'GetUsefulLinks()');
     define('registerNewMember' , 'RegisterNewMemeber');
 
 
     //SQLs
+    define('getUsefulLinks', 'SELECT * from useful_links;');
+
     define('getMembersCategories' , 'SELECT * from Members_Categories');
     define('getMemebersType','SELECT * from Members_Type');
     define("getAllMembers", "SELECT serial_no,email,contact_person,company_name FROM Members_Profile");
@@ -41,6 +43,9 @@
 
     define("searchMemberWithCompany", "SELECT * FROM `Members_Profile` where company_name like ");
     define("getMemberWithCompanyCount", "SELECT serial_no FROM `Members_Profile` where company_name like ");
+
+    define("getMemberStatus", "SELECT verification_status_desc from Verification_Status where Verification_status = (SELECT verification_status from Member_Verification_Status where serial_no =?)");
+    
     
 
 

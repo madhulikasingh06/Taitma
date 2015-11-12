@@ -137,14 +137,14 @@
     
   <div id="members-div"  class="page-background"> <!--home-main starts -->
 
-    <div id="members-page" class="page-contents"> <!-- members-page div starts  -->
+    <div id="members-page" class="page-contents container row"> <!-- members-page div starts  -->
 
 
        <!--  <?php //$pageName="Notice Board" ?> -->
         <?php include_once "common/inner-nav-bar.php"; ?>
 
         	 <div id="approve-members-contents" class="row">
-	               <div class="col-sm-offset-2  col-sm-8 trasparent-bg  page-content-style">
+	               <div class="col-sm-offset-1  col-sm-9 trasparent-bg  page-content-style">
 
 						<div class="row"><!-- div for  search box  starts-->
 							<div class="col-sm-3  navbar-form navbar-left">
@@ -199,29 +199,62 @@
 									$queryWithLimit = $query." LIMIT ". $start_from.",". $records_per_page;
 								   $result1 = $db -> query($queryWithLimit);
 
-								   if ($result1->num_rows > 0) { ?>
+								   if ($result1->num_rows > 0) { 
+								   	?>
 
 
 								<div class="row">
 
 									<p style="text-align:center;"><b>Total <?php echo $total_members; ?> members found.</b></p>
 
-									<div class="col-sm-12" style="line-height:3.2em;padding-right:25px;">
+									<div class="col-sm-12" style="font-size:12px;padding-top:10px;padding-bottom:20px;">
 											<div class="row">
-												<div class="col-sm-4"><b><u>Member Email</u></b></div>
-												<div class="col-sm-4"><b><u>Comapny Name</u></b></div>
-												<div class="col-sm-4"><b><u>Contact Person</u></b></div>
+												<div class="col-sm-2"><b><u>Email</u></b></div>
+												<div class="col-sm-2"  style="text-align:center;"><b><u>Membership No.</u></b></div>
+												<div class="col-sm-2"><b><u>Comapny Name</u></b></div>
+												<div class="col-sm-2"><b><u>Contact Person</u></b></div>
+												<div class="col-sm-1"><b><u>Region</u></b></div>
+												<div class="col-sm-1"><b><u>Approved</u></b></div>
+												<div class="col-sm-2"><b><u>Member Type</u></b></div>												
 											</div>
 										</div>	
                   					<?php 	while($row = $result1->fetch_assoc()) {
                   								// echo "\nMEMBER ID :: ".$row["serial_no"];
 
+                  								$memberType_id =$row["member_type"];	
+                  								$serial_no = intval($row["serial_no"]);									        
+                  								$sql_mt = "SELECT member_desc FROM Members_Type WHERE member_type='$memberType_id'";
+										         if($result_mt = $db->query($sql_mt)){
+										             while ($obj = $result_mt->fetch_object()) {
+										                       $memberType =  $obj->member_desc;
+										             }
+
+										         }
+
+										         $sql_approved_status = $db -> prepare(getMemberStatus);
+										         $sql_approved_status -> bind_param("i",$serial_no);
+										         if($sql_approved_status->execute()){
+										         	$sql_approved_status -> bind_result($verification_status_desc);
+										         	while ( $sql_approved_status -> fetch()) {
+										         	    $member_status=$verification_status_desc;
+										         	}
+
+										         }
+
+
+
                   						?>
-										<div class="col-sm-12" style="line-height:2.2em;padding-right:25px;">
+										<div class="col-sm-12" style="line-height:2.2em;font-size:12px;">
 											<div class="row">
-												<div class="col-sm-4"><a href="?id=<?php echo $row["serial_no"]?>"><?php echo $row["email"] ?></a></div>
-												<div class="col-sm-4"><?php echo $row["company_name"] ?></div>
-												<div class="col-sm-4"><?php echo $row["contact_person"] ?></div>
+												<div class="col-sm-2"><a href="?id=<?php echo $row["serial_no"]?>"><?php echo $row["email"] ?></a></div>												
+												<div class="col-sm-2" style="text-align:center;"><?php echo $row["membership_no"] ?></div>
+												<div class="col-sm-2"><?php echo ucfirst($row["company_name"]); ?></div>
+												<div class="col-sm-2"><?php echo ucfirst($row["contact_person"]); ?></div>
+												<div class="col-sm-1"><?php echo ucfirst($row["region"]); ?></div>
+
+												<div class="col-sm-1"><?php echo ucfirst($member_status); ?></div>
+												<div class="col-sm-2"><?php echo ucfirst($memberType); ?></div>
+												
 	
 											</div>
 										</div>	

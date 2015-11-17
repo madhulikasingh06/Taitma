@@ -1,4 +1,4 @@
-<?php include_once "common/header.php";?>
+<?php include_once "common/header.php"; ?>
 <div id=""  class="page-background"> <!--home-main start -->
 
     <div id="useful-links-page" class="page-contents "> <!-- useful-links-page div starts  -->
@@ -59,9 +59,9 @@
         <div  id="add-useful-links"   class="row"> <!--add-links starts-->
           
 
-              <div class="col-sm-offset-3 col-sm-6 admin-box" style="padding:20px;" >
+              <div class="col-sm-offset-2 col-sm-8 admin-box" style="padding:20px;" >
 
-                <form id="add-useful-links-form" action="" role="form"  method="post"   class="form-horizontal" style="display:none;">  
+                <form id="add-useful-links-form" action="" role="form"  method="post"   class="form-horizontal" style="display:none;" >  
                   
                   <?php 
                       $addLinkToken = sha1(time());
@@ -75,45 +75,56 @@
                   <input type="hidden" name="addLinkTokenPost" value="<?php echo $addLinkToken ;?>"/>
 
 
-
+                      <div id="title-msg" class="center error"></div> 
                       <div class="form-group">
-                        <label for="title" class="col-sm-4">Link Title:</label>
-                        <input  class="input-box col-sm-8" type="text" required="" id="title"  name="title"/>
+                        <div class="col-sm-3"><label for="title">Title:</label></div>
+                        <div class="col-sm-7"><input  class=" form-control-link input-box-link" type="text" id="title"  name="title" /></div>
                       </div>
 
-                      <div id = "dynamic-urls" class="form-group">
-                        <label for="urls[]"  class="col-sm-4">Link URL:</label>
-                        <input  class="input-box col-sm-7" type="url" required="" id="url-0" name="urls[]" />
+                      <div id = "edit-add-url" class="form-group">
+
+                        <div id="edit-add-url-0[]-msg" class="center error"></div> 
+
+                         <div class="col-sm-3"><label for="urls[]">URL:</label></div>
+                         <div class="col-sm-7"><input  class=" form-control-link input-box-link" type="url" id="edit-add-url-0[]" name="urls[]" /></div>
                         
                         <!-- <input type="button" value="+" onClick="addInput('dynamic-urls',1);"> -->
-                            <a href="#" class="col-sm-1" onClick="addInput('dynamic-urls',1);"><span class="sign-link">+</span></a>
-
+                           <div class="col-sm-1"><a href="#" onClick="addInput('edit-add-url',1);"><span class="sign-link">+</span></a></div>
+ 
                       </div>
 
+                      <div id="premium_val-msg" class="center error"></div> 
                       <div class="form-group">
-                        <label for="premium_val"  class="col-sm-4">Link Premium Value:</label>
-                          <select  class="input-box col-sm-8  form-control"  type="select" required="" id="enabled" name="premium_val">
+                        <div class="col-sm-3"><label for="premium_val">Premium Value:</label></div>
+                        <div class="col-sm-7"><select  class="form-control input-box-link"  type="select" id="premium_val" name="premium_val">
+                            <option value=""></option>
                             <option value="0">Regular</option>
                             <option value="1">Premium</option>                         
-                          </select>         
+                          </select>
+                        </div>         
                       </div>
+
+                      <div id="enabled-msg" class="center error"></div> 
                       <div class="form-group">
-                        <label for="enabled"  class="col-sm-4">Link enable:</label>
-                           <select class="input-box col-sm-8 form-control" type="select" required="" id="enabled"  name="enabled">
+                         <div class="col-sm-3"><label for="enabled">Enable:</label></div>
+                            <div class="col-sm-7"><select class="form-control input-box-link" type="select"  id="enabled"  name="enabled">
+                              <option value=""></option>
                               <option value="1">Enable</option>
                               <option value="0">Disable</option>                         
                           </select> 
+                          </div>
                       </div>
 
                       <div   class="col-sm-offset-4 col-sm-8">
-                            <button type="Submit">Submit</button>
+<!--                             <button type="Submit">Submit</button>-->
+                             <button type='button' onclick="if (validateUsefulLinks('')) document.forms['add-useful-links-form'].submit();">Submit</button>
                             <button type="Reset">Reset</button>
                             <button type="button"  onclick="cancelForm('add-useful-links')">Cancel</button>
                       </div>
 
                 </form>
               </div>
-                  <div class="col-sm-3"></div>
+                  <div class="col-sm-2"></div>
 
         </div> <!--add-links ends-->
 
@@ -128,12 +139,16 @@
             <?php
 
                // $sql = "GetUsefulLinks()";
+               if(is_object($db)){
+
+//                 echo "getUsefulLinks  query ::".getUsefulLinks;
+
                  $result = $db->query(getUsefulLinks);
                 // $result->data_seek(0);
-                if ($result->num_rows > 0) {?>
+                if ($result->num_rows > 0) { ?>
 
                       <div id="" class = "row heading">
-                          <div class="col-sm-4">Title</div>
+                          <div class="col-sm-3">Title</div>
                           <div class="col-sm-4">URL</div>
                           <div class="col-sm-1">Enabled</div>   
                           <div class="col-sm-2">Premium Value</div>   
@@ -152,7 +167,7 @@
 
                       <div class="row">
 
-                          <div class="col-sm-4"><p class="text-color-blue"><?php echo $row['title'] ;?></p></div>
+                          <div class="col-sm-3"><p class="text-color-blue"><?php echo $row['title'] ;?></p></div>
                           <div class="col-sm-4"> 
                           <?php foreach ($urls as $url) {?>
                              <a href= "http://<?php echo $url; ?>" target="_blank"><?php echo $url;?></a><br>
@@ -176,8 +191,10 @@
                                 }
 
                               ;?></div>
-                           <div class="col-sm-1">
-                            <button type="button" class="" onclick="editLink('<?php echo $id; ?>')">Edit/Delete</button>
+                           <div class="col-sm-2">
+                            <button type="button" class="" onclick="editLink('<?php echo $id; ?>')">Edit</button>
+                             <button type ="Button" onClick="javascript:updateUsefulLinks('<?php echo ACTION_DELETE;?>','<?php echo $id ?>');" >Delete</button>
+
                           </div>                             
 
                       </div>
@@ -200,7 +217,8 @@
               }
               $db->close();
 
-            ?>
+        } ?>
+                
 
                 </div>
 

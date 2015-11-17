@@ -483,38 +483,52 @@ class taitmaAdminOperation {
     private function addUsefulLinks() {
 
         $status = "";
-        $title=$_POST["title"];
+        $title=stripslashes($_POST["title"]);
         $urls=$_POST["urls"];
-        $premium_val=$_POST["premium_val"];
-        $enabled=$_POST["enabled"];
+        $premium_val=stripslashes($_POST["premium_val"]);
+        $enabled=stripslashes($_POST["enabled"]);
 
         $urlsCount = count($urls);
         $urlsConcatinated = "";
         for ($i=0; $i < $urlsCount; $i++) { 
-           $urlsConcatinated =$urlsConcatinated.$urls[$i];
+           $urlsConcatinated =$urlsConcatinated.stripslashes($urls[$i]);
            if($i<($urlsCount-1)){
               $urlsConcatinated=$urlsConcatinated."|";
            }
          } 
+         // echo "$urlsConcatinated";
+         if(strlen($title) > 0 &&
+            strlen($urlsConcatinated)>0 &&
+            strlen($premium_val) > 0 &&
+            strlen($enabled)>0) {
 
-         $sql = "INSERT INTO Useful_links(title, url,premium_val,enabled)
+              
+              $sql = "INSERT INTO Useful_links(title, url,premium_val,enabled)
                 VALUES(?, ?,?,?)";
 
-        if($stmt = $this->_db->prepare($sql)) {
-            $stmt->bind_param("ssii", $title, $urlsConcatinated, $premium_val,$enabled);
-           
-            if($stmt->execute()){
-              $status = MSG_LINK_ADD_SUCCESS;
-              // $userID = $this->_db->insert_id;
+                if($stmt = $this->_db->prepare($sql)) {
+                    $stmt->bind_param("ssii", $title, $urlsConcatinated, $premium_val,$enabled);
+                   
+                    if($stmt->execute()){
+                      $status = MSG_LINK_ADD_SUCCESS;
+                      // $userID = $this->_db->insert_id;
 
-            }else {
-              $status = ERR_LINK_ADD_FAILED;
-            }              
-        }else {
+                    }else {
+                      $status = ERR_LINK_ADD_FAILED;
+                    }              
+                }else {
+                      $status = ERR_LINK_ADD_FAILED;
+
+                }
+                 $stmt->close();
+
+
+         }else {
+              
               $status = ERR_LINK_ADD_FAILED;
 
-        }
-         $stmt->close();
+         }
+
 
     	 // return  "<p>Successfully added new links - $title - $urlsConcatinated - $premium_val - $enabled with id -$userID</p>";;
         return $status;

@@ -12,12 +12,11 @@
     define('DB_NAME', 'taitmacl_taitma');
 
     //Sps
-    // define('getUsefulLinks', 'GetUsefulLinks()');
     define('registerNewMember' , 'RegisterNewMemeber');
 
 
     //SQLs
-    define('getUsefulLinks', 'SELECT * from useful_links;');
+    define('getUsefulLinks', 'SELECT * from Useful_links');
 
     define('getMembersCategories' , 'SELECT * from Members_Categories');
     define('getMemebersType','SELECT * from Members_Type');

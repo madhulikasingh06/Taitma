@@ -2,6 +2,7 @@
 
 <?php $pageName="Home" ?>
 
+
   <div> <!-- Carousel div start-->
     <div id="homeCarousel" class="carousel slide" data-ride="carousel">
 

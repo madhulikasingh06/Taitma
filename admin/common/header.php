@@ -4,24 +4,12 @@ header( 'Cache-Control: post-check=0, pre-check=0', false );
 header( 'Pragma: no-cache' ); 
 ?>
 <?php
-//include_once "common/constants.db.php";
+include_once "common/constants.db.php";
 include_once "common/db_connect.php";
 include_once "inc/constants.inc.php";
 include_once "inc/admin.operations.inc.php";
 
-if(isset($_SESSION['timeout']) ) {
-  // echo "".$_SESSION['timeout'];
 
-  $session_life = time() - $_SESSION['timeout'];
-  if($session_life > INACTIVE_DURATION)
-        { 
-    // go to login page when idle
-    // header("Location: logout.php"); 
-    echo "<meta http-equiv='refresh' content='0;/taitma/logout.php'>";
-                         exit;
-  }
-  $_SESSION['timeout'] = time();
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +41,6 @@ if(isset($_SESSION['timeout']) ) {
   <script  src="../js/bootstrap.min.js"></script>
   <script src="js/taitma.admin.js"></script>
 
- 
   </head>
  
   <body>

@@ -1,6 +1,8 @@
 <?php include_once "common/header.php"; ?>
 
-<?php $pageName="Home" ?>
+<?php 
+$pageName = "Home";
+$email="" ?>
 
 
   <div> <!-- Carousel div start-->
@@ -84,6 +86,8 @@
                  if($_SESSION["logInToken"]==$_POST["logInTokenPost"]){
 
                     $_SESSION["logInToken"]='';
+
+                    $email = $_POST["email"];
                     include_once "admin-operations.php"; 
                       $statusCode = $status[0];
                       $statusMsg = $status[1] ;
@@ -131,7 +135,7 @@
                
                           <div class="form-group">
                             <label for="email">Username:</label>
-                            <input  class="input-box" type="text" placeholder="Username" required="" id="username" name="email" />
+                            <input  class="input-box" type="text" placeholder="Username" required="" id="username" name="email" value="<?php echo $email ?>"/>
                           </div>
 
                           <div class="form-group">
@@ -146,7 +150,7 @@
 
                           </div>
                           <div>
-                            <a href="#">Forgot password?</a>
+                            <a href="../forgotPassword.php">Forgot password?</a>
                             <a href="register.php">Register</a>
                           </div>
 

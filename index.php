@@ -146,7 +146,7 @@
 
                           </div>
                           <div>
-                            <a href="#">Forgot password?</a>
+                            <a href="forgotPassword.php">Forgot password?</a>
                             <a href="register.php">Register</a>
                           </div>
 

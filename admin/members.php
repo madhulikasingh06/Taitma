@@ -137,15 +137,14 @@
     
   <div id="members-div"  class="page-background"> <!--home-main starts -->
 
-    <div id="members-page" class="page-contents container row"> <!-- members-page div starts  -->
+    <div id="members-page" class="page-contents"> <!-- members-page div starts  -->
 
-
-       <!--  <?php //$pageName="Notice Board" ?> -->
         <?php include_once "common/inner-nav-bar.php"; ?>
 
         	 <div id="approve-members-contents" class="row">
-	               <div class="col-sm-offset-1  col-sm-9 trasparent-bg  page-content-style">
-
+	               <div class="col-sm-offset-1  col-sm-10 trasparent-bg  page-content-style">
+					
+					<?php  if(!isset($_GET["id"])){ ?>
 						<div class="row"><!-- div for  search box  starts-->
 							<div class="col-sm-3  navbar-form navbar-left">
 								<button type="button" onClick="location.href = 'register.php'">Add New Member</button>
@@ -185,7 +184,8 @@
  
 
 						</div><!-- div for  search box ends -->
-						<?php 
+						<?php }
+
 							if(isset($_GET["id"])){
 									
 								include_once 'member-profile-details.php';
@@ -214,7 +214,7 @@
 												<div class="col-sm-2"><b><u>Comapny Name</u></b></div>
 												<div class="col-sm-2"><b><u>Contact Person</u></b></div>
 												<div class="col-sm-1"><b><u>Region</u></b></div>
-												<div class="col-sm-1"><b><u>Approved</u></b></div>
+												<div class="col-sm-1"><b><u>Status</u></b></div>
 												<div class="col-sm-2"><b><u>Member Type</u></b></div>												
 											</div>
 										</div>	
@@ -246,8 +246,8 @@
                   						?>
 										<div class="col-sm-12" style="line-height:2.2em;font-size:12px;">
 											<div class="row">
-												<div class="col-sm-2"><a href="?id=<?php echo $row["serial_no"]?>"><?php echo $row["email"] ?></a></div>												
-												<div class="col-sm-2" style="text-align:center;"><?php echo $row["membership_no"] ?></div>
+												<div class="col-sm-2" ><a href="?id=<?php echo $row["serial_no"]?>" class="<?php if($member_status=='Verified') echo ' error';?>"><?php echo $row["email"] ?></a></div>												
+												<div class="col-sm-2<?php if(empty($row["membership_no"])){echo ' error' ;} ?>" style="text-align:center;"><?php if(!empty($row["membership_no"])){echo $row["membership_no"]; } else {echo 'Pending Approval';}  ?></div>
 												<div class="col-sm-2"><?php echo ucfirst($row["company_name"]); ?></div>
 												<div class="col-sm-2"><?php echo ucfirst($row["contact_person"]); ?></div>
 												<div class="col-sm-1"><?php echo ucfirst($row["region"]); ?></div>

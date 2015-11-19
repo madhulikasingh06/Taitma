@@ -91,6 +91,7 @@ define("NO_SEARCH_RESULT", "No matching Members were found with the search crite
 
 define("ACTION_DELETE","d");
 define("ACTION_UPDATE", "u");
+define("ACTION_ADD", 'a');
 define("MSG_LINK_UPDATE_SUCCESS","The link was successfully updated.");
 define("ERR_LINK_UPDATE_FAILED","There was some error processing your request.The link could not be updated.");
 
@@ -98,6 +99,14 @@ define("MSG_LINK_DELETE_SUCCESS","The link was successfully deleted.");
 
 define("MSG_LINK_ADD_SUCCESS","The link was successfully added.");
 define("ERR_LINK_ADD_FAILED","There was some error processing your request.The link could not be added.");
+
+// define("ERR_MEMBERSHIP_NO_REQUIRED", "Please enter a membership number.");
+
+define("ERR_MEMBERSHIPNO_LENGTH", "Please enter a membership number of minimun 8 digits.");
+define("ERR_MEMBERSHIPNO_EXISTS", "This membership number alreay exists.");
+
+define("MEMBER_APPROVED_SUBJECT", "[TAITMA]- Membership approved!");
+
 
 
 

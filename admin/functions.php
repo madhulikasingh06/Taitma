@@ -17,7 +17,7 @@
                            'members.php',
                            'commitee-members.php',
                           'news-events.php',
-                          'useful-links.php',
+                          'useful-links-modal.php',
                           'quality-parameters.php',
                           'toy-guide.php'); 
     
@@ -81,7 +81,7 @@
                   return  $pageName = "Commitee Members";
             }elseif ($current=="news-events.php") {
                   return  $pageName = "News & Events";
-            }elseif ($current=="useful-links.php") {
+            }elseif ($current=="useful-links-modal.php") {
                  return  $pageName = "Useful Links ";            
             }elseif ($current=="quality-parameters.php") {           
                   return  $pageName = "Quality parameters";           
@@ -101,7 +101,7 @@
                return   $pageName = "Admin";
             }else if ($current =="approve-members.php") {
               return $pageName = "Approve Members";
-            } 
+            }
     }
  
 ?>

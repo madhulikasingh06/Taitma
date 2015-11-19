@@ -74,6 +74,9 @@ define("ERR_ACCOUNT_EDIT_FORM_VAL_FAILED", "There is some error in the form! Ple
 define("INACTIVE_DURATION", 1200);
 
 define("MEMBER_FILE_UPLOAD_FOLDER", "MembersFiles/");
+define("PASSWORD_UPDATE_SUBJECT", "[TAITMA]- Password changed.");
+define("PASSWORD_UPDATE_FAILED", "Password reset failed. Please check the email or membership number you have added");
+define("PASSWORD_UPDATE_SUCCESS", "Your password is successfully reset. Please check your email for temporary password.");
 
 
 

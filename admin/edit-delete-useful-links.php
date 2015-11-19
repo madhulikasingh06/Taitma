@@ -11,8 +11,27 @@ if ($_SERVER['REQUEST_METHOD']==="GET") {
 
 				if ($_GET["oper"] === "edsul") {
                 $urls = explode('|', $status["url"]); ?>
-				
+<!--  -->
 
+                <div class="modal-dialog ">
+
+                  <!-- Modal content-->
+                  <div class="modal-content" style="border:1px solid #0ABDC8">
+
+
+                    <div class="modal-header site-header white-text ">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="center">edit Link</h4>
+
+
+                    </div>
+                    <div class="modal-body transparent-bg">
+                     <div id="editLinkStatus<?php echo $_GET["id"] ; ?>" style="text-align:center;"></div>        
+
+
+
+
+<!--  -->
 				<form id="editLink<?php echo $_GET["id"] ?>-form"  style="padding:10px;" method="post" >
 
 <!-- 					  <?php 
@@ -90,47 +109,44 @@ if ($_SERVER['REQUEST_METHOD']==="GET") {
 	                            <div class="col-sm-offset-4 col-sm-8" style="padding:10px;">
 <!-- 		                            <button type ="Button" onClick="javascript:updateUsefulLink('<?php echo $status["ID"];?>');" >Update</button> -->		                            
 									<button type ="Button" onClick="javascript:updateUsefulLinks('<?php echo ACTION_UPDATE;?>','<?php echo $status["ID"];?>');" >Update</button>
-		                            <button type ="Button" onClick="javascript:updateUsefulLinks('<?php echo ACTION_DELETE;?>','<?php echo $status["ID"];?>');" >Delete</button>
-
+<!-- 		                            <button type ="Button" onClick="javascript:updateUsefulLinks('<?php echo ACTION_DELETE;?>','<?php echo $status["ID"];?>');" >Delete</button>
+ -->
 		                            <button type="Reset">Reset</button>
-		                            <button type="button"  onclick="cancelForm('editLink<?php echo $status["ID"];?>');">Cancel</button>
+		                            <button type="button"  data-dismiss="modal">Cancel</button>
+							
+		                            
 		                     	</div>
 
 
 					</div>
 			</form>
+<!--  -->
+                                                    
+                    </div>
+                  </div>
 
+                </div>
+              </div>
+
+
+<!--  -->
 	
-		<?php }else if ($_GET["oper"] == "edul"){
+		<?php } else if ($_GET["oper"] == "edul"){
 
 		
 
 		 echo "status:".$status;
 		?>
 				
-				<div id="editLinkResult<?php echo $_GET["id"]; ?>">
+				<div id="deleteLinkResult<?php echo $_GET["id"]; ?>">
 
 					<div>
-						<!-- <span><?php echo $status; ?></span> -->						
-						<button type="Button" onClick="javascript:cancelDiv('editLinkResult<?php echo $_GET["id"]; ?>')">Ok!</button>					
+						<!-- <span><?php echo $status; ?></span>	 -->			
+						<button type="Button" onClick="javascript:cancelDiv('deleteLinkResult<?php echo $_GET["id"]; ?>')">Ok!</button>					
 					</div>
 				</div>
 		<?php
-
-
-		}else if ($_GET["oper"] == "showstatus"){?>
-
-
-				<div id="editLinkResultok<?php echo $_GET["id"]; ?>">
-
-					<div>
-						<span><?php echo $status; ?></span>						
-						<button type="Button" onClick="javascript:cancelDiv('editLinkResult<?php echo $_GET["id"]; ?>')">Ok!</button>					
-					</div>
-
-
-				</div>
-		<?php }
+		 }
 
 	}
 
@@ -143,13 +159,7 @@ if ($_SERVER['REQUEST_METHOD']==="GET") {
 
 	<div id="editLinkResult<?php echo $_POST["id"]; ?>">
 
-<!-- 					<div>
-						<span><?php echo $status; ?></span>
-						<button type="Button" onClick="javascript:cancelDiv('editLinkResult<?php echo $_POST["id"]; ?>')">Ok!</button>					
-					</div> -->
-
-
-				<form id="ok-form" action="useful-links.php">
+				<form id="ok-form" action="useful-links-modal.php">
 					<span><?php echo $status; ?></span>
 					<button type="submit">Ok!</button>
 				</form>

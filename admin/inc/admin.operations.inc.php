@@ -7,6 +7,7 @@
 include_once "common/constants.db.php";
 include_once "common/db_connect.php";
 include_once "constants.inc.php";
+include_once "../swiftmailer-5/lib/swift_required.php";
 
 
 
@@ -56,6 +57,8 @@ class taitmaAdminOperation {
             return $this->editShowUsefulLinks();
         }else if ($operation === "edul"){
             return $this->updateUsefulLinks();
+        }elseif ($operation=="valMemberNo") {
+            return $this->validateMembershipNumber();
         }
 
 
@@ -68,7 +71,7 @@ class taitmaAdminOperation {
     **/
      private function approveAndUpdateMembersProfile(){
 
-        echo "inside approveAndUpdateMembersProfile";
+//         echo "inside approveAndUpdateMembersProfile";
 
         $result =  array();
         $password = "";
@@ -557,7 +560,6 @@ class taitmaAdminOperation {
                
                 $action= $_POST["action"];
 
-                if ($action==ACTION_UPDATE) {       
 
                     $id= intval($_POST["id"]);
                     $title = $_POST["title"];
@@ -566,6 +568,41 @@ class taitmaAdminOperation {
                     $urlsConcatinated=str_replace(",", "|", $urls[0]);           
                     $premium_val = intval($_POST["premium_val"]);
                     $enabled = intval($_POST["enabled"]);
+
+
+                if($action==ACTION_ADD ){
+
+                  // $status = $this ->addUsefulLinks();
+
+                            $sql = "INSERT INTO Useful_links(title, url,premium_val,enabled)
+                        VALUES(?, ?,?,?)";
+
+                        if($stmt = $this->_db->prepare($sql)) {
+                            $stmt->bind_param("ssii", $title, $urlsConcatinated, $premium_val,$enabled);
+                           
+                            if($stmt->execute()){
+                              $status = MSG_LINK_ADD_SUCCESS;
+                              // $userID = $this->_db->insert_id;
+
+                            }else {
+                              $status = ERR_LINK_ADD_FAILED;
+                            }              
+                        }else {
+                              $status = ERR_LINK_ADD_FAILED;
+
+                        }
+                         $stmt->close();
+
+
+                }else    if ($action==ACTION_UPDATE) {       
+
+                    // $id= intval($_POST["id"]);
+                    // $title = $_POST["title"];
+                    // $urls=$_POST["urls"];
+                    // $urlsCount = count($urls);           
+                    // $urlsConcatinated=str_replace(",", "|", $urls[0]);           
+                    // $premium_val = intval($_POST["premium_val"]);
+                    // $enabled = intval($_POST["enabled"]);
 
                     $sql = "UPDATE Useful_links set title=?, url=?,premium_val=?,enabled=? where id=?";
 
@@ -595,11 +632,155 @@ class taitmaAdminOperation {
                     $result = $this->_db->query($sql);
                     $status = MSG_LINK_DELETE_SUCCESS;
 
-                    echo "<meta http-equiv='refresh' content='0;/taitma/admin/useful-links.php'>";
+                    echo "<meta http-equiv='refresh' content='0;/admin/useful-links-modal.php'>";
                     exit;
                  }
               }
              return $status;
+    }
+
+
+
+    private function validateMembershipNumber(){
+
+      // echo "validateMembershiipNumber";
+
+      $membershipNo = trim($_GET["MemNo"]);
+      $serial_no =intval($_GET["id"]);
+      $email = trim($_GET["email"]);
+      $result = "";
+      $isErrored = false ;
+
+       if($membershipNo==""){
+         $result = ERR_MEMBERSHIP_NO_REQUIRED;
+
+       }else {
+
+         if(strlen($membershipNo)>=8) {
+
+          if($this->checkIfMembershipNoExists($membershipNo)){
+             $result = ERR_MEMBERSHIPNO_EXISTS;
+            }
+
+         }else {
+                  $result = ERR_MEMBERSHIPNO_LENGTH;
+
+        }
+
+
+       }
+
+       //if no error update the DB
+       if($result == ""){
+
+            $stmt = $this->_db->prepare("CALL approveMember(?,?,@status)");
+            $stmt -> bind_param ("is",$serial_no,$membershipNo);
+                
+                 if ($select=$stmt->execute()) {
+
+                        $stmt->bind_result($status);
+
+                            while ($stmt->fetch()){
+
+                               // echo "account Status   : $status";
+                                         
+                                if($status== 0 ){
+
+                                   
+                                }else if ($status==1){
+
+                                    $subject = MEMBER_APPROVED_SUBJECT;
+                                     $text = "Dear Taitma Member,\nWe are glad to inform you that your membership is now approved.\nYour Membership number is -".$membershipNo."\nFrom \nTaitma";
+                                     $html = "Dear Taitma Member,<br/> We are glad to inform you that your membership is now approved.
+                                            Your Membership number is -<b><i>".$membershipNo."</i></b>.<br/>-Taitma";
+
+                                   $this->sendMail($email,$subject,$html,$text);
+                                    
+
+
+                                }
+
+                            }
+
+
+
+                $stmt->close();
+
+            }else {
+                echo "something wrong in SQL!\n";
+                echo "error  ::". $this->_db->error;
+            }
+
+
+       }
+
+      return $result;
+    }
+
+
+    private function checkIfMembershipNoExists($num) {
+
+      $flag = false;
+
+      $sql = "SELECT serial_no FROM Members_Profile WHERE membership_no=?";
+
+            if($stmt = $this->_db->prepare($sql)) {
+
+               $stmt->bind_param("s", $num);
+                
+                if($stmt->execute()){
+
+                    $stmt->store_result();
+                    // echo "no of rows : ".$rows=$stmt->num_rows; 
+
+                    $rows=$stmt->num_rows;
+
+
+                    if($rows == 1){
+                        $flag=true;
+                    }
+
+                }else {
+                    echo "error  ::". $this->_db->error;
+                }   
+
+
+                $stmt->close();
+
+            }else {
+                echo "something wrong in SQL!\n";
+                echo "error  ::". $this->_db->error;
+            }
+
+                return $flag;
+
+    }
+
+        private function sendMail($email,$subject,$html,$text){
+            
+            $from = array(EMAILID_FROM =>EMAIL_FROM);
+            $to = array( $email => $email);
+
+            
+            $transport = Swift_SmtpTransport::newInstance(SMTP_SERVER, SMTP_PORT);
+            $transport->setUsername(SMTP_USER);
+            $transport->setPassword(SMTP_PASSWORD);
+            $swift = Swift_Mailer::newInstance($transport);
+
+            $message = new Swift_Message($subject);
+            $message->setFrom($from);
+            $message->setBody($html, 'text/html');
+            $message->setTo($to);
+            $message->addPart($text, 'text/plain');
+
+            if ($recipients = $swift->send($message, $failures))
+            {
+             // echo 'Message successfully sent!';
+            } else {
+             // echo "There was an error:\n";
+             // print_r($failures);
+            }
+        return;
     }
 
 

@@ -172,19 +172,6 @@
                       <input type="hidden" name="serial_no" value="<?php echo $serial_no; ?>"/>
                           
 
-                        <span  id="passwordMessage" class="col-sm-offset-4 error" ><?php echo $passwordErr;?></span>
-                         <div class="form-group">
-                            <label for="password" class="col-sm-4">Password:</label>
-                            <input  class="input-box col-sm-8 <?php if(!$passwordErr==""){echo " errorBox" ;} ?>" type="password" id="password"  name="password" value="<?php echo $password; ?>"/><br>
-                          </div>
-
-                        <span  id="confirmPasswordMessage" class="col-sm-offset-4 error" ><?php echo $confirmPasswordErr;?></span>
-                        <div class="form-group">
-                            <label for="confirmPassword" class="col-sm-4">Confirm Password:</label>
-                            <input  class="input-box col-sm-8 <?php if(!$confirmPasswordErr==""){echo " errorBox" ;} ?>" type="password" id="confirmPassword"  name="confirmPassword" value="<?php echo $confirmPassword; ?>" />
-                          </div>
-                            
-
                         <span  id="companyNameMessage" class="col-sm-offset-4 error" ><?php echo $companyNameErr;?></span>
                         <div class="form-group">
                               <label for="companyName" class="col-sm-4">Company Name:&nbsp;<sup>*</sup></label>
@@ -326,7 +313,18 @@
                               <label for="otherDetails" class="col-sm-4">Other Details</label>
                              <textarea  class="rounded-Box col-sm-6<?php if(!$otherDetailsErr==""){echo " errorBox" ;} ?>" rows="5" id="otherDetails"  name="otherDetails"><?php echo $otherDetails ?></textarea>
                           </div>
+                        <span  id="passwordMessage" class="col-sm-offset-4 error" ><?php echo $passwordErr;?></span>
+                         <div class="form-group">
+                            <label for="password" class="col-sm-4">Set New Password:</label>
+                            <input  class="input-box col-sm-8 <?php if(!$passwordErr==""){echo " errorBox" ;} ?>" type="password" id="password"  name="password" value="<?php echo $password; ?>"/><br>
+                          </div>
 
+                        <span  id="confirmPasswordMessage" class="col-sm-offset-4 error" ><?php echo $confirmPasswordErr;?></span>
+                        <div class="form-group">
+                            <label for="confirmPassword" class="col-sm-4">Confirm New Password:</label>
+                            <input  class="input-box col-sm-8 <?php if(!$confirmPasswordErr==""){echo " errorBox" ;} ?>" type="password" id="confirmPassword"  name="confirmPassword" value="<?php echo $confirmPassword; ?>" />
+                          </div>
+                            
 
 
 
@@ -361,6 +359,8 @@
                           <label for="doc2" class="col-sm-4">New File 2 to upload: </label>                          
                           <input  class="col-sm-8" type="file" name="doc2" id="doc2" />
                         </div>
+
+
 
 
 

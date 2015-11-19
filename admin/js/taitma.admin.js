@@ -126,8 +126,19 @@
               var errArray = [];
               var errArrayIndex = 0;
 
-              divId="editLinkStatus"+id;
-               // alert("updateUsefulLinks div id ::"+divId);
+              var divId="";
+
+              if(action=='d'){
+                divId="deleteLinkStatus"+id;
+              }else if (action == 'u') {
+                divId="editLinkStatus"+id;
+
+              }else if (action == 'a') {
+
+                 divId="addLinkStatus";
+              };
+
+//                 alert("updateUsefulLinks div id ::"+divId);
 
                if (id == "") {
                 document.getElementById(divId).innerHTML = "";
@@ -243,19 +254,22 @@
             // alert("checking title titleVal::"+titleVal);
            if(titleVal.trim()=="" || titleVal.trim().length<1){
                 errArray.push(titleID);
+            }else {
+              removeErrorPara(titleID);
             }
  
         }
 
         while(!(document.getElementById(urlID+"-"+i+"[]")== undefined)){
             
-         // alert("checking uls::"+titleVal);
+          // alert("checking uls::"+titleVal);
 
           var url =   document.getElementById(urlID+"-"+i+"[]").value;                                    
             if(!(url==undefined)){
 
                if(ValidateURL(url.trim())){
-                 urlsArray[i]=url.trim();                                     
+                 urlsArray[i]=url.trim();  
+                 removeErrorPara(urlID+"-"+i+"[]");                                   
                }else {
                   errArray.push(urlID+"-"+i+"[]");
                 }
@@ -275,7 +289,9 @@
          // alert("checking prem_Val ::"+prem_Val);
         if(prem_Val==""){
             errArray.push(premium_valID);
-        }
+        }else {
+              removeErrorPara(premium_valID);
+            }
       }
 
       if(document.getElementById(enabledID)!=undefined){
@@ -283,7 +299,9 @@
         // alert("checking enabled ::"+enabledVal);
         if(enabledVal==""){
             errArray.push(enabledID);
-        }
+        }else {
+              removeErrorPara(enabledID);
+            }
       }
 
  
@@ -318,19 +336,13 @@
             }
 
           };
-
         return false;
       }else {
                   // alert("inside else ");
 
         return true;
       }
-
-
   }
-
-
-
 
   /**
   *
@@ -466,24 +478,85 @@
   function CreateErrorPara(divid,msg){
 
     // document.getElementById("MyElement").className += " MyClass";
+      
+      var errId = divid+"-err";
 
-    // alert(divid)
-     // if(divid!=null){
       var newdiv = document.createElement("div");
       newdiv.className+="col-sm-12 center";
       var errPara = document.createElement("p");
       divid.className="errorBox";
-      // errPara.innerHTML = msg;
-      // document.getElementById(newdiv).appendChild(errPara);
-      // document.getElementById(divid).appendChild(errPara);
+      newdiv.id=errId;
 
       newdiv.innerHTML = "<p>"+msg+"</p>";
-      document.getElementById(divid).appendChild(newdiv);
+      alert("last child:: "+document.getElementById(divid).lastChild);
+
+    
+        if(null==document.getElementById(divid).lastChild) {
+                  document.getElementById(divid).appendChild(newdiv);
+        }
+
+  }
+
+  function removeErrorPara(divId){
+
+    // var lastChildId = document.getElementById(divId+"-msg").lastChild.id;
+    // // alert(lastChildId);
+    if(undefined!=document.getElementById(divId)) {
+      document.getElementById(divId).classList.remove("errorBox");   
+    }
+
+     if(undefined!=document.getElementById(divId+"-msg")) {
+      document.getElementById(divId+"-msg").remove();
+     }
 
 
-     // }
+  }
 
 
+
+  function validateAndApproveMembershipNumber(divId,memberId,email){
+
+//     alert("inside validateAndApproveMembershipNumber"+email);
+
+    var membershipNo = document.getElementById(divId).value;
+    var msgID = divId+"Message";
+
+    if(membershipNo == ""){
+
+      document.getElementById(msgID).innerHTML = "Please enter a membership number";
+      return;
+    }else {
+       
+       if (window.XMLHttpRequest) {
+                      // code for IE7+, Firefox, Chrome, Opera, Safari
+                      xmlhttp = new XMLHttpRequest();
+                  } else {
+                      // code for IE6, IE5
+                      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                  }
+                  xmlhttp.onreadystatechange = function() {
+                      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+
+                          // alert(xmlhttp.responseText);
+                          if(xmlhttp.responseText.trim() ==""){
+                            //validation was successful
+                             // alert("ssdsdsd");
+                            document.getElementById("approve-button").style.display='none';
+                             document.getElementById(msgID).innerHTML = "The member is approved.";
+
+                          }else {
+                             // document.getElementById(msgID).className += " error ";
+                             document.getElementById(msgID).innerHTML = xmlhttp.responseText;
+
+                          }
+                        
+                      }
+                  }
+                  xmlhttp.open("GET","status.php?oper=valMemberNo&MemNo="+membershipNo+"&id="+memberId+"&email="+email,true);
+                  xmlhttp.send();
+                 document.getElementById(msgID).innerHTML = "<img id='processing' src='images/processing.gif' height='20'> </img>";
+
+    }
 
   }
 

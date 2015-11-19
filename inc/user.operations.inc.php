@@ -54,6 +54,8 @@ class taitmaMembersOperation {
             return $this -> verfityAccount();
         }else if ($operation == "edit-profile"){
             return $this -> updateProfile();
+        }else if ($operation == "newPwd"){
+          return $this -> generateNewPassword();
         }
 
     }
@@ -324,6 +326,7 @@ class taitmaMembersOperation {
                      if ($select=$stmt->execute()) {
 
                         $stmt->bind_result($accountStatus);
+                        
 
                             while ($stmt->fetch()){
 
@@ -716,6 +719,119 @@ class taitmaMembersOperation {
         return $result;
 
     }
+
+
+
+
+    private function generateNewPassword(){ 
+
+        // echo "inside generateNewPassword";
+
+        $username = $_GET["username"];
+
+        $newPassword = bin2hex(openssl_random_pseudo_bytes(4));
+
+        $pwd = md5(stripslashes($newPassword));
+
+        $statusMsg = "";
+
+        //update new password in DB 
+            $stmt = $this->_db->prepare("CALL updateNewPassword(?,?,@status)");
+            $stmt -> bind_param ("ss",$username,$pwd);
+                
+                 if ($select=$stmt->execute()) {
+
+                        $stmt->bind_result($status);
+
+                            while ($stmt->fetch()){
+
+                               // echo "account Status   : $status";
+                                         
+                                if($status== 0 ){
+
+                                    $result= array(ERROR ,PASSWORD_UPDATE_FAILED);
+                                }else if ($status==1){
+
+
+
+                                      if(strpos($username, '@')){
+
+                                         $html = "Hi,<br/>Your Temporary password is - <b><i>". $newPassword."</i></b><br/>
+                                         Please change the password once you login.<br/>Thanks.<br/>Taitma";
+
+                                        $text = "Hi,\nYour Temporary password is - ". $newPassword."\nPlease change the password once you login.\nThanks.\nTaitma";
+
+                                       $subject = PASSWORD_UPDATE_SUBJECT;
+
+                                          $this->sendMail($username,$subject,$html,$text);
+                                          $statusMsg = PASSWORD_UPDATE_SUCCESS;
+
+                                      }else {
+
+                                           $statusMsg = PASSWORD_UPDATE_SUCCESS;
+                                        
+                                      }
+
+
+
+                                    $result= array(SUCCESS ,$statusMsg);
+
+
+                                }
+
+                            }
+
+                }else {
+                         echo "error  ::". $this->_db->error;
+                         $returnMessage[] ="Error occurred : ". $this->_db->error;                         
+                         $result= array(ERROR ,ERR_ACCOUNT_EDIT_PROFILE);
+
+                }
+
+                $stmt->close();
+
+
+
+                    return $result;
+
+
+
+
+        
+
+
+    }
+
+
+
+
+      private function sendMail($email,$subject,$html,$text){
+            
+            $from = array(EMAILID_FROM =>EMAIL_FROM);
+            $to = array( $email=> $email);
+
+            
+            $transport = Swift_SmtpTransport::newInstance(SMTP_SERVER, SMTP_PORT);
+            $transport->setUsername(SMTP_USER);
+            $transport->setPassword(SMTP_PASSWORD);
+            $swift = Swift_Mailer::newInstance($transport);
+
+            $message = new Swift_Message($subject);
+            $message->setFrom($from);
+            $message->setBody($html, 'text/html');
+            $message->setTo($to);
+            $message->addPart($text, 'text/plain');
+
+            if ($recipients = $swift->send($message, $failures))
+            {
+             echo 'Message successfully sent!';
+            } else {
+              echo "There was an error:\n";
+              print_r($failures);
+            }
+      }
+
+
 
 
 

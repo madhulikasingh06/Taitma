@@ -136,29 +136,21 @@
                       <input type="hidden" name="serial_no" value="<?php echo $memberSerial; ?>"/>
 
 
-                  		<span id="membershipNumberMessage"  class="col-sm-offset-4 error" ><?php echo $membershipNumberErr?></span>
+                  		<span id="membershipNumberMessage"  class="col-sm-offset-4" ><?php echo $membershipNumberErr?></span>
                   		<div class="form-group">
                   			<label for="membershipNumber" class="col-sm-4">Membership Number:&nbsp;<sup>*</sup></label>
-                  			<input class="input-box col-sm-8 <?php if(!$membershipNumberErr==""){echo " errorBox" ;} ?>" type="text" id="membershipNumber"  name="membershipNumber" value="<?php echo $membershipNumber?>" />
-                  		</div>        
+                  			<input class="input-box col-sm-7 <?php if(!$membershipNumberErr==""){echo " errorBox" ;} ?>" id="membershipNumber" type="text" name="membershipNumber" value="<?php echo $membershipNumber?>" />
+                  		  <?php if(strlen(trim($membershipNumber))<7)  { ?>
+                        <div id="approve-button"><button type="button" onClick="validateAndApproveMembershipNumber('membershipNumber','<?php echo $memberSerial; ?>' , '<?php echo $email; ?>')">Approve!</button></div>
+                        <?php } ?>
+                    </div>        
 	
 						<div class="form-group">
 						<label for="email" class="col-sm-4">Email:</label>
                   		<input  class="input-box col-sm-8"  type="text" name="email"  disabled value="<?php echo $email; ?>"/>
 					</div>
 
-                        <span  id="passwordMessage" class="col-sm-offset-4 error" ><?php echo $passwordErr;?></span>
-                         <div class="form-group">
-                            <label for="password" class="col-sm-4">Password:</label>
-                            <input  class="input-box col-sm-8 <?php if(!$passwordErr==""){echo " errorBox" ;} ?>" type="password" id="password"  name="password" value="<?php echo $password; ?>"/><br>
-                          </div>
 
-                        <span  id="confirmPasswordMessage" class="col-sm-offset-4 error" ><?php echo $confirmPasswordErr;?></span>
-                        <div class="form-group">
-                            <label for="confirmPassword" class="col-sm-4">Confirm Password:</label>
-                            <input  class="input-box col-sm-8 <?php if(!$confirmPasswordErr==""){echo " errorBox" ;} ?>" type="password" id="confirmPassword"  name="confirmPassword" value="<?php echo $confirmPassword; ?>" />
-                          </div>
-                            
 
                         <span  id="companyNameMessage" class="col-sm-offset-4 error" ><?php echo $companyNameErr;?></span>
                         <div class="form-group">
@@ -302,6 +294,18 @@
                              <textarea  class="rounded-Box col-sm-6<?php if(!$otherDetailsErr==""){echo " errorBox" ;} ?>" rows="5" id="otherDetails"  name="otherDetails"><?php echo $otherDetails ?></textarea>
                           </div>
 
+                        <span  id="passwordMessage" class="col-sm-offset-4 error" ><?php echo $passwordErr;?></span>
+                         <div class="form-group">
+                            <label for="password" class="col-sm-4">Set New Password:</label>
+                            <input  class="input-box col-sm-8 <?php if(!$passwordErr==""){echo " errorBox" ;} ?>" type="password" id="password"  name="password" value="<?php echo $password; ?>"/><br>
+                          </div>
+
+                        <span  id="confirmPasswordMessage" class="col-sm-offset-4 error" ><?php echo $confirmPasswordErr;?></span>
+                        <div class="form-group">
+                            <label for="confirmPassword" class="col-sm-4">Confirm New Password:</label>
+                            <input  class="input-box col-sm-8 <?php if(!$confirmPasswordErr==""){echo " errorBox" ;} ?>" type="password" id="confirmPassword"  name="confirmPassword" value="<?php echo $confirmPassword; ?>" />
+                          </div>
+                            
 
 
 
@@ -341,7 +345,7 @@
 
                         <div class="col-sm-offset-4 col-sm-8"  style="padding-top:10px;">
                             <!-- <button type="Submit">Submit</button> -->
-                            <button type="Submit">Approve</button>
+                            <button type="Submit">Update</button>
                             <button type="Reset">Reset</button>
                              <button type="button" onClick="location.href = 'index.php'">Cancel</button>
                      </div>

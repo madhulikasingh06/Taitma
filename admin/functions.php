@@ -13,7 +13,7 @@
     function getNavBar() {
 
           global $pageName;
-          $nav_tabs=array('index',
+          $nav_tabs=array('index.php',
                            'members.php',
                            'commitee-members.php',
                           'news-events.php',
@@ -73,7 +73,7 @@
     function getPageName($current){
             
             global $pageName;
-            if($current=="index") {                
+            if($current=="index.php") {                
                 return  $pageName = "Home";
             }elseif ($current=="members.php") {
                   return   $pageName = "Members";

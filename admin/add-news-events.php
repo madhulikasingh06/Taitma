@@ -37,7 +37,7 @@
 
       if (isset($_POST["operation"]) && isset($_SESSION["addNewsEvents"])) {
 
-        echo "token is set";
+//         echo "token is set";
 
          $id=$_POST["id"];
 
@@ -92,10 +92,10 @@
                         include_once "admin-operations.php";
                           $status1 = $status;
                           if($articleType=="news"){
-                                echo "<meta http-equiv='refresh' content='0;/taitma/admin/news-events.php'>";
+                                echo "<meta http-equiv='refresh' content='0;/admin/news-events.php'>";
                                 exit;
                           }else if ($articleType=="notice"){
-                              echo "<meta http-equiv='refresh' content='0;/taitma/admin/notice-board.php'>";
+                              echo "<meta http-equiv='refresh' content='0;/admin/notice-board.php'>";
                               exit;
                           }
                       }

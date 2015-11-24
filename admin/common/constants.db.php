@@ -46,6 +46,11 @@
     define("getMemberStatus", "SELECT verification_status_desc from Verification_Status where Verification_status = (SELECT verification_status from Member_Verification_Status where serial_no =?)");
     
     
+    define('getNewsAndEvents',"SELECT * FROM News_And_Notices where article_type='news'");
+    define('getNewsAndEventsWithID','SELECT * FROM News_And_Notices where ID =');
+    define('getNotices',"SELECT * FROM News_And_Notices where article_type='notice'");
+
+
 
 
 

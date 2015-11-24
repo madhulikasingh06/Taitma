@@ -3,8 +3,8 @@
 <?php 
 
       $id=0;
-      $title = $content = $enabled = $premiumVal = $status1="";
-      $titleErr = $contentErr = $enableErr = $premiumValErr = "";
+      $articleType = $title = $content = $enabled = $premiumVal = $status1="";
+      $articleTypeErr = $titleErr = $contentErr = $enableErr = $premiumValErr = "";
 
       if ($_SERVER['REQUEST_METHOD']==="GET") {
                  if(isset($_GET["id"])){
@@ -23,7 +23,7 @@
                             $content = $row["data"];
                              $enabled = $row["enabled"];
                               $premiumVal = $row["premium_val"];
-               
+                              $articleType = $row["article_type"];
                          }
                 }
 
@@ -46,6 +46,14 @@
                     $_SESSION["addNewsEvents"]='';
 
                     $isErrored = false;
+
+                    if($_POST["articleType"]==""){
+                       $isErrored = true;
+                        $articleTypeErr = ERR_DROP_DOWN_REQUIRED;
+                    }else {
+                        $articleType = $_POST["articleType"];
+                    }
+
 
                     if (empty($_POST["title"])) {
                         $titleErr = ERR_TITLE_REQUIRED;
@@ -83,6 +91,13 @@
                       if (!$isErrored) {
                         include_once "admin-operations.php";
                           $status1 = $status;
+                          if($articleType=="news"){
+                                echo "<meta http-equiv='refresh' content='0;/taitma/admin/news-events.php'>";
+                                exit;
+                          }else if ($articleType=="notice"){
+                              echo "<meta http-equiv='refresh' content='0;/taitma/admin/notice-board.php'>";
+                              exit;
+                          }
                       }
           }
 
@@ -117,26 +132,39 @@
                 <input type="hidden" name="addNewsEventsPost" value="<?php echo $addNewsEventsToken ;?>"/>
                 <input type="hidden" name="id" value="<?php echo $id ;?>">
 
-                    
-                    <div id="title-msg" class="error"><?php echo $titleErr ?></div> 
-                    <div class="form-group">
-                      <label for="title">Title:</label><br />
-                       <input type="text" name="title" class="input-box-link" value ="<?php echo $title ?>" > </input>
+                      
+                  <div id="article-type-msg" class="error col-sm-offset-2"><?php echo $articleTypeErr?></div> 
+                     <div class="form-group row">
+                        <div class="col-sm-2"><label for="enabled">Article Type:</label></div>
+                           <div class="col-sm-4"><select class="form-control input-box-link" type="select"  id="articleType"  name="articleType">
+                             <option value=""?>Choose an option</option>
+                             <option value="news"  <?php if ($articleType=='news') {echo 'selected' ;} ?> >News &amp; Events</option>
+                             <option value="notice" <?php if ($articleType=='notice') {echo 'selected' ;} ?> >Notice Board</option>                         
+                         </select> 
+                         </div>
                     </div>
 
 
-                  <div id="content-msg" class="error"><?php echo $contentErr ?></div> 
+
+                    <div id="title-msg" class=" col-sm-offset-2 error"><?php echo $titleErr ?></div> 
+                    <div class="form-group row">
+                      <div class="col-sm-2"><label for="title">Title:</label></div>
+                       <div class="col-sm-10"><input type="text" name="title" class="input-box-link" value ="<?php echo $title ?>" > </input></div>
+                    </div>
+
+
+                  <div id="content-msg" class=" col-sm-offset-2 error"><?php echo $contentErr ?></div> 
                   <div class="form-group row">
-                     <div class="col-sm-12"><label>Contents:</label></div>
-                     <div class="col-sm-12"><textarea name="content" id="content"  class="input-box">
+                     <div class="col-sm-2"><label>Contents:</label></div>
+                     <div class="col-sm-10"><textarea name="content" id="content"  class="input-box">
                       <?php echo $content ?>
                     </textarea>
                       </div>
                   </div>
                 
-                     <div id="premium_val-msg" class="error"><?php echo $premiumValErr?></div> 
+                     <div id="premium_val-msg" class=" col-sm-offset-2 error"><?php echo $premiumValErr?></div> 
                      <div class="form-group row">
-                       <div class="col-sm-3"><label for="premium_val">Premium Value:</label></div>
+                       <div class="col-sm-2"><label for="premium_val">Premium Value:</label></div>
                        <div class="col-sm-4"><select  class="form-control input-box-link"  type="select" id="premium_val" name="premium_val">
                            <option value=""></option>
                            <option value="0" <?php if ($premiumVal=='0') {echo 'selected' ;} ?> >Regular</option>
@@ -145,9 +173,9 @@
                        </div>       
                      </div>
 
-                     <div id="enabled-msg" class="error"><?php echo $enableErr?></div> 
+                     <div id="enabled-msg" class=" col-sm-offset-2 error"><?php echo $enableErr?></div> 
                      <div class="form-group row">
-                        <div class="col-sm-3"><label for="enabled">Enable:</label></div>
+                        <div class="col-sm-2"><label for="enabled">Enable:</label></div>
                            <div class="col-sm-4"><select class="form-control input-box-link" type="select"  id="enabled"  name="enabled">
                              <option value=""?></option>
                              <option value="1"  <?php if ($enabled=='1') {echo 'selected' ;} ?> >Enable</option>

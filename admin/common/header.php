@@ -40,6 +40,7 @@ include_once "inc/admin.operations.inc.php";
   <script src="../js/taitma.member.js"></script>
   <script  src="../js/bootstrap.min.js"></script>
   <script src="js/taitma.admin.js"></script>
+  <script type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
 
   </head>
  

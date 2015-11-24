@@ -10,18 +10,19 @@
 
 
                 <?php  
-        $serial_no=$email = $password = $confirmPassword = $companyName = $contactPerson = $address1 = $address2 =$city = $pincode = $state = $phone = $mobile = $website = $region = $category = $memberSpecifiedCategory = $memberType = $otherDetails = $doc1 = $doc2= $doc1_name = $doc2_name = $doc1_ref =$doc2_ref ="";
+       $membership_no=$serial_no=$email = $password = $confirmPassword = $companyName = $contactPerson = $address1 = $address2 =$city = $pincode = $state = $phone = $mobile = $website = $region = $category = $memberSpecifiedCategory = $memberType = $otherDetails = $doc1 = $doc2= $doc1_name = $doc2_name = $doc1_ref =$doc2_ref ="";
        $emailErr = $passwordErr = $confirmPasswordErr = $companyNameErr = $contactPersonErr = $address1Err = $address2Err =$cityErr = $pincodeErr = $stateErr = $phoneErr = $mobileErr = $websiteErr = $regionErr = $categoryErr = $memberSpecifiedCategoryErr = $memberTypeErr = $otherDetailsErr = $doc1Err = $doc2Err = "";
 
 
-      if(isset($_SESSION["userID"])){
-        $email=$_SESSION["userID"];
+
+      if(isset($_SESSION["userSrNo"])){
+        $serialNo=$_SESSION["userSrNo"];
       }
       //echo "email: $email";
 
       if (is_object($db)) {
       
-       $sql = "SELECT * FROM Members_Profile WHERE email='$email'";
+       $sql = "SELECT * FROM Members_Profile WHERE serial_no='$serialNo'";
        //echo "$sql";
        $result = $db->query($sql);
 
@@ -31,6 +32,7 @@
          while($row = $result->fetch_assoc()) 
 
          {
+            $membership_no = $row["membership_no"];
             $serial_no=$row["serial_no"];
             $companyName = $row["company_name"];
             $contactPerson = $row["contact_person"];
@@ -47,6 +49,7 @@
             $memberSpecifiedCategory = $row["member_specified_category"];
             $memberType_id = $row["member_type"];
             $otherDetails = $row["other_details"];
+            $email=$row["email"];
 
          }
 
@@ -180,6 +183,12 @@
                       <input type="hidden" name="email" value="<?php echo $email; ?>"/>
                       <input type="hidden" name="serial_no" value="<?php echo $serial_no; ?>"/>
                         
+
+                          <div class="form-group">
+                              <label class="col-sm-4">Membership number:&nbsp;<sup>*</sup></label>
+                              <div  class="input-box col-sm-8 error"> <?php if($membership_no=="" || $membership_no==NULL){echo "Not Assigned" ;}else {echo $membership_no ;} ?>
+                              </div>
+                          </div>
 
                         <span  id="companyNameMessage" class="col-sm-offset-4 error" ><?php echo $companyNameErr;?></span>
                         <div class="form-group">

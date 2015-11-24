@@ -153,8 +153,9 @@
                     }
                     xmlhttp.onreadystatechange = function() {
                         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                           document.getElementById(divId).innerHTML = xmlhttp.responseText;
-                        
+                           // document.getElementById(divId).innerHTML = xmlhttp.responseText;
+                            window.location = "useful-links-modal.php";
+
                            
                         }
                     }
@@ -488,7 +489,7 @@
       newdiv.id=errId;
 
       newdiv.innerHTML = "<p>"+msg+"</p>";
-      alert("last child:: "+document.getElementById(divid).lastChild);
+//       alert("last child:: "+document.getElementById(divid).lastChild);
 
     
         if(null==document.getElementById(divid).lastChild) {
@@ -542,10 +543,11 @@
                             //validation was successful
                              // alert("ssdsdsd");
                             document.getElementById("approve-button").style.display='none';
+                             document.getElementById(msgID).className= " col-sm-offset-4";
                              document.getElementById(msgID).innerHTML = "The member is approved.";
 
                           }else {
-                             // document.getElementById(msgID).className += " error ";
+                              document.getElementById(msgID).className += " error ";
                              document.getElementById(msgID).innerHTML = xmlhttp.responseText;
 
                           }
@@ -557,6 +559,76 @@
                  document.getElementById(msgID).innerHTML = "<img id='processing' src='images/processing.gif' height='20'> </img>";
 
     }
+
+  }
+
+
+
+  function checkEmailExists(div){
+
+    var divId = div.id+"Message"; 
+    var email = div.value;
+
+//  alert ("inside checkEmailExists email : "+email+"  div Message id : "+divId);
+
+
+              if (email == "") {
+               document.getElementById(divId).innerHTML = "";
+                  return;
+             } else { 
+                  if (window.XMLHttpRequest) {
+                      // code for IE7+, Firefox, Chrome, Opera, Safari
+                      xmlhttp = new XMLHttpRequest();
+                  } else {
+                      // code for IE6, IE5
+                      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                  }
+                  xmlhttp.onreadystatechange = function() {
+                      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                          document.getElementById(divId).innerHTML = xmlhttp.responseText;
+                      }
+                  }
+                  xmlhttp.open("GET","status.php?oper=emailExists&email="+email,true);
+                  xmlhttp.send();
+              }
+
+}
+
+
+  function deleteNewsAndNotice(action,id){
+
+
+    // alert("inside deleteNewsAndNotice");
+
+            divId="delete-status-"+id;
+
+               if (id == "") {
+                document.getElementById(divId).innerHTML = "";
+                    return;
+                } else { 
+                    if (window.XMLHttpRequest) {
+                        // code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
+                    } else {
+                        // code for IE6, IE5
+                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    xmlhttp.onreadystatechange = function() {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            // document.getElementById(divId).innerHTML = xmlhttp.responseText;
+                            location.reload(true);
+                        }
+                    }
+
+                if (confirm("Are you sure you want to delete this article? This cannot be undone!") == true) {
+                    xmlhttp.open("GET","status.php?oper=delNE&id="+id+"+&action="+action,true);
+                    xmlhttp.send();
+                    document.getElementById(divId).innerHTML = "<div class ='row' style='text-align:center;'><img id='processing' src='images/processing.gif' height='20'></img></div>";
+
+                }
+
+                  
+                }
 
   }
 

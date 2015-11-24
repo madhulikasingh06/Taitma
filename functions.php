@@ -97,6 +97,8 @@
                   return   $pageName = "Profile";
             }else if ($current=="verifyAccount.php") {
                   return   $pageName = "Register";
+            }else if ($current == "forgotPassword.php") {
+              return $pageName = "Forgot Password";
             }   
     }
  

@@ -1,17 +1,50 @@
 <?php include_once "common/header.php"; ?>
-
     
   <div id=""  class="page-background"> <!--home-main starts -->
 
     <div id="news-events-page" class="page-contents"> <!--news-events-page div starts  -->
 
-        	<?php //$pageName="News &amp; Events" ?>
+          <?php //$pageName="News &amp; Events" ?>
 
           <?php include_once "common/inner-nav-bar.php"; ?>
 
-      <div id="news-events-conents">
 
 
+  <?php 
+
+  if(isset($_GET["id"])){
+
+      if(!empty($_GET["id"])){
+
+          $id = $_GET["id"];
+         $query = getNewsAndEventsWithID.$id;
+         $result = $db->query($query);
+                
+                if ($result->num_rows > 0) { 
+
+                  while($row = $result->fetch_assoc()) {?>
+
+               <div class="row">
+                          <div class="col-sm-offset-2  col-sm-9 trasparent-bg  page-content-style">
+                            <h4><a href="#"  class="text-color-blue"><?php echo $row["title"]; ?></a> </h4> 
+                            <p><?php echo $row["data"];?></p>
+                          </div>
+                          <div class="col-sm-1"></div>
+              </div>
+      
+    
+       
+                <?php }
+        }
+
+  }
+                  
+    
+  }else { ?>
+
+
+           <div id="news-events-conents">
+  
         <div class="row">
             <div class="col-sm-offset-2  col-sm-9 trasparent-bg  page-content-style">
               <h4><a href="#" class="text-color-blue">Report on 2009 Nurenberg Toy Fair</a> <span style="font-weight:normal; font-size:14px; margin-left:20px">(Click to View)</span></h4>
@@ -41,9 +74,53 @@
 
         </div>
 
-        
+
+        <?php 
+
+        $member_type=memberTypeRegular;
+
+        if(isset($_SESSION["loggedIN"]) && isset($_SESSION["memberType"]) )  {
+            if($_SESSION["memberType"]>0){
+
+                $member_type=memberTypePremium;
+            }
+        }
+
+        // echo $member_type;
+     $result = $db->query(getNewsAndEventsForMemberType.$member_type);
+                
+                if ($result->num_rows > 0) { 
+
+                  while($row = $result->fetch_assoc()) {?>
+
+               <div class="row">
+                          <div class="col-sm-offset-2  col-sm-9 trasparent-bg  page-content-style">
+                            <div id="delete-status-<?php echo $row["ID"]; ?>"></div>
+                            <div class="row">
+                              <div class="col-sm-10">                               
+                                <h4 style=""><a href="#"  class="text-color-blue"><?php echo $row["title"]; ?></a> </h4> 
+                              </div>                        
+                            </div>
+                            <p><?php echo substr($row["data"], 0, 300); ?><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>">...(read more)</a></p>
+                          </div>
+                          <div class="col-sm-1"></div>
+
+              </div>
+                <?php }
+
+              }
+
+  ?>
 
       </div>
+
+
+    
+  <?php  }
+
+?>
+
+ 
 
 
 

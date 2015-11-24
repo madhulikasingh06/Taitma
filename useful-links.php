@@ -13,23 +13,35 @@
 
                <div class="col-sm-7 page-content-style">
 
-              <?php 
+ <!--              <?php 
 
               if(isset($_SESSION["loggedIN"])) {
                 if ($_SESSION["loggedIN"]==1){ 
-                  echo "you are logged in ".$_SESSION["userID"];
+                  // echo "you are logged in ".$_SESSION["userID"];
                 }
 
               }else {
-                  echo "you are not logged in ";
+                  // echo "you are not logged in ";
                 }
 
-              ?>
+              ?> -->
 
             <?php
 
-               // $sql = "GetUsefulLinks()";
-                $result = $db->query("CALL ". getUsefulLinks);
+
+                $member_type=memberTypeRegular;
+
+                if(isset($_SESSION["loggedIN"]))  {
+                    if($_SESSION["memberType"]>0){
+
+                        $member_type=memberTypePremium;
+
+                    }
+                }
+
+
+               $sql = getUsefulLinksForMemberType.$member_type;
+                $result = $db->query( $sql);
 
                 if ($result->num_rows > 0) {
 

@@ -101,7 +101,18 @@
                return   $pageName = "Admin";
             }else if ($current =="approve-members.php") {
               return $pageName = "Approve Members";
+            }elseif ($current =="add-news-events.php") {
+               return $pageName = "Add Article";
             }
     }
+
+
+
+   function test_input($data) {
+   $data = trim($data);
+   $data = stripslashes($data);
+   $data = htmlspecialchars($data);
+   return $data;
+ }
  
 ?>

@@ -3,13 +3,58 @@
 	$isErrored=false;
 
 
-		if(empty($_POST["membershipNumber"])){
-			$isErrored = true;
-			$membershipNumberErr=ERR_MEMBERSHIP_NO_REQUIRED;
-		}else {
-			$membershipNumber = test_input($_POST["membershipNumber"]);
+
+		// if(empty($_POST["membershipNumber"])){
+		// 	$isErrored = true;
+		// 	$membershipNumberErr=ERR_MEMBERSHIP_NO_REQUIRED;
+		// }else {
+		// 	echo $membershipNumber = test_input($_POST["membershipNumber"]);
 			
+		// }
+
+
+
+		if($_POST["operation"]=="register-user"){
+
+			$email = test_input($_POST["email"]);
+		 
+		 		if (empty($_POST["email"])) {
+		 		  $isErrored = true;
+		    	  $emailErr = "Email is required";
+		    	}
+
+				//validate password
+			   if (empty($_POST["password"])) {
+			   	   	$isErrored = true;
+			   		$passwordErr=ERR_PASSWORD_REQUIRED;
+
+			   } else{
+			   	   	 $password = test_input($_POST["password"]);
+			   	 
+			   	 if(strlen($password)<6){
+			   	 	$isErrored = true;
+			   	 	$passwordErr= ERR_PASSWORD_LENGTH;
+			   	 }
+
+			   }
+
+			   //validate confirm password 
+			   if (empty($_POST["confirmPassword"])) {
+			   	 	$isErrored = true;	   	
+			   		$confirmPasswordErr=ERR__CONFIRM_PASSWORD_REQUIRED;
+
+			   } else{
+			   		$confirmPassword= test_input($_POST["confirmPassword"]);
+			   		if(strcmp($password,$confirmPassword)){
+			   	 		$isErrored = true;	   	
+			   			$confirmPasswordErr=ERR_PASS_NO_MATCH;
+			   		}
+			   }
+
 		}
+
+
+
 
 
 			if (!empty($_POST["password"])) {
@@ -34,14 +79,6 @@
 			   }
 
 			   }			  
-		
-
-
-
- 		
-
-
-
 
 	 	if (empty($_POST["companyName"])) {
 	   	 	$isErrored = true;	   	
@@ -60,7 +97,7 @@
 	   	 	$address1Err= ERR_ADDRESS1_REQUIRED;
 	   	 }else {
 	   	 	$address1=test_input($_POST["address1"]);
-	   	 	$address1=($_POST["address1"]);
+	   	 	$address1=($address1);
 
 	   	 }
 
@@ -151,7 +188,7 @@
 	   	 	$isErrored = true;	   	
 	   		$memberTypeErr=ERR_MEMBER_TYPE_REQUIRED;
 	   	}else{
-	   		$memberType = test_input($_POST["memberType"]);
+	   		 $memberType = test_input($_POST["memberType"]);
 	   	}
 
 
@@ -206,20 +243,12 @@
 	
 if (!$isErrored) {
 	include_once "admin-operations.php";
+
 	if($_POST["operation"]=="register-user"){
 	include_once "register-success.php";
 	 exit;
 	}
+
+	}
  ?>
 
-<?php }
-
-
-   function test_input($data) {
-   $data = trim($data);
-   $data = stripslashes($data);
-   $data = htmlspecialchars($data);
-   return $data;
-}
-
-?>

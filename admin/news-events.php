@@ -1,5 +1,4 @@
 <?php include_once "common/header.php"; ?>
-
     
   <div id=""  class="page-background"> <!--home-main starts -->
 
@@ -9,41 +8,104 @@
 
           <?php include_once "common/inner-nav-bar.php"; ?>
 
-      <div id="news-events-conents">
 
 
-        <div class="row">
-            <div class="col-sm-offset-2  col-sm-9 trasparent-bg  page-content-style">
-              <h4><a href="#" class="text-color-blue">Report on 2009 Nurenberg Toy Fair</a> <span style="font-weight:normal; font-size:14px; margin-left:20px">(Click to View)</span></h4>
-              <p></p>
+  <?php 
+
+  if(isset($_GET["id"])){
+
+      if(!empty($_GET["id"])){
+
+          $id = $_GET["id"];
+
+          if($_GET["oper"] == "view"){
+            // echo "operation is view";
+
+                     $query = getNewsAndEventsWithID.$id;
+         $result = $db->query($query);
+                
+                if ($result->num_rows > 0) { 
+
+                  while($row = $result->fetch_assoc()) {?>
+
+               <div class="row">
+                          <div class="col-sm-offset-2  col-sm-9 trasparent-bg  page-content-style">
+                            <h4><a href="#"  class="text-color-blue"><?php echo $row["title"]; ?></a> </h4> 
+                            <p><?php echo $row["data"];?></p>
+                          </div>
+                          <div class="col-sm-1"></div>
+              </div>
+      
+    
+       
+                <?php }
+              }
+          }
+
+
+
+  }
+                  
+    
+  }else { ?>
+
+
+           <div id="news-events-conents">
+
+          <div class="row" style="padding-top:20px;">           
+            <div class="col-sm-offset-2  col-sm-10">
+                 <button type="button" onClick="location.href='add-news-events.php'">Add News &amp; Events</button>
             </div>
-            <div class="col-sm-1"></div>
-        </div>
-        
-        <div class="row">
-            <div class="col-sm-offset-2  col-sm-9 trasparent-bg  page-content-style">
-              <h4><a href="#"  class="text-color-blue">Ahmedabad Toy Dealers Meet</a> </h4>
-              <p>
-                TAITMA, in association with The Ahmedabad Toy Association and Supported by Kids India, had a very successful Toy Dealers Meet on 5th April 2013. The participants feedback was very encouraging and we thank The Ahmedabad Toy Association and Mr. Sachin Bhai for his help in organizing the event.
-                The next event will be the MP Toy Dealers Meet on 4th August in Indore.</p>
             </div>
-            <div class="col-sm-1"></div>
-        </div>
-        <div class="row">
-            <div class="col-sm-offset-2  col-sm-9 trasparent-bg  page-content-style">
-              <h4 style=""><a href="#"  class="text-color-blue">MP Toy Dealers Meet</a> </h4> 
-              <p>
-                After the tremendous response to the Pune &amp; Ahmedabad Toy Dealers meets, TAITMA is happy to announce the "MP Toy Dealers Meet" in Indore, Sayaji Hotel, on Sunday 4th August, 2013 from 10 am to 6 pm.
-                Thwe following have confirmed their participation:
-                Prem Ratna Games &amp; Toys, Sunny Industries, Pegasus Toy Kraft, Vardhaman IQ, Min Toy Pvt Ltd, Anmol Toys Pvt Ltd, Play Kraft Traders, Sam toys, Infotech Resources, Rajesh Traders, Kudos Kids Utilities, Zephyr Toymakers Pvt Ltd and Tayebally Ebrahim &amp; Sons.</p>
-            </div>
-            <div class="col-sm-1"></div>
 
-        </div>
 
-        
+        <?php 
+
+     $result = $db->query(getNewsAndEvents);
+                
+                if ($result->num_rows > 0) { 
+
+                  while($row = $result->fetch_assoc()) {?>
+
+               <div class="row">
+                          <div class="col-sm-offset-2  col-sm-9 trasparent-bg  page-content-style">
+                            <div id="delete-status-<?php echo $row["ID"]; ?>"></div>
+                            <div class="row">
+                              <div class="col-sm-10">                               
+                                <h4 style=""><a href="#"  class="text-color-blue"><?php echo $row["title"]; ?></a> </h4> 
+                              </div>
+                              <div class="col-sm-2">
+                                <button onclick="location.href='add-news-events.php?oper=edit&amp;id=<?php echo $row["ID"]; ?>'">Edit</button> 
+<!--                                 <button onclick="location.href='?oper=delNE&amp;id=<?php echo $row["ID"]; ?>'">Delete</button> 
+ -->
+                                 <button onClick="javascript:deleteNewsAndNotice('<?php echo ACTION_DELETE_NEWS;?>','<?php echo $row["ID"] ?>');" >Delete</button>
+
+
+                               </div>
+                              
+
+
+                            </div>
+                            <p><?php echo substr($row["data"], 0, 300); ?><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>">...(read more)</a></p>
+                          </div>
+                          <div class="col-sm-1"></div>
+
+              </div>
+                <?php }
+
+              }
+
+  ?>
 
       </div>
+
+
+    
+  <?php  }
+
+?>
+
+ 
 
 
 

@@ -10,7 +10,6 @@ include_once "constants.inc.php";
 include_once "../swiftmailer-5/lib/swift_required.php";
 
 
-
 class taitmaAdminOperation {
 
 	/**
@@ -59,6 +58,15 @@ class taitmaAdminOperation {
             return $this->updateUsefulLinks();
         }elseif ($operation=="valMemberNo") {
             return $this->validateMembershipNumber();
+        }elseif ($operation=="add-news-events") {
+            return $this->addUpdateNewsAndEvents();
+        }else if ($operation=="emailExists"){
+           return $this-> validateEmail();
+        }else if($operation=="register-user"){
+          // echo "registerUserByAdmin";
+         return $this->registerUserByAdmin();
+        }else if ($operation == "delNE") {
+          return $this -> deleteNewsAndNotice();  
         }
 
 
@@ -369,10 +377,9 @@ class taitmaAdminOperation {
 
                                         // $this->sendVerificationEmail($email,$verificationLink);
 
-                                $returnMessage1 = MSG_ACCOUNT_REGISTRATION_SUCCESS."\n User created with verfication  link : $verificationLink ";
-                                // $returnMessage[] = MSG_ACCOUNT_REGISTRATION_SUCCESS;
+                                // $returnMessage1 = MSG_ACCOUNT_REGISTRATION_SUCCESS."\n User created with verfication  link : $verificationLink ";
 
-                                $result =  array(SUCCESS ,$returnMessage1);
+                                $result =  array(SUCCESS ,MSG_ACCOUNT_REGISTRATION_BYADMIN_SUCCESS);
 
                             }
 
@@ -632,8 +639,8 @@ class taitmaAdminOperation {
                     $result = $this->_db->query($sql);
                     $status = MSG_LINK_DELETE_SUCCESS;
 
-                    echo "<meta http-equiv='refresh' content='0;/admin/useful-links-modal.php'>";
-                    exit;
+                    // echo "<meta http-equiv='refresh' content='0;/taitma/admin/useful-links-modal.php'>";
+                    // exit;
                  }
               }
              return $status;
@@ -784,6 +791,172 @@ class taitmaAdminOperation {
     }
 
 
+    private function addUpdateNewsAndEvents(){
+
+        // echo "inside addNewsAndEvents";
+        $status = "";
+        $title=stripslashes($_POST["title"]);
+        $content=$_POST["content"];
+        $premium_val=stripslashes($_POST["premium_val"]);
+        $enabled=stripslashes($_POST["enabled"]);
+        $id=intval($_POST["id"]);
+        $articleType=$_POST["articleType"];
+
+        echo $id;
+
+
+
+          if ($id>0) {
+            # code...
+              $sql = "UPDATE News_And_Notices set title=?, data=?,premium_val=?,enabled=?,article_type=? where id=?";
+          
+                    if($stmt = $this->_db->prepare($sql)) {
+                        $stmt->bind_param("ssiisi", $title, $content, $premium_val,$enabled,$articleType,$id);
+                        
+                        if($stmt->execute()){
+                               $status = MSG_LINK_UPDATE_SUCCESS;
+                        }else {
+                              $status = ERR_LINK_UPDATE_FAILED;
+                        }
+              
+                    }else {
+                          $status = ERR_LINK_UPDATE_FAILED;
+                    }
+                        $stmt->close();
+                
+
+          }else {
+              $sql = "INSERT INTO News_And_Notices(title,data,premium_val,enabled,article_type)
+                VALUES(?, ?,?,?,?)";
+
+                if($stmt = $this->_db->prepare($sql)) {
+                    $stmt->bind_param("ssiis", $title, $content, $premium_val,$enabled,$articleType);
+                   
+                    if($stmt->execute()){
+                      $status = MSG_LINK_ADD_SUCCESS;
+                       $userID = $this->_db->insert_id;
+
+                    }else {
+                      $status = ERR_LINK_ADD_FAILED;
+                       // echo "error  ::". $this->_db->error;
+
+                    }              
+                }else {                  
+
+
+                       // echo "error  ::". $this->_db->error;
+                      $status = ERR_LINK_ADD_FAILED;
+
+                }
+                $stmt->close();
+
+          }
+
+            
+       
+
+
+        return $status;
+
+
+    }
+
+      public function checkIfEmailExists($email) {
+
+        $flag = false;
+        
+        $sql = "SELECT email FROM Members_Profile WHERE email=?";
+
+            if($stmt = $this->_db->prepare($sql)) {
+
+               $stmt->bind_param("s", $email);
+                
+                if($stmt->execute()){
+
+                    $stmt->store_result();
+                   // echo "no of rows : ".$rows=$stmt->num_rows; 
+
+                    $rows=$stmt->num_rows;
+
+
+                    if($rows == 1){
+                        $flag=true;
+                    }
+
+                }else {
+                    echo "error  ::". $this->_db->error;
+                }   
+
+
+                $stmt->close();
+
+            }else {
+                echo "something wrong in SQL!\n";
+                echo "error  ::". $this->_db->error;
+            }
+
+         // $StatusArray = array("statusCode" => $returnCode ,"statusMessage" => $returnMessage);
+
+
+        return $flag;
+
+
+    }
+
+
+    private function validateEmail(){
+
+                $email = $_GET["email"];
+
+     $emailErr="";
+        if (empty($email) || strlen(trim($email))<1  ) {
+          $emailErr = "Email is required";
+        } else {
+         $email = $this->test_input($email);
+         // check if e-mail address is well-formed
+         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+            if($this->checkIfEmailExists($email)){
+                   $emailErr = ERR_EMAIL_EXISTS; 
+            }
+
+         }else {
+               $emailErr = "Invalid email format!"; 
+         }
+        }
+
+        return $emailErr ;
+    }
+
+   private function test_input($data) {
+       $data = trim($data);
+       $data = stripslashes($data);
+       $data = htmlspecialchars($data);
+       return $data;
+    }
+
+
+    private function deleteNewsAndNotice(){
+
+          $status ="";
+          $action= $_GET["action"];
+
+            if ($action==ACTION_DELETE_NEWS){
+          
+                    $id= intval($_GET["id"]);
+                    $sql = "DELETE FROM News_And_Notices WHERE id=$id";
+                    $result = $this->_db->query($sql);
+                    $status = MSG_LINK_DELETE_SUCCESS;
+
+                    // echo "<meta http-equiv='refresh' content='0;/taitma/admin/news-events.php'>";
+                    // exit;
+            }
+
+
+          return $status;
+
+
+    }
 
 
 }

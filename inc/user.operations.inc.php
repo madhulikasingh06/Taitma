@@ -44,7 +44,7 @@ class taitmaMembersOperation {
     	if($operation=="register-user"){
     		 return $this->registerUser();
     	}else if ($operation=="log-in"){
-            return $this->login();
+            return $this->login1();
         }else if ($operation=="log-out"){
             return $this->logOut();
         }else if ($operation=="emailExists"){
@@ -833,6 +833,94 @@ class taitmaMembersOperation {
 
 
 
+
+        private function login1() {
+
+        $email = $_POST["email"];
+        $password = $_POST["pwd"];  
+        $result = "";
+
+
+        // echo "email : $email | password :  $password.";
+        $password = md5(stripslashes($password));
+
+        // $sql = "SELECT email FROM Members_Profile WHERE email=? and password =?";
+
+
+        try {
+
+            $stmt = $this->_db->prepare("CALL verifyMemberLogin1(?,?,@accountStatus,@memberType,@serialNo)");
+            $stmt -> bind_param ("ss",$email,$password);
+
+
+            
+                     if ($select=$stmt->execute()) {
+
+                        $stmt->bind_result($accountStatus,$memberType,$serialNo);
+    
+                      /* instead of bind_result: */
+                        // $result = $stmt->get_result();
+
+                        /* now you can fetch the results into an array - NICE */
+                        // while ($myrow = $result->fetch_assoc()) {
+                        //     // printf("%s %s\n", $myrow['accountStatus'], $myrow['memberType']  ,$myrow["serialNo"]);
+                        //     echo ("account status ::".$myrow['accountStatus']." and member type ::".$myrow['memberType']."and serial no ::".$myrow["serialNo"]);
+                        // }
+
+        
+
+                        while ($stmt->fetch()) {
+                          // printf("%s %s %s\n", $accountStatus,$memberType,$serialNo);
+                              
+
+                              if($accountStatus== -1 ){
+
+                                    $result= array(ERROR ,ERR_ACCOUNT_LOGIN_FAILED);
+
+                                }else if ($accountStatus == 0) {
+                                    
+                                    $result= array(ERROR ,ERR_ACCOUNT_LOGIN_UNVERIFIED);
+
+                                }else if ($accountStatus==1 OR $accountStatus==2){
+                                       
+                                    $_SESSION["accountStatus"]=$accountStatus;
+                                    $_SESSION["loggedIN"]=1;
+                                    $_SESSION["userID"]=$email;
+                                    $_SESSION["userSrNo"]=$serialNo;
+                                    $_SESSION["memberType"] = $memberType;
+
+                                    $result= array(SUCCESS ,MSG_ACCOUNT_LOGIN_SUCCESS);
+
+
+                                }
+
+
+
+
+
+                      }
+
+                $stmt->close();
+
+            }else {
+                          echo "error  ::". $this->_db->error;
+                         $result= array(ERROR ,ERR_ACCOUNT_VERIFIED_FAILED);
+
+            }
+
+
+
+        } catch (Exception $pe) {
+            echo "in login method error msg: ".$pe->getMessage();
+              die("Error occurred:" . $pe->getMessage());
+            $result= array(ERROR ,ERR_ACCOUNT_VERIFIED_FAILED);
+
+        }
+
+            return $result;
+
+
+    }
 
 
 

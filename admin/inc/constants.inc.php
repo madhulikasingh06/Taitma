@@ -107,10 +107,13 @@ define("ERR_MEMBERSHIPNO_EXISTS", "This membership number alreay exists.");
 
 define("MEMBER_APPROVED_SUBJECT", "[TAITMA]- Membership approved!");
 
+define("ERR_TITLE_REQUIRED", "Please enter a title.");
+define("ERR_CONTENT_REQUIRED", "Please enter the contents.");
+define("ERR_DROP_DOWN_REQUIRED", "Please choose a value.");
 
 
-
-
+define("MSG_ACCOUNT_REGISTRATION_BYADMIN_SUCCESS", "The user was successfully created.");
+define("ACTION_DELETE_NEWS", "news-del");
 
 
 

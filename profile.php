@@ -186,7 +186,7 @@
 
                           <div class="form-group">
                               <label class="col-sm-4">Membership number:&nbsp;<sup>*</sup></label>
-                              <div  class="input-box col-sm-8 error"> <?php if($membership_no=="" || $membership_no==NULL){echo "Not Assigned" ;}else {echo $membership_no ;} ?>
+                              <div  class="input-box col-sm-8 <?php if($membership_no=="" || $membership_no==NULL){echo ' error';} ?>"> <?php if($membership_no=="" || $membership_no==NULL){echo "Not Assigned" ;}else {echo $membership_no ;} ?>
                               </div>
                           </div>
 

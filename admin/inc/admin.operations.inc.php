@@ -67,6 +67,8 @@ class taitmaAdminOperation {
          return $this->registerUserByAdmin();
         }else if ($operation == "delNE") {
           return $this -> deleteNewsAndNotice();  
+        }else if ($operation == "add-banners"){
+          return $this -> addUpdateBanners();
         }
 
 
@@ -950,11 +952,104 @@ class taitmaAdminOperation {
 
                     // echo "<meta http-equiv='refresh' content='0;/taitma/admin/news-events.php'>";
                     // exit;
+            }else if($action == ACTION_DELETE_BANNER){
+                    $id= intval($_GET["id"]);
+                    $sql = "DELETE FROM Banners WHERE id=$id";
+                    $result = $this->_db->query($sql);
+                    $status = MSG_LINK_DELETE_SUCCESS;
+
             }
 
 
           return $status;
 
+
+    }
+
+
+    private function addUpdateBanners(){
+
+      $banners = $_POST["banners"];
+
+      $id=intval($_POST["ID"]);
+
+  
+          if ($id>0) {
+            # code...
+              $order = $banners[0]['order'];
+              // $image_name = $banners[0]['name'];
+               $company =  $banners[0]['company'];
+                $link = $banners[0]['link'];
+                $enable = $banners[0]['enable'];
+
+
+
+              $sql = "UPDATE Banners set Image_order=?,company_name=?,link=?,enabled=? where id=?";
+          
+                    if($stmt = $this->_db->prepare($sql)) {
+                        $stmt->bind_param("issii", $order, $company,$link,$enable,$id);
+                        
+                        if($stmt->execute()){
+                               $status = MSG_LINK_UPDATE_SUCCESS;
+                        }else {
+                              $status = ERR_LINK_UPDATE_FAILED;
+                        }
+              
+                    }else {
+                          $status = ERR_LINK_UPDATE_FAILED;
+                    }
+                        $stmt->close();
+                
+
+          }else {
+              $sql = "INSERT INTO Banners(Image_order,Image_name,company_name,link,enabled)
+                VALUES(?, ?,?,?,?)";
+
+                if($stmt = $this->_db->prepare($sql)) {
+
+                  foreach ($banners as $key => $banner) {
+                    # code...
+                      $order = $banner['order'];
+                      $name = $_FILES["banners"]["name"][$key]['image'];
+                      $company =$banner['company'];
+                      $link= $banner['link'];
+                      $enable=$banner['enable'];
+                      $stmt->bind_param("isssi", $order,$name, $company,$link,$enable);
+                      $stmt->execute();
+
+                      move_uploaded_file($_FILES["banners"]["tmp_name"][$key]['image'], BANNER_FOLDER.$name);
+                  }
+
+
+                    
+                   
+                    // if($stmt->execute()){
+                    //   $status = MSG_LINK_ADD_SUCCESS;
+                    //    $userID = $this->_db->insert_id;
+
+                    // }else {
+                    //   $status = ERR_LINK_ADD_FAILED;
+                    //    // echo "error  ::". $this->_db->error;
+
+                    // }              
+                }else {                  
+
+
+                        echo "error  ::". $this->_db->error;
+                      $status = ERR_LINK_ADD_FAILED;
+
+                }
+                $stmt->close();
+
+          }
+
+            
+       
+
+
+        // return $status;
+
+          return;
 
     }
 

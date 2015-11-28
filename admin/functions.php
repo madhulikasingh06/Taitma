@@ -19,7 +19,7 @@
                           'news-events.php',
                           'useful-links-modal.php',
                           'quality-parameters.php',
-                          'toy-guide.php'); 
+                          'banners.php'); 
     
           $current=getCurrentPage();    
              foreach($nav_tabs as $nav)
@@ -102,7 +102,11 @@
             }else if ($current =="approve-members.php") {
               return $pageName = "Approve Members";
             }elseif ($current =="add-news-events.php") {
-               return $pageName = "Add Article";
+               return $pageName = "Add / Edit Article";
+            }else if ($current == "banners.php") {
+               return $pageName = "Banners";
+            }else if ($current == "add-update-banner.php"){
+               return $pageName = "Add / Edit Banners";
             }
     }
 

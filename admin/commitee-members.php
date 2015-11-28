@@ -166,12 +166,7 @@
 
 	</div><!-- commitee-members div ends-->
 
-    
-
-
    
-
-      </div> <!--commitee-members-page div ends  -->
 
 
 

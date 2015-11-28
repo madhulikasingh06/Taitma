@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD']==="GET") {
 
 
                     <div class="modal-header site-header white-text ">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <button type="button" class="close" onclick="location.href='useful-links-modal.php'" data-dismiss="modal">&times;</button>
                       <h4 class="center">edit Link</h4>
 
 
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD']==="GET") {
                       <div class="form-group row">
                         <div class="col-sm-3"><label for="enabled-<?php echo $_GET['id'] ?>"  class="">Enable:</label></div>
                          <div class="col-sm-7"> <select class="form-control input-box-link col-sm-4" type="select" required="" id="enabled-<?php echo $_GET['id'] ?>"  name="enabled-<?php echo $_GET['id'] ?>">
-                         	  <option value=""></option>
+                         	  <option value="">Please choose.</option>
                               <option value="1" <?php if($status['enabled']== 1) { echo "selected"; } ?>>Enable</option>
                               <option value="0" <?php if($status['enabled']== 0) { echo "selected"; } ?>>Disable</option>                         
                           </select> 
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD']==="GET") {
                         <div class="form-group row">
                         <div class="col-sm-3"> <label for="premium_val-<?php echo $_GET['id'] ?>"  class="">Premium Value:</label></div>
                           <div class="col-sm-7"> <select  class="form-control input-box-link col-sm-3"  type="select" required="" id="premium_val-<?php echo $_GET['id'] ?>" name="premium_val-<?php echo $_GET['id'] ?>">
-                            <option value="" <?php if($status['premium_val']=="") { echo "selected"; } ?>></option>
+                            <option value="" <?php if($status['premium_val']=="") { echo "selected"; } ?>>Please choose.</option>
                             <option value="0" <?php if($status['premium_val']== 0) { echo "selected"; } ?>>Regular</option>
                             <option value="1" <?php if($status['premium_val']== 1) { echo "selected";} ?>>Premium</option>                         
                           </select>    
@@ -112,7 +112,11 @@ if ($_SERVER['REQUEST_METHOD']==="GET") {
 <!-- 		                            <button type ="Button" onClick="javascript:updateUsefulLinks('<?php echo ACTION_DELETE;?>','<?php echo $status["ID"];?>');" >Delete</button>
  -->
 		                            <button type="Reset">Reset</button>
+<!-- 
 		                            <button type="button"  data-dismiss="modal">Cancel</button>
+ -->
+		                        	 <button type="button"  onclick="location.href='useful-links-modal.php'">Cancel</button>
+
 							
 		                            
 		                     	</div>

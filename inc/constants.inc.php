@@ -78,6 +78,7 @@ define("PASSWORD_UPDATE_SUBJECT", "[TAITMA]- Password changed.");
 define("PASSWORD_UPDATE_FAILED", "Password reset failed. Please check the email or membership number you have added");
 define("PASSWORD_UPDATE_SUCCESS", "Your password is successfully reset. Please check your email for temporary password.");
 
+define("BANNER_FOLDER", "images/FooterBanners/");
 
 
 

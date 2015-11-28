@@ -50,6 +50,11 @@
     define('getNewsAndEventsWithID','SELECT * FROM News_And_Notices where ID =');
     define('getNotices',"SELECT * FROM News_And_Notices where article_type='notice'");
 
+    define('getBanners', 'SELECT * FROM Banners');
+    define('getBannerWithID','SELECT * FROM Banners where ID =');
+
+    define("getFooterImages", "SELECT * From Banners WHERE enabled=1 ORDER By 'Image_order' LIMIT 8;")
+
 
 
 

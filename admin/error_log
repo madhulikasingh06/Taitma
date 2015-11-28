@@ -1,0 +1,161 @@
+[05-Nov-2015 12:17:54 Etc/GMT] PHP Warning:  include_once(swiftmailer-5/lib/swift_required.php): failed to open stream: No such file or directory in /home/taitmacl/public_html/admin/inc/user.operations.inc.php on line 5
+[05-Nov-2015 12:17:54 Etc/GMT] PHP Warning:  include_once(): Failed opening 'swiftmailer-5/lib/swift_required.php' for inclusion (include_path='.:/opt/alt/php54/usr/share/pear:/opt/alt/php54/usr/share/php') in /home/taitmacl/public_html/admin/inc/user.operations.inc.php on line 5
+[06-Nov-2015 14:22:52 Etc/GMT] PHP Fatal error:  Uncaught exception 'UnexpectedValueException' with message 'FilesystemIterator::__construct(MembersFiles/): failed to open dir: No such file or directory' in /home/taitmacl/public_html/admin/member-profile-details.php:57
+Stack trace:
+#0 /home/taitmacl/public_html/admin/member-profile-details.php(57): FilesystemIterator->__construct('MembersFiles/')
+#1 /home/taitmacl/public_html/admin/members.php(191): include_once('/home/taitmacl/...')
+#2 {main}
+  thrown in /home/taitmacl/public_html/admin/member-profile-details.php on line 57
+[06-Nov-2015 14:22:57 Etc/GMT] PHP Fatal error:  Uncaught exception 'UnexpectedValueException' with message 'FilesystemIterator::__construct(MembersFiles/): failed to open dir: No such file or directory' in /home/taitmacl/public_html/admin/member-profile-details.php:57
+Stack trace:
+#0 /home/taitmacl/public_html/admin/member-profile-details.php(57): FilesystemIterator->__construct('MembersFiles/')
+#1 /home/taitmacl/public_html/admin/members.php(191): include_once('/home/taitmacl/...')
+#2 {main}
+  thrown in /home/taitmacl/public_html/admin/member-profile-details.php on line 57
+[06-Nov-2015 15:43:24 Etc/GMT] PHP Fatal error:  Uncaught exception 'UnexpectedValueException' with message 'FilesystemIterator::__construct(MembersFiles/): failed to open dir: No such file or directory' in /home/taitmacl/public_html/admin/member-profile-details.php:57
+Stack trace:
+#0 /home/taitmacl/public_html/admin/member-profile-details.php(57): FilesystemIterator->__construct('MembersFiles/')
+#1 /home/taitmacl/public_html/admin/members.php(191): include_once('/home/taitmacl/...')
+#2 {main}
+  thrown in /home/taitmacl/public_html/admin/member-profile-details.php on line 57
+[06-Nov-2015 15:45:54 Etc/GMT] PHP Fatal error:  Uncaught exception 'UnexpectedValueException' with message 'FilesystemIterator::__construct(MembersFiles/): failed to open dir: No such file or directory' in /home/taitmacl/public_html/admin/member-profile-details.php:57
+Stack trace:
+#0 /home/taitmacl/public_html/admin/member-profile-details.php(57): FilesystemIterator->__construct('MembersFiles/')
+#1 /home/taitmacl/public_html/admin/members.php(191): include_once('/home/taitmacl/...')
+#2 {main}
+  thrown in /home/taitmacl/public_html/admin/member-profile-details.php on line 57
+[06-Nov-2015 15:45:58 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[06-Nov-2015 15:48:25 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[06-Nov-2015 15:50:11 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[06-Nov-2015 15:50:55 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[06-Nov-2015 15:55:46 Etc/GMT] PHP Fatal error:  Uncaught exception 'UnexpectedValueException' with message 'FilesystemIterator::__construct(MembersFiles/): failed to open dir: No such file or directory' in /home/taitmacl/public_html/admin/member-profile-details.php:57
+Stack trace:
+#0 /home/taitmacl/public_html/admin/member-profile-details.php(57): FilesystemIterator->__construct('MembersFiles/')
+#1 /home/taitmacl/public_html/admin/members.php(191): include_once('/home/taitmacl/...')
+#2 {main}
+  thrown in /home/taitmacl/public_html/admin/member-profile-details.php on line 57
+[06-Nov-2015 15:58:14 Etc/GMT] PHP Fatal error:  Uncaught exception 'UnexpectedValueException' with message 'FilesystemIterator::__construct(MembersFiles/): failed to open dir: No such file or directory' in /home/taitmacl/public_html/admin/member-profile-details.php:57
+Stack trace:
+#0 /home/taitmacl/public_html/admin/member-profile-details.php(57): FilesystemIterator->__construct('MembersFiles/')
+#1 /home/taitmacl/public_html/admin/members.php(191): include_once('/home/taitmacl/...')
+#2 {main}
+  thrown in /home/taitmacl/public_html/admin/member-profile-details.php on line 57
+[07-Nov-2015 03:44:27 Etc/GMT] PHP Fatal error:  Uncaught exception 'UnexpectedValueException' with message 'FilesystemIterator::__construct(MembersFiles/): failed to open dir: No such file or directory' in /home/taitmacl/public_html/admin/member-profile-details.php:57
+Stack trace:
+#0 /home/taitmacl/public_html/admin/member-profile-details.php(57): FilesystemIterator->__construct('MembersFiles/')
+#1 /home/taitmacl/public_html/admin/members.php(191): include_once('/home/taitmacl/...')
+#2 {main}
+  thrown in /home/taitmacl/public_html/admin/member-profile-details.php on line 57
+[07-Nov-2015 03:44:36 Etc/GMT] PHP Fatal error:  Uncaught exception 'UnexpectedValueException' with message 'FilesystemIterator::__construct(MembersFiles/): failed to open dir: No such file or directory' in /home/taitmacl/public_html/admin/member-profile-details.php:57
+Stack trace:
+#0 /home/taitmacl/public_html/admin/member-profile-details.php(57): FilesystemIterator->__construct('MembersFiles/')
+#1 /home/taitmacl/public_html/admin/members.php(191): include_once('/home/taitmacl/...')
+#2 {main}
+  thrown in /home/taitmacl/public_html/admin/member-profile-details.php on line 57
+[11-Nov-2015 11:32:28 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 248
+[11-Nov-2015 11:32:28 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 282
+[11-Nov-2015 20:52:37 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 248
+[11-Nov-2015 20:52:37 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 282
+[11-Nov-2015 20:58:58 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[11-Nov-2015 21:24:56 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[11-Nov-2015 21:26:09 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 248
+[11-Nov-2015 21:26:09 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 282
+[11-Nov-2015 21:26:29 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 248
+[11-Nov-2015 21:26:29 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 282
+[12-Nov-2015 16:51:49 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:02:55 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:06:46 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:07:24 Etc/GMT] PHP Notice:  Use of undefined constant getLimitedMembers - assumed 'getLimitedMembers' in /home/taitmacl/public_html/admin/members.php on line 4
+[12-Nov-2015 17:07:24 Etc/GMT] PHP Notice:  Use of undefined constant getMembersCount - assumed 'getMembersCount' in /home/taitmacl/public_html/admin/members.php on line 126
+[12-Nov-2015 17:07:24 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/members.php on line 127
+[12-Nov-2015 17:07:24 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/members.php on line 202
+[12-Nov-2015 17:08:19 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:10:29 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:10:32 Etc/GMT] PHP Notice:  Use of undefined constant getLimitedMembers - assumed 'getLimitedMembers' in /home/taitmacl/public_html/admin/members.php on line 4
+[12-Nov-2015 17:10:32 Etc/GMT] PHP Notice:  Use of undefined constant getMembersCount - assumed 'getMembersCount' in /home/taitmacl/public_html/admin/members.php on line 126
+[12-Nov-2015 17:10:32 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/members.php on line 127
+[12-Nov-2015 17:10:32 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/members.php on line 202
+[12-Nov-2015 17:10:34 Etc/GMT] PHP Notice:  Use of undefined constant getLimitedMembers - assumed 'getLimitedMembers' in /home/taitmacl/public_html/admin/members.php on line 4
+[12-Nov-2015 17:10:34 Etc/GMT] PHP Notice:  Use of undefined constant getMembersCount - assumed 'getMembersCount' in /home/taitmacl/public_html/admin/members.php on line 126
+[12-Nov-2015 17:10:34 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/members.php on line 127
+[12-Nov-2015 17:10:34 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/members.php on line 202
+[12-Nov-2015 17:11:14 Etc/GMT] PHP Notice:  Use of undefined constant getLimitedMembers - assumed 'getLimitedMembers' in /home/taitmacl/public_html/admin/members.php on line 4
+[12-Nov-2015 17:11:14 Etc/GMT] PHP Notice:  Use of undefined constant getMembersCount - assumed 'getMembersCount' in /home/taitmacl/public_html/admin/members.php on line 126
+[12-Nov-2015 17:11:14 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/members.php on line 127
+[12-Nov-2015 17:11:14 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/members.php on line 202
+[12-Nov-2015 17:11:25 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:11:30 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:15:52 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:16:01 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:16:04 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:16:35 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:17:44 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:17:47 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:19:36 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:21:21 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:22:04 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[12-Nov-2015 17:24:54 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 136
+[12-Nov-2015 17:24:58 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 136
+[12-Nov-2015 17:25:00 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 136
+[12-Nov-2015 17:25:03 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 136
+[12-Nov-2015 17:25:06 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 136
+[12-Nov-2015 17:26:50 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[13-Nov-2015 02:13:47 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 133
+[13-Nov-2015 02:22:38 Etc/GMT] PHP Parse error:  syntax error, unexpected end of file in /home/taitmacl/public_html/admin/useful-links.php on line 246
+[13-Nov-2015 02:22:41 Etc/GMT] PHP Parse error:  syntax error, unexpected end of file in /home/taitmacl/public_html/admin/useful-links.php on line 246
+[13-Nov-2015 02:25:57 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 137
+[13-Nov-2015 02:30:07 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/useful-links.php on line 137
+[13-Nov-2015 04:47:26 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[16-Nov-2015 09:05:57 Etc/GMT] PHP Notice:  Undefined variable: title in /home/taitmacl/public_html/admin/useful-links.php on line 81
+[16-Nov-2015 09:06:57 Etc/GMT] PHP Notice:  Undefined variable: title in /home/taitmacl/public_html/admin/useful-links.php on line 81
+[16-Nov-2015 09:10:03 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 27
+[16-Nov-2015 09:11:37 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 27
+[16-Nov-2015 09:15:53 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 27
+[16-Nov-2015 09:16:56 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 27
+[16-Nov-2015 09:17:04 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 27
+[19-Nov-2015 05:45:05 Etc/GMT] PHP Notice:  Undefined variable: email in /home/taitmacl/public_html/admin/index.php on line 134
+[19-Nov-2015 05:45:15 Etc/GMT] PHP Notice:  Undefined variable: email in /home/taitmacl/public_html/admin/index.php on line 134
+[19-Nov-2015 05:49:36 Etc/GMT] PHP Notice:  Undefined variable: membershipNumber in /home/taitmacl/public_html/admin/inc/admin.operations.inc.php on line 693
+[19-Nov-2015 05:49:36 Etc/GMT] PHP Notice:  Undefined variable: membershipNumber in /home/taitmacl/public_html/admin/inc/admin.operations.inc.php on line 695
+[19-Nov-2015 05:49:36 Etc/GMT] PHP Fatal error:  Call to undefined method taitmaAdminOperation::sendMembershipNumberEmail() in /home/taitmacl/public_html/admin/inc/admin.operations.inc.php on line 697
+[19-Nov-2015 05:51:54 Etc/GMT] PHP Fatal error:  Call to undefined method taitmaAdminOperation::sendMembershipNumberEmail() in /home/taitmacl/public_html/admin/inc/admin.operations.inc.php on line 697
+[19-Nov-2015 06:14:26 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 240
+[19-Nov-2015 06:14:26 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 274
+[19-Nov-2015 06:16:21 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[19-Nov-2015 06:17:19 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[19-Nov-2015 06:18:07 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[19-Nov-2015 06:18:32 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[23-Nov-2015 11:50:47 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[23-Nov-2015 11:50:49 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[23-Nov-2015 11:52:32 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[23-Nov-2015 11:52:35 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[23-Nov-2015 12:22:39 Etc/GMT] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/taitmacl/public_html/admin/register.php:45) in /home/taitmacl/public_html/admin/register.php on line 272
+[23-Nov-2015 19:19:07 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 240
+[23-Nov-2015 19:19:07 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 274
+[23-Nov-2015 19:25:55 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 240
+[23-Nov-2015 19:25:55 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 274
+[23-Nov-2015 19:27:36 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 240
+[23-Nov-2015 19:27:36 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 274
+[23-Nov-2015 19:30:43 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 240
+[23-Nov-2015 19:30:43 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 274
+[23-Nov-2015 19:31:48 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 240
+[23-Nov-2015 19:31:48 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 274
+[23-Nov-2015 19:33:31 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 240
+[23-Nov-2015 19:33:31 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/member-profile-details.php on line 274
+[23-Nov-2015 21:50:43 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[23-Nov-2015 21:51:43 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[23-Nov-2015 21:51:54 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[23-Nov-2015 21:52:06 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[23-Nov-2015 21:52:12 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[24-Nov-2015 03:23:52 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[24-Nov-2015 03:31:13 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[24-Nov-2015 03:57:35 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[24-Nov-2015 04:04:10 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[24-Nov-2015 04:04:37 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[24-Nov-2015 04:59:21 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[24-Nov-2015 05:22:09 Etc/GMT] PHP Notice:  Undefined variable: addLinkToken in /home/taitmacl/public_html/admin/edit-delete-useful-links.php on line 46
+[24-Nov-2015 06:03:10 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/news-events.php on line 89
+[24-Nov-2015 08:06:43 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/news-events.php on line 89
+[24-Nov-2015 08:07:13 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/news-events.php on line 89
+[24-Nov-2015 08:07:21 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/news-events.php on line 89
+[24-Nov-2015 08:08:17 Etc/GMT] PHP Notice:  Trying to get property of non-object in /home/taitmacl/public_html/admin/news-events.php on line 89

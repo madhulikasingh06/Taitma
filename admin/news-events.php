@@ -58,11 +58,11 @@
             </div>
             </div>
 
-
         <?php 
 
      $result = $db->query(getNewsAndEvents);
                 
+
                 if ($result->num_rows > 0) { 
 
                   while($row = $result->fetch_assoc()) {?>
@@ -76,8 +76,6 @@
                               </div>
                               <div class="col-sm-2">
                                 <button onclick="location.href='add-news-events.php?oper=edit&amp;id=<?php echo $row["ID"]; ?>'">Edit</button> 
-<!--                                 <button onclick="location.href='?oper=delNE&amp;id=<?php echo $row["ID"]; ?>'">Delete</button> 
- -->
                                  <button onClick="javascript:deleteNewsAndNotice('<?php echo ACTION_DELETE_NEWS;?>','<?php echo $row["ID"] ?>');" >Delete</button>
 
 
@@ -86,7 +84,15 @@
 
 
                             </div>
-                            <p><?php echo substr($row["data"], 0, 300); ?><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>">...(read more)</a></p>
+                            <p><?php  $article = $row["data"]; 
+
+                            if(strlen($article)<=301){
+                              echo  $article;
+                            }else {
+                              echo substr( $article, 0, 300);?>
+                              <a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>">...(read more)</a>
+                            <?php }    
+                            ?></p>
                           </div>
                           <div class="col-sm-1"></div>
 

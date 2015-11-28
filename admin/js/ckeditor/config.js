@@ -7,19 +7,16 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here.
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
- config.filebrowserBrowseUrl = 'js/kcfinder/browse.php?opener=ckeditor&type=files';
-   config.filebrowserImageBrowseUrl = 'js/kcfinder/browse.php?opener=ckeditor&type=images';
-   config.filebrowserFlashBrowseUrl = 'js/kcfinder/browse.php?opener=ckeditor&type=flash';
-   config.filebrowserUploadUrl = 'js/kcfinder/upload.php?opener=ckeditor&type=files';
-   config.filebrowserImageUploadUrl = 'js/kcfinder/upload.php?opener=ckeditor&type=images';
-   config.filebrowserFlashUploadUrl = 'js/kcfinder/upload.php?opener=ckeditor&type=flash';
 
 
-config.language = 'en';
-	config.uiColor = '#F5F4EF ';
-	config.height = 300;
-	config.width = 800;
-	config.toolbarCanCollapse = true;
+	config.filebrowserBrowseUrl = roxyFileman;
+	config.filebrowserImageBrowseUrl = roxyFileman+'?type=image';
+	config.filebrowserFlashBrowseUrl = roxyFileman+'?opener=ckeditor&type=flash';
+	config.filebrowserUploadUrl = roxyFileman+'?opener=ckeditor&type=files';
+	config.filebrowserImageUploadUrl = roxyFileman+'?opener=ckeditor&type=images';
+	config.filebrowserFlashUploadUrl = roxyFileman+'?opener=ckeditor&type=flash';
+
+
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
@@ -39,6 +36,7 @@ config.language = 'en';
 		{ name: 'about' }
 	];
 
+
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
 	config.removeButtons = 'Underline,Subscript,Superscript';
@@ -49,3 +47,4 @@ config.language = 'en';
 	// Simplify the dialog windows.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
 };
+

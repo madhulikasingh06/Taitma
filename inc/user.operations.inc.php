@@ -307,7 +307,7 @@ class taitmaMembersOperation {
 
         $email = $_POST["email"];
         $password = $_POST["pwd"];  
-        // $result = "";
+        $result = "";
 
 
         // echo "email : $email | password :  $password.";
@@ -535,8 +535,8 @@ class taitmaMembersOperation {
     private function updateProfile(){
 
         $result =  array();
-             $password = NULL;
-        $confirmPassword = NULL;
+             $password = "";
+        $confirmPassword = "";
   
          $email = $_POST["email"];
          $serial_no =intval($_POST["serial_no"]);

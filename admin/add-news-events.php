@@ -2,6 +2,9 @@
 
 <?php 
 
+    $previousePage= $_SERVER['HTTP_REFERER'];
+      
+
       $id=0;
       $articleType = $title = $content = $enabled = $premiumVal = $status1="";
       $articleTypeErr = $titleErr = $contentErr = $enableErr = $premiumValErr = "";
@@ -88,16 +91,13 @@
                     }
 
 
+                    $previousePage = $_POST["reqPage"];
+
                       if (!$isErrored) {
                         include_once "admin-operations.php";
                           $status1 = $status;
-                          if($articleType=="news"){
-                                echo "<meta http-equiv='refresh' content='0;/admin/news-events.php'>";
-                                exit;
-                          }else if ($articleType=="notice"){
-                              echo "<meta http-equiv='refresh' content='0;/admin/notice-board.php'>";
-                              exit;
-                          }
+                          header( "Location: ".$previousePage);
+                          exit;
                       }
           }
 
@@ -131,7 +131,7 @@
                 <input type="hidden" name="operation" value="add-news-events"/>
                 <input type="hidden" name="addNewsEventsPost" value="<?php echo $addNewsEventsToken ;?>"/>
                 <input type="hidden" name="id" value="<?php echo $id ;?>">
-
+                <input type="hidden" name="reqPage" value="<?php echo $previousePage ;?>">
                       
                   <div id="article-type-msg" class="error col-sm-offset-2"><?php echo $articleTypeErr?></div> 
                      <div class="form-group row">
@@ -186,10 +186,8 @@
 
                 <div class="row form-group center">                                      
                      <button type ="submit" >Submit</button>
-                      <button type="button" onclick="location.href='news-events.php'" >Cancel</button>                      
+                      <button type="button" onclick="location.href='<?php echo $previousePage?>'" >Cancel</button>                      
                 </div>                   
-
-
 
                 </form>
 
@@ -208,5 +206,14 @@
 <script>
                 // Replace the <textarea id="editor1"> with a CKEditor
                 // instance, using default configuration.
-      CKEDITOR.replace( 'content' );
+	var roxyFileman = 'js/fileman/index.html';
+ //  CKEDITOR.replace( 'content' );
+
+
+$(function(){
+   CKEDITOR.replace( 'content',{filebrowserBrowseUrl:roxyFileman,
+                                filebrowserImageBrowseUrl:roxyFileman+'?type=image',
+                                removeDialogTabs: 'link:upload;image:upload'}); 
+});
+
 </script>

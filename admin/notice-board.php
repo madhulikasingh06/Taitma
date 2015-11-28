@@ -80,7 +80,15 @@
 
 
                             </div>
-                            <p><?php echo substr($row["data"], 0, 300); ?><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>">...(read more)</a></p>
+                            <p><?php  $article = $row["data"]; 
+
+                            if(strlen($article)<=301){
+                              echo  $article;
+                            }else {
+                              echo substr( $article, 0, 300);?>
+                              <a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>">...(read more)</a>
+                            <?php }    
+                            ?></p>
                           </div>
                           <div class="col-sm-1"></div>
 

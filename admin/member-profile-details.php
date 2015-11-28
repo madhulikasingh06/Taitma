@@ -140,7 +140,7 @@
                   		<div class="form-group">
                   			<label for="membershipNumber" class="col-sm-4">Membership Number:&nbsp;<sup>*</sup></label>
                   			<input class="input-box col-sm-7 <?php if(!$membershipNumberErr==""){echo " errorBox" ;} ?>" id="membershipNumber" type="text" name="membershipNumber" value="<?php echo $membershipNumber?>" />
-                  		  <?php if(strlen(trim($membershipNumber))<7)  { ?>
+                  		  <?php if(strlen(trim($membershipNumber))<3)  { ?>
                         <div id="approve-button"><button type="button" onClick="validateAndApproveMembershipNumber('membershipNumber','<?php echo $memberSerial; ?>' , '<?php echo $email; ?>')">Approve!</button></div>
                         <?php } ?>
                     </div>        
@@ -235,16 +235,17 @@
                                 <?php
                                  // $sql="select * from Members_Categories" ;
 
-                                    $result = $db->query(getMembersCategories);
+                                    $resultC = $db->query(getMembersCategories);
 
-                                    if ($result->num_rows > 0) {
+                                    if ($resultC->num_rows > 0) {
 
-                                         while($row = $result->fetch_assoc()) {
+                                         while($row = $resultC->fetch_assoc()) {
 
                                          //    echo "id: " . $row["ID"]. " - category_ID: " . $row["category_ID"]. "  - category_desc:" . $row["category_desc"]. "<br>";
                                         
                                         ?>
-                                 <option value= "<?php echo $row["category_desc"]; ?>" <?php if($category_id==$row["category_ID"]){echo "selected";} ?> ><?php echo $row["category_desc"]; ?></option>
+                             <option value= "<?php echo $row["category_desc"]; ?>" <?php if($category_id==$row["category_ID"]){echo "selected";} ?> ><?php echo $row["category_desc"]; ?></option>
+<!--                                  <option value= "<?php echo $row["category_desc"]; ?>" <?php if($category==$row["category_desc"]){echo "selected";} ?> ><?php echo $row["category_desc"]; ?></option> -->
 
                                         <?php }
                                     } //else {
@@ -266,9 +267,14 @@
                              <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
                                 <option value="" ></option>
 
-                                <?php
+                                <?php 
                                   $sql="select * from Members_Type" ;
 
+                                    if (is_object($db)) {
+                                      echo "DB is alive";
+                                    }else {
+                                        echo "DB is not alive";
+                                    }
                                     $resultMembersType = $db->query($sql);
 
                                     if ($resultMembersType->num_rows > 0) {
@@ -347,7 +353,7 @@
                             <!-- <button type="Submit">Submit</button> -->
                             <button type="Submit">Update</button>
                             <button type="Reset">Reset</button>
-                             <button type="button" onClick="location.href = 'index.php'">Cancel</button>
+                             <button type="button" onClick="location.href = 'members.php'">Cancel</button>
                      </div>
 		
 

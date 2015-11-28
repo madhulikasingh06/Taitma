@@ -1,6 +1,15 @@
 <?php include_once "common/header.php"; ?>
 <?php $total_members=0;
-	  $records_per_page=RECORDS_PER_PAGE;
+
+		if(isset($_GET["recs"]) && !empty($_GET["recs"])){
+				  $records_per_page=intval($_GET["recs"]);
+
+		}else {
+				 $records_per_page=RECORDS_PER_PAGE;
+
+		}
+
+
 	  $query = getLimitedMembers;
 
 
@@ -286,18 +295,24 @@
 										$total_pages = ceil($total_members/$records_per_page);	
 
 
-										echo "<li><a href='members.php?page=1'>".'&laquo;'."</a></li>"; // Goto 1st page  
+										echo "<li><a href='members.php?recs=".$records_per_page."&page=1'>".'&laquo;'."</a></li>"; // Goto 1st page  
 
 										for ($i=1; $i<=$total_pages; $i++) { 
-										       echo "<li><a href='members.php?page=".$i."'>".$i."</a></li> "; 
+										       echo "<li><a href='members.php?recs=".$records_per_page."&page=".$i."'>".$i."</a></li> "; 
 										}; 
-										echo "<li><a href='members.php?page=".$total_pages."'>".'&raquo;'."</a></li>"; 
-								}
-
-
-
+										echo "<li><a href='members.php?recs=".$records_per_page."&page=".$total_pages."'>".'&raquo;'."</a></li>"; 
 								?>
 							</ul>
+						
+						<form action="" >
+							<select name="recs" onchange="this.form.submit()">
+								<option value="25" <?php if($records_per_page==25){echo 'selected'; }?>>25 Records per page</option>
+								<option value="50" <?php if($records_per_page==50){echo 'selected'; }?>>50 Records per page</option>
+								<option value="100" <?php if($records_per_page==100){echo 'selected'; }?>>100 Records per page</option>
+								<option value="<?php echo $total_members; ?>" <?php if($records_per_page==$total_members){echo 'selected'; }?>>All</option>
+							</select>
+						</form>
+						<?php } ?>
 
 					</div>
 					
@@ -310,7 +325,7 @@
     
     </div> <!-- approve-members-page div ends -->  
     
-    </div> <!-- members-page div ends -->  
+    <!-- </div>  --><!-- members-page div ends -->  
 
 
 <?php include_once "common/footer.php"; ?>

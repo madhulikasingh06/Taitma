@@ -114,6 +114,8 @@ define("ERR_DROP_DOWN_REQUIRED", "Please choose a value.");
 
 define("MSG_ACCOUNT_REGISTRATION_BYADMIN_SUCCESS", "The user was successfully created.");
 define("ACTION_DELETE_NEWS", "news-del");
+define("ACTION_DELETE_BANNER", "banner-del"); 
+define("BANNER_FOLDER", "../images/FooterBanners/");
 
 
 

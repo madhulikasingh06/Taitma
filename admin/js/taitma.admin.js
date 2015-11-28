@@ -418,8 +418,10 @@
           if(lastChildID != undefined){
 
               var lastId = lastChildID.split("-");
-              // alert(lastId[lastId.length-1]);
-              counter=parseInt(lastId[lastId.length-1])+1;
+               // alert(lastId[lastId.length-2]);
+               /*get the counter from last child 
+                divName+"-"+counter+"-div"*/
+              counter=parseInt(lastId[lastId.length-2])+1;
             
             }
           
@@ -465,8 +467,10 @@
 
     function ValidateURL(url) { 
         var v = new RegExp(); 
+
+        v.compile(/^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i);
         // v.compile(/^(?:(ftp|http|https):\/\/)?(?:[\w-]+\.)+[a-z]{3,6}$/gi); 
-        v.compile( /((ftp|http|https)?:\\)?([\w-]+\.)+[\w-]+[.com|.in|.org]+(\[\?%&=]*)?/);
+        // v.compile( /((ftp|http|https)?:\\)?([\w-]+\.)+[\w-]+[.com|.in|.org]+(\[\?%&=]*)?/);
         if (v.test(url)) { 
              // alert("You must supply a valid URL."+url); 
            return true; 
@@ -633,6 +637,73 @@
   }
 
 
+
+  function addInputBanner(divId, counter){
+
+      counter=parseInt(counter);
+
+
+          var lastChildID = document.getElementById(divId).lastChild.id;
+
+//             alert("last child : "+lastChildID);
+
+          if(lastChildID != undefined){
+
+              var lastId = lastChildID.split("-");
+//                alert(lastId[lastId.length-1]);
+              counter=parseInt(lastId[lastId.length-1])+1;
+            
+            }
+
+//                  alert("divId : "+divId+" and   counter ::"+counter);
+          
+          // var id=divId+"-"+counter;
+           var bannerDivID =divId+"-"+counter;
+
+           var bannerDiv = document.createElement('div');
+           bannerDiv.id = bannerDivID;
+           bannerDiv.className+="col-sm-11";
+
+            //error div 
+            var errDiv = document.createElement('div');
+            // errDiv.id=id+"-msg";
+            errDiv.className+=" error row";
+
+            //  "<div id='"+id+"-msg'"+ "class=' center error row'></div>"+
+
+            errDiv.innerHTML = "<div class='col-sm-1 error' ><?php if(!empty($orderErr["+counter+"])) echo $orderErr["+counter+"]; ?></div>"+        
+                      "<div class='col-sm-3 error' ><?php if(!empty($companyErr["+counter+"]))echo $companyErr["+counter+"]; ?></input></div>"+
+                      "<div class='col-sm-3 error' ><?php if(!empty($linkErr["+counter+"]))echo $linkErr["+counter+"]; ?></input></div>"+
+                      "<div class='col-sm-2 error' ><?php if(!empty($imageErr["+counter+"]))echo $imageErr"+counter+"]; ?></div>"+
+                      "<div class='col-sm-2 error' ><?php if(!empty($enableErr["+counter+"]))echo $enableErr["+counter+"]; ?></div>";
+
+
+
+
+
+            var newdiv = document.createElement('div');
+            newdiv.className+= " row";
+            
+            newdiv.innerHTML = "<div class='col-sm-1'><input class='input-box-link' id='banners["+counter+"][order]' name='banners["+counter+"][order]' type='text' size='2'</input></div>"+     
+                      "<div class='col-sm-3'><input class='input-box-link' name='banners["+counter+"][company]' type='text'  </input></div>"+
+                      "<div class='col-sm-3'><input class='input-box-link' name='banners["+counter+"][link]' type='text'  </input></div>"+
+                      "<div class='col-sm-2'><input class='input-box-link' name='banners["+counter+"][image]' type='file' </input></div>"+
+                      "<div class='col-sm-2'>"+
+                        "<select class='input-box-link' type='select'  name='banners["+counter+"][enable]' >"+
+                                        "<option value=''  >Please choose.</option>"+
+                                        "<option value='1' <?php if(isset( $banners["+counter+"['enable']) && $banners["+counter+"]['enable']=='1')  echo 'selected' ?> >Enable</option>"+
+                                        "<option value='0' <?php if(isset( $banners["+counter+"]['enable']) && $banners["+counter+"]['enable']=='0')  echo 'selected'?> >Disable</option>"+                        
+                                    "</select>"+ 
+                      "</div>"+
+                      "<div class='col-sm-1'><a href='#'' onClick='removeInput(\""+ bannerDivID +"\");'><span class='sign-link' style='padding-left:10px;'>-</span></a></div>";
+              bannerDiv.appendChild(errDiv);
+              bannerDiv.appendChild(newdiv);
+            
+            document.getElementById(divId).appendChild(bannerDiv);
+
+  
+
+  }
 
 
 

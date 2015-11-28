@@ -40,16 +40,18 @@
  </div><!-- body div end-->
 
 			<div class="site-footer" > <!--site footer div start-->
-				<ul>
-					<li><a href="#"><img src="images/footer/add-01.jpg"></li>
-					<li><a href="#"><img src="images/footer/add-02.jpg"></li>
-					<li><a href="#"><img src="images/footer/add-03.jpg"></li>
-					<li><a href="#"><img src="images/footer/add-04.jpg"></li>
-					<li><a href="#"><img src="images/footer/add-05.jpg"></li>
-					<li><a href="#"><img src="images/footer/add-06.jpg"></li>
-					<li><a href="#"><img src="images/footer/add-07.jpg"></li>
-					<li><a href="#"><img src="images/footer/add-08.jpg"></li>
-					
+			<ul>
+			<?php
+				$result = $db -> query(getFooterImages);
+
+				 if ($result->num_rows > 0) { 
+
+                          while($row = $result->fetch_assoc()) { ?>
+
+                          	<li><a href="http://<?php echo $row['link']?>" target="_blank" title="<?php echo $row['company_name'] ; ?>"><img src="<?php echo BANNER_FOLDER.$row['Image_name'] ?>" alt="<?php echo $row['company_name'] ; ?>"></li>
+                  <?php   }
+                }
+			?>
 				</ul>
 			</div> <!--site footer div end-->
 	

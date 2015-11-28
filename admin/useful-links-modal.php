@@ -44,7 +44,7 @@
                   <!-- Modal content-->
                   <div class="modal-content" style="border:1px solid #0ABDC8">
                     <div class="modal-header site-header white-text ">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <button type="button" class="close" data-dismiss="modal" onclick="location.href='useful-links-modal.php'">&times;</button>
                       <h4 class="center">Add Link</h4>
                     </div>
 
@@ -85,7 +85,7 @@
                                               <div class="form-group">
                                                 <div class="col-sm-3"><label for="premium_val">Premium Value:</label></div>
                                                 <div class="col-sm-7"><select  class="form-control input-box-link"  type="select" id="premium_val-0" name="premium_val">
-                                                    <option value=""></option>
+                                                    <option value="">Please choose.</option>
                                                     <option value="0">Regular</option>
                                                     <option value="1">Premium</option>                         
                                                   </select>
@@ -96,7 +96,7 @@
                                               <div class="form-group">
                                                  <div class="col-sm-3"><label for="enabled">Enable:</label></div>
                                                     <div class="col-sm-7"><select class="form-control input-box-link" type="select"  id="enabled-0"  name="enabled">
-                                                      <option value=""></option>
+                                                      <option value="">Please choose.</option>
                                                       <option value="1">Enable</option>
                                                       <option value="0">Disable</option>                         
                                                   </select> 
@@ -106,7 +106,8 @@
                                               <div class="col-sm-offset-4 col-sm-8">                                      
                                                     <button type ="Button" onClick="javascript:updateUsefulLinks('<?php echo ACTION_ADD;?>','0');" >Submit</button>
                                                     <button type="Reset">Reset</button>
-                                                    <button type="button"  data-dismiss="modal" >Cancel</button>                      
+                                                    <button type="button"  onclick="location.href='useful-links-modal.php'">Cancel</button>
+                   
                                               </div>
 
                                       </form>
@@ -217,7 +218,6 @@
               } else {
                  // echo "0 results";
               }
-              $db->close();
 
         } ?>
                 

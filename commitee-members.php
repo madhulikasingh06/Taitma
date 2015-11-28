@@ -164,17 +164,8 @@
 
 
 
-	</div><!-- commitee-members div ends-->
-
-    
-
-
-   
-
-      </div> <!--commitee-members-page div ends  -->
-
-
-
+		</div>
+		<!-- commitee-members div ends-->
 
 
 <?php include_once "common/footer.php"; ?>

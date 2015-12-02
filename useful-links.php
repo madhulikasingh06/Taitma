@@ -73,7 +73,7 @@
               } else {
                  // echo "0 results";
               }
-              $db->close();
+//               $db->close();
 
             ?>
 

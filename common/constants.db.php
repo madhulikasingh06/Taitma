@@ -23,7 +23,7 @@
 
     define('getNoticeForMemberType',"SELECT * FROM News_And_Notices where article_type='notice' and enabled=1 and (premium_val = ");
 
-    define("getFooterImages", "SELECT * From Banners WHERE enabled=1 ORDER By 'Image_order' LIMIT 8;")
+    define("getFooterImages", "SELECT * From Banners WHERE enabled=1 ORDER By Image_order ASC LIMIT 8;")
 
     
 

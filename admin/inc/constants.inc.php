@@ -103,7 +103,7 @@ define("ERR_LINK_ADD_FAILED","There was some error processing your request.The l
 // define("ERR_MEMBERSHIP_NO_REQUIRED", "Please enter a membership number.");
 
 define("ERR_MEMBERSHIPNO_LENGTH", "Please enter a membership number of minimun 8 digits.");
-define("ERR_MEMBERSHIPNO_EXISTS", "This membership number alreay exists.");
+define("ERR_MEMBERSHIPNO_EXISTS", "This membership number already exists.");
 
 define("MEMBER_APPROVED_SUBJECT", "[TAITMA]- Membership approved!");
 

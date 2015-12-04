@@ -99,7 +99,43 @@
                   return   $pageName = "Register";
             }else if ($current == "forgotPassword.php") {
               return $pageName = "Forgot Password";
+            }else if ($current == "messages.php"){
+              return $pageName = "Messages";
             }   
+    }
+
+
+        function getNavBarPremium() {
+
+          global $pageName;
+          $nav_tabs=array('index',
+                           'about-us.php',
+                          'commitee-members.php',
+                          'news-events.php',
+                          'useful-links.php',
+                          'quality-parameters.php',
+                          'toy-guide.php',
+                          'messages.php'); 
+    
+          $current=getCurrentPage();    
+             foreach($nav_tabs as $nav)
+             {
+
+                //ASSIGN THE PAGE NAME                  
+                $pageName = getPageName($nav);
+                  //echo "nav val ::".$nav;
+
+                    if($nav == $current)
+                   {
+                   // echo "nav val ::".$nav;
+                       echo"<li class='active' > <a href='$nav' > $pageName </a></li>";
+                   }
+                   else
+                  {
+                       echo"<li> <a href='$nav' >  $pageName  </a></li>";
+                  }
+             }
+
     }
  
 ?>

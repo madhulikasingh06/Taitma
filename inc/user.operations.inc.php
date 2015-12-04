@@ -56,7 +56,12 @@ class taitmaMembersOperation {
             return $this -> updateProfile();
         }else if ($operation == "newPwd"){
           return $this -> generateNewPassword();
+        }else if ($operation == "drop-message"){
+          return $this -> dropMessage();
+        }else if($operation == "forwardMessage"){
+         return $this -> forwardMessage();
         }
+
 
     }
 
@@ -325,8 +330,7 @@ class taitmaMembersOperation {
             
                      if ($select=$stmt->execute()) {
 
-                        $stmt->bind_result($accountStatus);
-                        
+                         $stmt->bind_result($accountStatus);
 
                             while ($stmt->fetch()){
 
@@ -336,7 +340,7 @@ class taitmaMembersOperation {
 
                                     $result= array(ERROR ,ERR_ACCOUNT_LOGIN_FAILED);
 
-                                }else if ($accountStatus==0) {
+                                }else if ($accountStatus == 0) {
                                     
                                     $result= array(ERROR ,ERR_ACCOUNT_LOGIN_UNVERIFIED);
 
@@ -440,7 +444,6 @@ class taitmaMembersOperation {
                 }else {
                     echo "error  ::". $this->_db->error;
                 }   
-
 
                 $stmt->close();
 
@@ -763,7 +766,7 @@ class taitmaMembersOperation {
 
                                        $subject = PASSWORD_UPDATE_SUBJECT;
 
-                                          $this->sendMail($username,$subject,$html,$text);
+                                          $this->sendMail($username,$subject,$html,$text,"");
                                           $statusMsg = PASSWORD_UPDATE_SUCCESS;
 
                                       }else {
@@ -805,7 +808,7 @@ class taitmaMembersOperation {
 
 
 
-      private function sendMail($email,$subject,$html,$text){
+      private function sendMail($email,$subject,$html,$text,$replyto){
             
             $from = array(EMAILID_FROM =>EMAIL_FROM);
             $to = array( $email=> $email);
@@ -822,12 +825,22 @@ class taitmaMembersOperation {
             $message->setTo($to);
             $message->addPart($text, 'text/plain');
 
+
+
+            if(!$replyto==""){
+
+              $message->setReplyTo($replyto);
+            }
+
+
             if ($recipients = $swift->send($message, $failures))
             {
-             echo 'Message successfully sent!';
+             // echo 'Message successfully sent!';
+             return true;
             } else {
-              echo "There was an error:\n";
-              print_r($failures);
+              // echo "There was an error:\n";
+              // print_r($failures);
+               return false;
             }
       }
 
@@ -921,6 +934,101 @@ class taitmaMembersOperation {
 
 
     }
+
+
+    private function dropMessage(){
+
+        $name=stripslashes($_POST["name"]);
+        $email=$_POST["email"];
+        $premium_val=stripslashes($_POST["premium_val"]);
+        $message=$this->_db->real_escape_string($_POST["message"]);
+        $category="";
+        if(isset($_POST["category"])){
+                  $category=stripslashes($_POST["category"]);
+
+        }
+        $companyName = stripcslashes($_POST["companyName"]);
+        $phone = stripcslashes($_POST["phone"]);
+
+          $sql = "INSERT INTO Messages(name,email,company_name,phone,message,premium_val,category)
+                VALUES(?, ?,?,?,?,?,?)";
+
+                if($stmt = $this->_db->prepare($sql)) {
+                    $stmt->bind_param("sssssis", $name, $email,$companyName,$phone, $message, $premium_val,$category);
+                   
+                    if($stmt->execute()){
+                      $status = SUCCESS;
+                       $userID = $this->_db->insert_id;
+                       echo "insert ID ".$userID;
+
+                    }else {
+                       $status = ERROR;
+                      $status =" ERR_LINK_ADD_FAILED";
+                        echo "error  ::". $this->_db->error;
+
+                    }     
+      
+                 }else {
+
+                   $status = ERROR;
+                    echo "error  ::". $this->_db->error;
+
+                 }
+
+    }
+
+
+    private function forwardMessage(){
+
+      $id = $_GET["id"];
+      $replyto  = $text = $name = $companyName = $phone = $message = $category ="";
+
+      $toEmail = $_SESSION["userID"];
+      $sql="SELECT * FROM Messages WHERE ID =".$id;
+
+   
+      $result = $this->_db->query($sql);
+       
+        if ($result->num_rows > 0) { 
+        
+            while($row = $result->fetch_assoc()) {
+                $replyto = $row["email"];
+                $name = $row["name"];
+                $companyName = $row["company_name"];
+                $phone = $row["phone"];
+                $message = $row["message"];
+                $category = $row["category"];
+                
+
+
+            }
+
+        }
+
+        $html = "Hi<br />You forwarded below message from Taitma.<br /><b><i>Name : </i></b>".$name."<br><b><i>Company Name : </i></b>".$companyName.
+                "<br/><b><i>Phone : </i></b>".$phone."<br /><b><i>Categoty : </i></b>".$category."<br/>".$message;
+
+        $text = "Hi\n You forwarded below message from Taitma.\n Name : ".$name."\n Company Name :".$companyName.
+                "\n Phone : ".$phone."\n Categoty : ".$category."\n".$message;
+
+        $subject = MESSAGE_FORWARD_SUBJECT;
+
+         if($this->sendMail($toEmail,$subject,$html,$text, array($replyto))){
+
+          echo "Message was sent to your email.";
+
+          
+        
+         }else {
+
+          echo  "There was some error sending email.";
+         }
+
+         return;
+
+
+    }
+
 
 
 

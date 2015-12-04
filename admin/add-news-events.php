@@ -117,7 +117,7 @@
         
         <?php include_once "common/inner-nav-bar.php"; ?>
         <div class="row">
-            <div class="col-sm-offset-1  col-sm-8 page-content-style">
+            <div class="col-sm-offset-1  col-sm-10 page-content-style">
               
               <div class="status-msg"><?php echo $status1; ?></div>
               
@@ -126,7 +126,9 @@
 
               <?php 
                    $addNewsEventsToken = sha1(time());
-                  $_SESSION["addNewsEvents"]=$addNewsEventsToken; ?>
+                  $_SESSION["addNewsEvents"]=$addNewsEventsToken; 
+
+                  ?>
 
                 <input type="hidden" name="operation" value="add-news-events"/>
                 <input type="hidden" name="addNewsEventsPost" value="<?php echo $addNewsEventsToken ;?>"/>
@@ -149,7 +151,7 @@
                     <div id="title-msg" class=" col-sm-offset-2 error"><?php echo $titleErr ?></div> 
                     <div class="form-group row">
                       <div class="col-sm-2"><label for="title">Title:</label></div>
-                       <div class="col-sm-10"><input type="text" name="title" class="input-box-link" value ="<?php echo $title ?>" > </input></div>
+                       <div class="col-sm-10"><input type="text" name="title" class="input-box" value ="<?php echo $title ?>" > </input></div>
                     </div>
 
 

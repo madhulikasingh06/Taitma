@@ -113,7 +113,7 @@ a:hover {
 .nav-menu-style ul {
     list-style-type: none;
     margin: 0;
-    padding: 92px 0 0 5px;
+    padding: 92px 0 0 2px;
 
 }
 
@@ -126,12 +126,14 @@ a:hover {
 
 .nav-menu-style a,.nav-menu-right a{
     padding: 10px 0px 10px 0px;
-	margin:0 6px 0 7px;
+	margin:0 5px 0 5px;
 	text-decoration: none; 
 	color:#EDEBE7 ; 
 	padding-bottom: 3px;
 	border-bottom: 1px solid #EDEBE7; 
 	outline: none;
+	font-size: 12px;
+
 }
 
 .nav-menu-right ul{
@@ -144,6 +146,7 @@ a:hover {
 	text-decoration: none; 
 	color: #000000;
 	border-bottom:1px solid #000000;
+
 
 }
 
@@ -443,15 +446,18 @@ div.carousel-caption {
 
 
 .site-footer img{
-	padding: 0px 11px;
-	height: 50px;
-	max-height: 190px;
+	padding: 0px 10px 0px 10px;
+	height: 60px;
+/*	max-height: 190px;
+*/	width:auto;
+	max-width: 118px;
+
 }
 
 .site-footer ul {
-	padding: 10px 0px 0px 0px;
+	/*padding: 10px 0px 0px 0px;*/
 	list-style-type: none;
-
+	padding-top: 10px;
 
 }
 
@@ -741,4 +747,48 @@ font-size: 12px;
 
 .white-text{
 	color: #EDEBE7;
+}
+/*
+.custom-modal {
+   width: 1000px;
+    margin-left: 50px;
+    margin-right: auto;
+    margin-top: 50px;
+
+}
+
+.modal-content {
+    width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}*/
+
+
+.button-common {
+	background: rgb(#0ABDC8);
+	background: -moz-linear-gradient(top,  #EDEBE7 0%, #0ABDC8 100%);
+	background: -webkit-linear-gradient(top,   #EDEBE7 0%, #0ABDC8 100%);
+	background: -o-linear-gradient(top, #EDEBE7 0%, #0ABDC8 100%);
+	background: -ms-linear-gradient(top,   #EDEBE7 0%, #0ABDC8 100%);
+	background: linear-gradient(top,  #EDEBE7 0%, #0ABDC8 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EDEBE7', endColorstr='#0ABDC8',GradientType=0 );
+	border-radius: none;
+	color: #000000;
+	float: left;
+	position: relative;
+	margin:5px;
+}
+.button-cancel{
+	background: rgb(#EDEBE7);
+	background: -moz-linear-gradient(top,  #EDEBE7 0%, #EDEBE7 100%);
+	background: -webkit-linear-gradient(top,   #EDEBE7 0%, #EDEBE7 100%);
+	background: -o-linear-gradient(top, #EDEBE7 0%, #EDEBE7 100%);
+	background: -ms-linear-gradient(top,   #EDEBE7 0%, #EDEBE7 100%);
+	background: linear-gradient(top,  #EDEBE7 0%, #EDEBE7 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EDEBE7', endColorstr='#EDEBE7',GradientType=0 );
+	border-radius: none;
+	color: #000000;
+	float: left;
+	position: relative;
+	margin:5px;
 }

@@ -73,7 +73,17 @@ include_once "inc/user.operations.inc.php";
  <div id="nav-menu" class="col-sm-8 nav-menu-style">
 
        <ul>
-            <?php getNavBar();?>
+          <?php if(isset($_SESSION["memberType"]) && $_SESSION["memberType"]>0 ) { 
+
+              getNavBarPremium();
+
+
+          }else {
+            getNavBar();
+
+          } ?>
+
+
         </ul>
     </div>
 

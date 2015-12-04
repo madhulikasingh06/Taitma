@@ -468,9 +468,14 @@
     function ValidateURL(url) { 
         var v = new RegExp(); 
 
-        v.compile(/^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i);
+
+        // v.compile(/^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i);
         // v.compile(/^(?:(ftp|http|https):\/\/)?(?:[\w-]+\.)+[a-z]{3,6}$/gi); 
         // v.compile( /((ftp|http|https)?:\\)?([\w-]+\.)+[\w-]+[.com|.in|.org]+(\[\?%&=]*)?/);
+
+        
+        v.compile(/((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\.\/\?\:@\-_=#])*/);
+
         if (v.test(url)) { 
              // alert("You must supply a valid URL."+url); 
            return true; 

@@ -69,6 +69,8 @@ class taitmaAdminOperation {
           return $this -> deleteNewsAndNotice();  
         }else if ($operation == "add-banners"){
           return $this -> addUpdateBanners();
+        }else if ($operation == "edit-profile"){
+            return $this -> updateProfile();
         }
 
 
@@ -430,14 +432,14 @@ class taitmaAdminOperation {
 
         try {
 
-            $stmt = $this->_db->prepare("CALL verifyAdminLogin(?,?,@accountStatus)");
+            $stmt = $this->_db->prepare("CALL verifyAdminLogin(?,?,@accountStatus,@memberType,@serialNo)");
             $stmt -> bind_param ("ss",$email,$password);
 
 
             
                      if ($select=$stmt->execute()) {
 
-                        $stmt->bind_result($accountStatus);
+                        $stmt->bind_result($accountStatus,$memberType,$serialNo);
 
                             while ($stmt->fetch()){
 
@@ -454,9 +456,11 @@ class taitmaAdminOperation {
 
                                 }else if ($accountStatus==1){
 
+                                   $_SESSION["accountStatus"]=$accountStatus;
                                     $_SESSION["loggedIN"]=1;
-                                    $_SESSION['userID']="$email";
-
+                                    $_SESSION["userID"]=$email;
+                                    $_SESSION["userSrNo"]=$serialNo;
+                                    $_SESSION["memberType"] = $memberType;
                                     $result= array(SUCCESS ,MSG_ACCOUNT_LOGIN_SUCCESS);
 
 
@@ -1052,6 +1056,197 @@ class taitmaAdminOperation {
           return;
 
     }
+
+    private function updateProfile(){
+
+        $result =  array();
+             $password = "";
+        $confirmPassword = "";
+  
+         $email = $_POST["email"];
+         $serial_no =intval($_POST["serial_no"]);
+        $company_name = $_POST["companyName"];
+        $contact_person = $_POST["contactPerson"];
+        $address_1 = $_POST["address1"];
+        $address_2 = $_POST["address2"];
+        $city = $_POST["city"];
+        $pincode = $_POST["pincode"];
+        $state = $_POST["state"];
+        $phone = $_POST["phone"];
+        $mobile = $_POST["mobile"];
+        $website = $_POST["website"];
+        $region = $_POST["region"];
+        $category = $_POST["category"];
+        $member_specified_category = $_POST["memberSpecifiedCategory"];
+        $member_type = $_POST["memberType"];
+        $other_details = $_POST["otherDetails"];
+        $doc_1 = NULL;
+        $doc_2 = NULL;
+        $oldFile1 = "";
+        $oldFile2 = "";
+
+        $result =  array();
+
+        $email = stripslashes($email);
+
+        if(!empty($_POST["password"])){
+          echo "Setting new password";
+                  $password = $_POST["password"];
+                  $confirmPassword = $_POST["confirmPassword"];
+                  $password = md5(stripslashes($password));
+                 echo $password; 
+
+        }
+
+        echo "$other_details";
+
+
+        try {
+
+           // encrypt the password
+           
+            $stmt = $this->_db->prepare("CALL updateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
+            $stmt -> bind_param("isssssssssssssssss",
+                                                      $serial_no,
+                                                      $password,
+                                                       $company_name , 
+                                                        $contact_person, 
+                                                        $address_1, 
+                                                        $address_2, 
+                                                        $city, 
+                                                        $pincode,
+                                                        $state, 
+                                                        $phone,
+                                                        $mobile,
+                                                        $email, 
+                                                        $website, 
+                                                        $region, 
+                                                        $category,
+                                                        $member_specified_category, 
+                                                        $member_type,
+                                                        $other_details
+                                                        );
+
+
+                    
+                if ($select=$stmt->execute()) {
+
+                        $stmt->bind_result($status);
+
+                            while ($stmt->fetch()){
+                               echo " status : $status";
+                              if($status==1){
+
+                                  //update the files 
+
+
+                                  // Get the local files 
+
+
+
+                                   $iterator = new FilesystemIterator(MEMBER_FILE_UPLOAD_FOLDER);
+                                   $filter = new RegexIterator($iterator, "/($serial_no)_*.*$/");
+                                      if (iterator_count( $filter)>0) {
+                                                foreach($filter as $entry) {
+
+                                                        $filename = $entry->getFilename();
+                                                        $filenameArray = explode("_", $filename);
+                                                 
+                                                        if($filenameArray[1]=="1"){
+                                                            $oldFile1 = $filename;
+                                                        }else if ($filenameArray[1]=="2"){
+                                                          $oldFile2 = $filename;
+                                                        }
+
+                                                     }
+                                                        
+
+                                              }
+
+
+                                    if(!empty($_FILES["doc1"]['tmp_name'])) {
+
+                                          if(!empty($oldFile1)){
+                                          
+                                            // Delete the old file and store new file
+                                            $docNew_tmpname=$_FILES['doc1']['tmp_name'];
+                                            $docNew_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
+
+                                            // echo "updating doc 1";
+                                            unlink(MEMBER_FILE_UPLOAD_FOLDER.$oldFile1);
+                                            move_uploaded_file($docNew_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$docNew_filename);
+                                                      
+
+                                          }else {
+
+                                            // store the new file
+                                             $doc1_tmpname=$_FILES['doc1']['tmp_name'];
+                                             $doc_1_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
+                                             move_uploaded_file($doc1_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_1_filename);
+
+                                         
+
+                                          }
+
+
+                                    }
+
+
+                                  if(!empty($_FILES["doc2"]['tmp_name'])) {
+
+                                          if(!empty($oldFile2)){
+
+                                                $doc2New_tmpname=$_FILES['doc2']['tmp_name'];
+                                                $doc2New_filename=$serial_no."_2_".$_FILES["doc2"]["name"];
+
+                                                echo "updating doc 2";
+
+                                                 unlink(MEMBER_FILE_UPLOAD_FOLDER.$oldFile2);
+                                                 move_uploaded_file($doc2New_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc2New_filename);
+                                                   
+                                          }else {
+
+                                                  echo "inside class doc 2";
+                                                  $doc2_tmpname=$_FILES['doc2']['tmp_name'];
+                                                  $doc_2_filename= $serial_no."_2_".$_FILES["doc2"]["name"];
+                                                  move_uploaded_file($doc2_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_2_filename);
+                                           
+                                          }
+                                    }
+                                         
+                                  $result = array(SUCCESS ,MSG_ACCOUNT_EDIT_PROFILE_SUCCESS);
+                              } else {
+                                  $result = array(ERROR ,ERR_ACCOUNT_EDIT_PROFILE);
+
+                              }
+
+                            }
+
+
+
+
+                }else {
+                         echo "error  ::". $this->_db->error;
+                         $returnMessage[] ="Error occurred : ". $this->_db->error;                         
+                         $result= array(ERROR ,ERR_ACCOUNT_EDIT_PROFILE);
+
+                }
+
+
+           $stmt->close();  
+        } catch (Exception $pe) {
+            echo "in registerUser method error msg: ".$pe->getMessage();
+            die("Error occurred:" . $pe->getMessage());
+            $result =  array(ERROR ,ERR_ACCOUNT_EDIT_PROFILE);
+        }
+
+
+       
+
+        return $result;
+
+    }
+
 
 
 }

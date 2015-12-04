@@ -351,9 +351,9 @@
 
                         <div class="col-sm-offset-4 col-sm-8"  style="padding-top:10px;">
                             <!-- <button type="Submit">Submit</button> -->
-                            <button type="Submit">Update</button>
-                            <button type="Reset">Reset</button>
-                             <button type="button" onClick="location.href = 'members.php'">Cancel</button>
+                            <button type="Submit" class="button-common ">Update</button>
+                            <button type="Reset" class="button-common">Reset</button>
+                             <button type="button" class="button-cancel" onClick="location.href = 'members.php'">Cancel</button>
                      </div>
 		
 

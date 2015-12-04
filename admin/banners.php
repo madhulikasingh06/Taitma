@@ -82,15 +82,18 @@
         							foreach ($banners as $i => $banner)
         						
         							{ ?>
-        								<div id="banners-div-<?php echo $i?>" class="row">												
+        								<div id="banners-div-<?php echo $i?>" class="row" style="padding-bottom:10px;">												
         										<div class="" id="">
         											<div class="col-sm-1 center"><?php echo $banners[$i]['order'] ?></input></div>
         											<div class="col-sm-3"><?php echo $banners[$i]['company'] ?></input></div>					
-        											<div class="col-sm-3"><a href="http://<?php echo $banners[$i]['link'] ?>" target="_blank"><?php echo $banners[$i]['link'] ?></a></input></div>
-        											<div class="col-sm-2"><a href="<?php echo BANNER_FOLDER.$banners[$i]['name'] ?>" target="_blank"><?php echo $banners[$i]['name'] ?></a></div>
+        											<div class="col-sm-2"><a href="<?php  if(!(substr($banners[$i]['link'],0,4)=="http")){echo "http://" ;}echo $banners[$i]['link'] ;?>" target="_blank"><?php echo $banners[$i]['link'] ?></a></input></div>
+        											<div class="col-sm-3 center">
+                                                        <img src="<?php echo BANNER_FOLDER.$banners[$i]['name'] ?>"  class="img-thumbnail">
+<!--                                                         <a href="<?php echo BANNER_FOLDER.$banners[$i]['name'] ?>" target="_blank"><?php echo $banners[$i]['name'] ?></a> -->
+                                                    </div>
 
         											<div class="col-sm-1">
-                                <?php if($banners[$i]['enable']){echo 'Enabled' ; }else {echo 'Disabled' ;} ?>
+                                                        <?php if($banners[$i]['enable']){echo 'Enabled' ; }else {echo 'Disabled' ;} ?>
         											</div>
 
         					             <div class="col-sm-2">

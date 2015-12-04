@@ -31,7 +31,7 @@
 
                 $member_type=memberTypeRegular;
 
-                if(isset($_SESSION["loggedIN"]))  {
+                if(isset($_SESSION["loggedIN"]) && isset($_SESSION["memberType"]))  {
                     if($_SESSION["memberType"]>0){
 
                         $member_type=memberTypePremium;

@@ -1,5 +1,23 @@
 <?php include_once "common/header.php"; ?>
-<?php $total_members=0;
+<?php 
+
+	$total_members=0;
+	$searchCrit1 = "All";
+	$searchCrit  = $searchVal ="";
+	$query = getLimitedMembers;
+
+		if(isset($_GET["sercrit1"]) && !empty($_GET["sercrit1"])){
+				$searchCrit1 =$_GET["sercrit1"];
+		}
+
+		if(isset($_GET["sercrit"]) && !empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
+			$searchCrit  = $_GET["sercrit"];
+			$searchVal = $_GET["serval"];
+
+		}
+
+
+
 
 		if(isset($_GET["recs"]) && !empty($_GET["recs"])){
 				  $records_per_page=intval($_GET["recs"]);
@@ -10,7 +28,6 @@
 		}
 
 
-	  $query = getLimitedMembers;
 
 
    function test_input1($data) {
@@ -27,118 +44,115 @@
 		$start_from = ($page-1) * $records_per_page; 
 
 
-		if(isset($_GET["oper"])){
+		 if(isset($_GET["oper"])){
 
-			if($_SESSION["searchMemberToken"]==$_GET["token"]){
+			// if(isset($_GET["recs"]) && !empty($_GET["recs"])){
+			// 	  $records_per_page=intval($_GET["recs"]);
 
-				$_SESSION["searchMemberToken"]="";
+			// }
 
-				if(!empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
+			// if($_SESSION["searchMemberToken"]==$_GET["token"]){
 
-					$searchCriteria = $_GET["sercrit"];
-					$searchValue = test_input1($_GET["serval"]);
-					$likeExp = "'".$searchValue."%'";
-					// echo "searchCriteria :".$searchCriteria." AND search Value : ".$searchValue ;
+				// $_SESSION["searchMemberToken"]="";
 
-					if($searchCriteria == MEMBER_SERIAL_NO){
-						// echo "Echo searching with membership number";
-						$sql = getMemberWithSerialNoCount.$likeExp; 
+				if(isset($_GET["sercrit1"])){
 
-						// echo $sql;
-						 $query = searchMemberWithSerialNo.$likeExp; 
-						$result = $db -> query($sql);
-						if ($result->num_rows > 0) {
-						$total_members=$result->num_rows;
-						}
-					}else if ($searchCriteria ==  MEMBER_EMAIL) {
+					// $searchCrit1 =$_GET["sercrit1"];
+					if(!($_GET["sercrit1"]=="All")){
+					
 						
-						// echo "Echo searching with Email";
+						$searchCrit1 =$_GET["sercrit1"];
+						// echo "sercrit1 is ::".$_GET["sercrit1"];
+
+						$status = $_GET["sercrit1"];
+						if(!empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
+
+							 $searchCrit  = $_GET["sercrit"];
+							  $searchVal = $_GET["serval"];
+
+						 $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+							$sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"] .' like "'.$_GET["serval"] .'%" AND serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+							$result = $db -> query($sql);
+							if ($result->num_rows > 0) {
+								$total_members=$result->num_rows;
+							}
 
 
-						$sql = getMemberWithEmailCount.$likeExp; 
+						}else {
+							 $query = 'SELECT * FROM Members_Profile where serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+							$sql = 'SELECT serial_no FROM Members_Profile where serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+							$result = $db -> query($sql);
+							if ($result->num_rows > 0) {
+								$total_members=$result->num_rows;
+							}
+						}
+					}else {
 
-						// echo $sql;
-						 $query = searchMemberWithEmail.$likeExp;
-						 $result = $db -> query($sql);
+						if(!empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
+
+							 $searchCrit  = $_GET["sercrit"];
+							  $searchVal = $_GET["serval"];
+
+						 $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" ';
+							$sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"] .' like "'.$_GET["serval"] .'%"';
+							$result = $db -> query($sql);
+							if ($result->num_rows > 0) {
+								$total_members=$result->num_rows;
+							}
+
+
+						}else {
+
+						$result = $db -> query(getMembersCount);
 						if ($result->num_rows > 0) {
 							$total_members=$result->num_rows;
 						}
 
-					}elseif ($searchCriteria == CONTACT_PERSON) {
-						
-						// echo "Echo searching with contact person";
-
-
-						$sql = getMemberWithContactPersonCount.$likeExp; 
-
-						// echo $sql;
-						 $query = searchMemberWithContactPerson.$likeExp;
-						$result = $db -> query($sql);
-						if ($result->num_rows > 0) {
-							$total_members=$result->num_rows;
-						}
-
-					}elseif ($searchCriteria == COMPANY) {
-						
-						// echo "Echo searching with company";
-
-
-						$sql = getMemberWithCompanyCount.$likeExp; 
-
-						// echo $sql;
-						 $query = searchMemberWithCompany.$likeExp;
-						$result = $db -> query($sql);
-						if ($result->num_rows > 0) {
-						$total_members=$result->num_rows;
-						}
-					}else if($searchCriteria == UNAPPROVED){
-						
-						$sql = getUnapprovedMembers;
-						$query =getUnapprovedMembers;
-						$result = $db -> query($sql);
-						if ($result->num_rows > 0) {
-						$total_members=$result->num_rows;
-
-						}
 					}
 
-
-				}else if (!empty($_GET["sercrit"]) ){
-					$searchCriteria = $_GET["sercrit"];
-					// echo "searchCriteria :".$searchCriteria;
-
-					if($searchCriteria == UNAPPROVED){
-						
-						$sql = getUnapprovedMembers;
-						$query =getUnapprovedMembers;
-						$result = $db -> query($sql);
-						if ($result->num_rows > 0) {
-						$total_members=$result->num_rows;
-
-						}
 					}
-
 
 				}
+				else {
+
+						$result = $db -> query(getMembersCount);
+						if ($result->num_rows > 0) {
+							$total_members=$result->num_rows;
+						}
+
+					}
+
+
+				 // }
+				//else {
+
+				// 		  	$result = $db -> query(getMembersCount);
+				// 			if ($result->num_rows > 0) {
+				// 				$total_members=$result->num_rows;
+				// 			}
+
+				// }
+			// }else {
+
+			// 	$result = $db -> query(getMembersCount);
+			// 	if ($result->num_rows > 0) {
+			// 	$total_members=$result->num_rows;
+			// 	}
+
+			// } 
+
 			}else {
 
-					$result = $db -> query(getMembersCount);
-					if ($result->num_rows > 0) {
-						$total_members=$result->num_rows;
-					}
+						  	$result = $db -> query(getMembersCount);
+							if ($result->num_rows > 0) {
+								$total_members=$result->num_rows;
+							}
 
-				}
+			}
 
-
-		}else {
-
-				  	$result = $db -> query(getMembersCount);
-					if ($result->num_rows > 0) {
-						$total_members=$result->num_rows;
-					}
-
-		}
-
+		
+				
+			// echo "CRITERIA ::".$searchCrit1.$searchCrit.$searchVal;
 
 		
  ?>
@@ -169,19 +183,32 @@
 									
 									<input type="hidden" name="oper" value="ser" />
 									<input type="hidden" name = "token" value="<?php echo $newToken?>"/> 
+									<input type="hidden" name="recs" value ="<?php echo $records_per_page ?>" >
+
+									  <div class="form-group" >
+								    	<select class="" name="sercrit1">
+<!-- 								        	<option value="">Please select a criteria</option>
+ -->								        <option value="All" <?php if($searchCrit1=="All") echo 'selected '; ?>>All</option>
+								        	<option value="0" <?php if($searchCrit1=="0") echo 'selected '; ?>>New/Unverified</option>
+								        	<option value="1" <?php if($searchCrit1=="1") echo 'selected '; ?>>Unapproved</option>
+								        	<option value="2" <?php if($searchCrit1=="2") echo 'selected '; ?>>Approved</option>
+
+								        </select>
+								    </div>
 								    <div class="form-group" >
 								    	<select class="" name="sercrit">
-								        	<option value="">Please select a criteria</option>
-								        	<option value="<?php echo MEMBER_SERIAL_NO?>">Membership Number</option>
-								        	<option value="<?php echo MEMBER_EMAIL?>">Email Address</option>
-								        	<option value="<?php echo CONTACT_PERSON?>">Contact Person</option>
-								        	<option value="<?php echo COMPANY?>">Company Name</option>
-								        	<option value="<?php echo UNAPPROVED ?>">Unapproved</option>
+								        	<option value="" <?php if($searchCrit=="") echo 'selected '; ?>>Please select a criteria</option>
+								        	<option value="membership_no" <?php if($searchCrit=="membership_no") echo 'selected '; ?>>Membership Number</option>
+								        	<option value="email" <?php if($searchCrit=="email") echo 'selected '; ?>>Email Address</option>
+								        	<option value="contact_person" <?php if($searchCrit=="contact_person") echo 'selected '; ?>>Contact Person</option>
+								        	<option value="company_name" <?php if($searchCrit=="company_name") echo 'selected '; ?>>Company Name</option>
+								        	<option value="region" <?php if($searchCrit=="region") echo 'selected '; ?>>Region</option>
+								        	<option value="city" <?php if($searchCrit=="city") echo 'selected '; ?>>City</option>
 								        </select>
 								    </div>
 
 								    <div class="form-group" >
-								        <input type="text" class="rounded-box" placeholder="Search" name="serval">
+								        <input type="text" class="rounded-box" placeholder="Search" name="serval" value="<?php echo $searchVal; ?>">
 								    </div>
 
 								    <button type="submit"><span class="glyphicon glyphicon-search"></span></button>
@@ -221,14 +248,14 @@
 												<div class="col-sm-2"><b><u>Email</u></b></div>
 												<div class="col-sm-2"  style="text-align:center;"><b><u>Membership No.</u></b></div>
 												<div class="col-sm-2"><b><u>Comapny Name</u></b></div>
-												<div class="col-sm-2"><b><u>Contact Person</u></b></div>
-												<div class="col-sm-1"><b><u>Region</u></b></div>
+												<div class="col-sm-2"><b><u>Contact</u></b></div>
+												<div class="col-sm-1"><b><u>Region/City</u></b></div>
 												<div class="col-sm-1"><b><u>Status</u></b></div>
 												<div class="col-sm-2"><b><u>Member Type</u></b></div>												
 											</div>
 										</div>	
                   					<?php 	while($row = $result1->fetch_assoc()) {
-                  								// echo "\nMEMBER ID :: ".$row["serial_no"];
+                  								 // echo "\nMEMBER member_type :: ".$row["member_type"];
 
                   								$memberType_id =$row["member_type"];	
                   								$serial_no = intval($row["serial_no"]);									        
@@ -255,11 +282,14 @@
                   						?>
 										<div class="col-sm-12" style="line-height:2.2em;font-size:12px;">
 											<div class="row">
-												<div class="col-sm-2" ><a href="?id=<?php echo $row["serial_no"]?>" class="<?php if($member_status=='Verified') echo ' error';?>"><?php echo $row["email"] ?></a></div>												
+												<div class="col-sm-2" ><a href="?id=<?php echo $row["serial_no"]?>" class="<?php if($member_status=='new') echo ' error';?>"><?php echo $row["email"] ?></a></div>												
 												<div class="col-sm-2<?php if(empty($row["membership_no"])){echo ' error' ;} ?>" style="text-align:center;"><?php if(!empty($row["membership_no"])){echo $row["membership_no"]; } else {echo 'Pending Approval';}  ?></div>
 												<div class="col-sm-2"><?php echo ucfirst($row["company_name"]); ?></div>
-												<div class="col-sm-2"><?php echo ucfirst($row["contact_person"]); ?></div>
-												<div class="col-sm-1"><?php echo ucfirst($row["region"]); ?></div>
+												<div class="col-sm-2"><?php echo ucfirst($row["contact_person"]); ?><br>
+													<?php echo ucfirst($row["phone"]); ?></div>
+												<div class="col-sm-1"><?php echo ucfirst($row["region"]); ?><br>
+													<?php echo ucfirst($row["city"]); ?>
+												</div>
 
 												<div class="col-sm-1"><?php echo ucfirst($member_status); ?></div>
 												<div class="col-sm-2"><?php echo ucfirst($memberType); ?></div>
@@ -295,17 +325,23 @@
 										$total_pages = ceil($total_members/$records_per_page);	
 
 
-										echo "<li><a href='members.php?recs=".$records_per_page."&page=1'>".'&laquo;'."</a></li>"; // Goto 1st page  
+										echo "<li><a href='members.php?oper=ser&sercrit1=".$searchCrit1."&sercrit=".$searchCrit."&serval=".$searchVal."&recs=".$records_per_page."&page=1'>".'&laquo;'."</a></li>"; // Goto 1st page  
 
 										for ($i=1; $i<=$total_pages; $i++) { 
-										       echo "<li><a href='members.php?recs=".$records_per_page."&page=".$i."'>".$i."</a></li> "; 
+										       echo "<li><a href='members.php?oper=ser&sercrit1=".$searchCrit1."&sercrit=".$searchCrit."&serval=".$searchVal."&recs=".$records_per_page."&page=".$i."'>".$i."</a></li> "; 
 										}; 
-										echo "<li><a href='members.php?recs=".$records_per_page."&page=".$total_pages."'>".'&raquo;'."</a></li>"; 
+										echo "<li><a href='members.php?oper=ser&sercrit1=".$searchCrit1."&sercrit=".$searchCrit."&serval=".$searchVal."&recs=".$records_per_page."&page=".$total_pages."'>".'&raquo;'."</a></li>"; 
 								?>
 							</ul>
 						
 						<form action="" >
+							<input type="hidden" name = "sercrit1" value="<?php echo $searchCrit1;?>">
+							<input type="hidden" name = "sercrit" value="<?php echo $searchCrit; ?>">
+							<input type="hidden" name = "serval" value="<?php echo $searchVal; ?>">
+							<input type="hidden" name="oper" value="ser" />
+
 							<select name="recs" onchange="this.form.submit()">
+
 								<option value="25" <?php if($records_per_page==25){echo 'selected'; }?>>25 Records per page</option>
 								<option value="50" <?php if($records_per_page==50){echo 'selected'; }?>>50 Records per page</option>
 								<option value="100" <?php if($records_per_page==100){echo 'selected'; }?>>100 Records per page</option>

@@ -80,10 +80,7 @@ $id=0;
 
 			 	if(!empty($banner['link'])) {	
 			 		$banners[$i]['link']=test_input($banner['link']);
-			 		// $regex ="/^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i"
-			 		$regex = "/((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\.\/\?\:@\-_=#])*/";
-
-			 		if(!preg_match($regex, $banner['link'])){
+			 		if(!preg_match("/^(www)((\.[A-Z0-9][A-Z0-9_-]*)+.(com|org|net|dk|at|us|tv|info|uk|co.uk|biz|se)$)(:(\d+))?\/?/i", $banner['link'])){
 			 				$isErrored = true;
 			 				$linkErr[$i]= ERR_WEBSITE_INVALID;
 			 		}
@@ -104,9 +101,9 @@ $id=0;
 						$image_height = $image_info[1];
 // 						 printf("%s %s \n",$image_width,$image_height);
 
-						if(!$image_height == 60){
+						if($image_width > 120 && $image_height >60){
 						 	$isErrored = true;
-						 	$imageErr[$i] = "Please upload an image of width 60px.";
+						 	$imageErr[$i] = "Please upload an image of size less than 120*60.";
 
 						 }
 			 	 	}
@@ -171,13 +168,14 @@ $id=0;
 	                <input type="hidden" name="addNewsEventsPost" value="<?php echo $addAdvtsToken ;?>"/>
 	                <input type="hidden" name="ID" value ="<?php echo $id?>" />
 
-					<!-- <div class="row">
+
+					<div class="row">
 						<div class="col-sm-1"><h6>Order</h6></div>
 						<div class="col-sm-3"><h6>Company</h6></div>
 						<div class="col-sm-3"><h6>Link</h6></div>
 						<div class="col-sm-2"><h6>Image</h6></div>
 						<div class="col-sm-2"><h6>Enable</h6></div>
-					</div> -->
+					</div>
 
 
 					<div class="form-group row" id="banners-div">
@@ -191,69 +189,56 @@ $id=0;
 							{ ?>
 								<div id="banners-div-<?php echo $i?>" class="col-sm-11">
 
-
-									<div class="col-sm-offset-5 error" ><?php if(!empty($orderErr[$i])) echo $orderErr[$i]; ?></div>
-									<div class="form-group row">
-										<div class="col-sm-offset-1 col-sm-2" ><label for="order">Order&nbsp;:<sup>*</sup></label></div>
-										<div class="col-sm-6"><input class="form-control  input-box-link <?php if(!empty($orderErr[$i])) echo 'errorBox'; ?>" name="banners[<?php echo $i?>][order]" value="<?php echo $banners[$i]['order'] ?>" type="text" size="10"></div>
-									
-									</div>
-
-
-									<div class="col-sm-offset-5 error" ><?php if(!empty($companyErr[$i])) echo $companyErr[$i]; ?></div>
-									<div class="form-group row">
-										<div class="col-sm-offset-1 col-sm-2" ><label for="order">Company&nbsp;:<sup>*</sup></label> </div>
-										<div class="col-sm-6"><input class="form-control input-box-link <?php if(!empty($companyErr[$i])) echo 'errorBox'; ?>" name="banners[<?php echo $i?>][company]" value="<?php echo $banners[$i]['company'] ?>" type="text" ></div>
-									
-									</div>
-
-									<div class="col-sm-offset-5 error" ><?php if(!empty($linkErr[$i]))echo $linkErr[$i]; ?></div>
-									<div class="form-group row">
-										<div class="col-sm-offset-1 col-sm-2" ><label for="link">Link</label></div>
-										<div class="col-sm-6"><input class="form-control  input-box-link <?php if(!empty($linkErr[$i]))echo 'errorBox'; ?>" name="banners[<?php echo $i?>][link]" type="text"  value="<?php echo $banners[$i]['link'] ?>"></input></div>
-									
-									</div>
-									
-									<div class="col-sm-offset-5 error" ><?php if(!empty($imageErr[$i]))echo $imageErr[$i]; ?></div>
-									<div class="form-group row">
-										<div class="col-sm-offset-1 col-sm-2" ><label for="image">Image&nbsp;:<sup>*</sup></label></div>
-										<div class="col-sm-6">
+										<div class="row"  id="">
+											<div class="col-sm-1 error" ><?php if(!empty($orderErr[$i])) echo $orderErr[$i]; ?></div>
+											<div class="col-sm-3 error" ><?php if(!empty($companyErr[$i])) echo $companyErr[$i]; ?></div>					
+											<div class="col-sm-3 error" ><?php if(!empty($linkErr[$i]))echo $linkErr[$i]; ?></input></div>
+											<div class="col-sm-2 error" ><?php if(!empty($imageErr[$i]))echo $imageErr[$i]; ?></div>
+											<div class="col-sm-2 error" ><?php if(!empty($enableErr[$i]))echo $enableErr[$i]; ?></div>
+										</div>
+												
+										<div class="row" id="">
+											<!-- <div class="col-sm-1"><input class="input-box-link" name="banners[<?php echo $i?>][order]" value="<?php  if(isset( $banners[$i]['order']))  echo $banners[$i]['order'] ?>" type="text" size="10"></input></div>					
+											<div class="col-sm-4"><input class="input-box-link" name="banners[<?php echo $i?>][link]" type="text"  value="<?php /* if(isset( $banners[$i]['link']))*/  echo $banners[$i]['link'] ?>"></input></div>
+											<div class="col-sm-4"><input class="input-box-link" name="banners[<?php echo $i?>][image]" type="file" value="<?php /* if(isset( $banners[$i]['image'])) */ echo $banners[$i]['image'] ?>"></input></div> -->
+											<div class="col-sm-1"><input class="input-box-link <?php if(!empty($orderErr[$i])) echo 'errorBox'; ?>" name="banners[<?php echo $i?>][order]" value="<?php echo $banners[$i]['order'] ?>" type="text" size="10"></input></div>
+											<div class="col-sm-3"><input class="input-box-link <?php if(!empty($companyErr[$i])) echo 'errorBox'; ?>" name="banners[<?php echo $i?>][company]" value="<?php echo $banners[$i]['company'] ?>" type="text" ></input></div>					
+											<div class="col-sm-3"><input class="input-box-link <?php if(!empty($linkErr[$i]))echo 'errorBox'; ?>" name="banners[<?php echo $i?>][link]" type="text"  value="<?php echo $banners[$i]['link'] ?>"></input></div>
+											<div class="col-sm-2">
 											<?php if($id == 0){?>
-												<input class=" input-box-link <?php if(!empty($imageErr[$i]))echo 'errorBox'; ?>" name="banners[<?php echo $i?>][image]" type="file" value="<?php echo $banners[$i]['image'] ?>"></input>
+												<input class="input-box-link <?php if(!empty($imageErr[$i]))echo 'errorBox'; ?>" name="banners[<?php echo $i?>][image]" type="file" value="<?php echo $banners[$i]['image'] ?>"></input>
 											<?php }else {?>
 												<input type = "hidden" name="banners[<?php echo $i?>][image]" value="<?php echo $banners[$i]['name'] ?>">
-                                                        <img src="<?php echo BANNER_FOLDER.$banners[$i]['name'] ?>"  class="img-thumbnail">
+												<a href="<?php echo BANNER_FOLDER.$banners[$i]['name'] ?>"  target="_blank"><?php echo $banners[$i]['name'] ?></a>
 											<?php }?>
 
-										</div>
-									
-									</div>
-									
-									<div class="col-sm-offset-5 error" ><?php if(!empty($enableErr[$i]))echo $enableErr[$i]; ?></div>
-									<div class="form-group row">
-										<div class="col-sm-offset-1 col-sm-2" ><label for="enable">Enable&nbsp;:<sup>*</sup></label></div>
-										<div class="col-sm-6">
-											<select class="form-control input-box-link <?php if(!empty($enableErr[$i]))echo 'errorBox'; ?>" type="select"  name="banners[<?php echo $i?>][enable]" >
-						                            <option value=""  >Please choose an option.</option>
+											</div>
+											
+
+											<div class="col-sm-2">
+												<select class="input-box-link <?php if(!empty($enableErr[$i]))echo 'errorBox'; ?>" type="select"  name="banners[<?php echo $i?>][enable]" >
+						                            <option value=""  >Please choose.</option>
 						                            <option value="1" <?php if(isset( $banners[$i]['enable']) && $banners[$i]['enable']=="1")  echo 'selected' ?> >Enable</option>
 						                            <option value="0" <?php if(isset( $banners[$i]['enable']) && $banners[$i]['enable']=="0")  echo 'selected'?> >Disable</option>                         
 						                        </select> 
-										</div>
-									
-									</div>
-									
-								
+											</div>
+										<?php if($id == 0){?>
+					                        <div class="col-sm-1"><a href="#" onClick="removeInput('banners-div-<?php echo $i?>')"><span class='sign-link' style="padding-left:10px;">-</span></a></div>												
+										<?php } ?>
+
+										
+										</div>												
 								</div>			
 										
 						<?php	}  ?>
-
+						<?php if($id == 0){?>
+						<span ><a href="#" onClick="addInputBanner('banners-div','<?php echo $i+1; ?>');"><span class="sign-link">+</span></a></span>
+						<?php } ?>
 					</div>					
 
-				<div class="form-group row center">
 					<button type="submit">Submit</button>
 					<button type="Reset">Reset</button>
 					<button type="Button" onCLick="location.href='banners.php'">Cancel</button>
-				</div>
 				</form>
 
                 <!-- </div>

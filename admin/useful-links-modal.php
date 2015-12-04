@@ -164,7 +164,7 @@
                           <div class="col-sm-3"><p class="text-color-blue"><?php echo $row['title'] ;?></p></div>
                           <div class="col-sm-4"> 
                           <?php foreach ($urls as $url) {?>
-                             <a href= "http://<?php echo $url; ?>" target="_blank"><?php echo $url;?></a><br>
+                             <a href= "<?php   if(!(substr($url,0,4)=="http")){echo "http://" ;}echo $url; ?>" target="_blank"><?php echo $url;?></a><br>
                           <?php } ?>
                           </div>
                             <div class="col-sm-1"><?php 

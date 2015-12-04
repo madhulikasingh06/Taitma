@@ -79,6 +79,8 @@ define("PASSWORD_UPDATE_FAILED", "Password reset failed. Please check the email 
 define("PASSWORD_UPDATE_SUCCESS", "Your password is successfully reset. Please check your email for temporary password.");
 
 define("BANNER_FOLDER", "images/FooterBanners/");
+define("MESSAGE_FORWARD_SUBJECT", "[TAITMA]- You forwarded a message.");
+
 
 
 

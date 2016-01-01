@@ -103,8 +103,8 @@
                                    
                                    <span  id="nameMessage" class="col-sm-offset-2 error" ><?php echo $nameErr;?></span>
                                     <div class="form-group">
-                                        <label for="name" class="control-label col-sm-2">Your Name:<sup>*</sup></label>
-                                        <div class="col-sm-9">
+                                        <label for="name" class="control-label col-sm-4">Your Name:<sup>*</sup></label>
+                                        <div class="col-sm-7">
                                           <input type="text" class="form-control input-sm <?php if(!$nameErr==""){echo " errorBox" ;} ?>" id="name" name="name"  value = "<?php echo $name;?>">
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -112,8 +112,8 @@
 
                                    <span  id="emailMessage" class="col-sm-offset-2 error" ><?php echo $emailErr;?></span>
                                     <div class="form-group">
-                                        <label for="email" class="control-label col-sm-2">Your e-mail address:<sup>*</sup></label>
-                                        <div class="col-sm-9">
+                                        <label for="email" class="control-label col-sm-4">Your e-mail address:<sup>*</sup></label>
+                                        <div class="col-sm-7">
                                           <input type="email" class="form-control  input-sm <?php if(!$emailErr==""){echo " errorBox" ;} ?>" id="email" name="email" value = "<?php echo $email;?>">
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -121,8 +121,8 @@
 
                                    <span  id="companyNameMessage" class="col-sm-offset-2 error" ><?php echo $companyNameErr;?></span>
                                     <div class="form-group">
-                                        <label for="companyName" class="control-label col-sm-2">Your company name:<sup>*</sup></label>
-                                        <div class="col-sm-9">
+                                        <label for="companyName" class="control-label col-sm-4">Your company name:<sup>*</sup></label>
+                                        <div class="col-sm-7">
                                           <input type="text" class="form-control  input-sm <?php if(!$companyNameErr==""){echo " errorBox" ;} ?>" id="companyName" name="companyName" value = "<?php echo $companyName;?>">
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -130,8 +130,8 @@
 
                                    <span  id="phoneMessage" class="col-sm-offset-2 error" ><?php echo $phoneErr;?></span>
                                     <div class="form-group">
-                                        <label for="phone" class="control-label col-sm-2">Your phone:<sup>*</sup></label>
-                                        <div class="col-sm-9">
+                                        <label for="phone" class="control-label col-sm-4">Your phone:<sup>*</sup></label>
+                                        <div class="col-sm-7">
                                           <input type="text" class="form-control  input-sm <?php if(!$phoneErr==""){echo " errorBox" ;} ?>" id="phone" name="phone"  value = "<?php echo $phone;?>">
                                         </div>
                                         <div class="col-sm-1"></div>
@@ -139,7 +139,7 @@
 
 
 <!--                                     <div class="form-group">
-                                        <label for="category" class="control-label col-sm-2">Category:<sup>*</sup></label>
+                                        <label for="category" class="control-label col-sm-4">Category:<sup>*</sup></label>
                                         <div class="col-sm-3">
                                             <select class="form-control input-sm" id="category" name="category">
                                                     <option>Please Choose</option>
@@ -153,7 +153,7 @@
  -->
                             <span  id="categoryMessage" class="col-sm-offset-2 error" ><?php echo $categoryErr;?></span>
                              <div class="form-group">
-                              <label for="category" class="col-sm-2">Category:&nbsp;<sup>*</sup></label>
+                              <label for="category" class="control-label col-sm-4">Category:&nbsp;<sup>*</sup></label>
                                 <div class="col-sm-6">
                                 <select class="input-box  input-sm form-control<?php if(!$categoryErr==""){echo " errorBox" ;} ?>" id="category"  name="category" >
                                 <option value="" ></option>
@@ -182,8 +182,8 @@
 
                                    <span  id="messageMessage" class="col-sm-offset-2 error" ><?php echo $messageErr;?></span>
                                     <div class="form-group">
-                                        <label for="message" class="control-label col-sm-2">Message:<sup>*</sup></label>
-                                        <div class="col-sm-9">
+                                        <label for="message" class="control-label col-sm-4">Message:<sup>*</sup></label>
+                                        <div class="col-sm-7">
                                         <textarea type="text" class="form-control input-sm <?php if(!$messageErr==""){echo " errorBox" ;} ?>"  id="message" rows="5" columns="5" name="message">
                                             <?php echo $message; ?></textarea>
                                         </div>

@@ -1,4 +1,3 @@
-  
 <?php include_once "common/header.php";?>
 <div id=""  class="page-background"> <!--home-main start -->
 

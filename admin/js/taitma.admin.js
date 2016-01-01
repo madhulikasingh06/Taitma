@@ -711,7 +711,73 @@
   }
 
 
+function enableDisableMember(divId,memberId,accountStatus){
 
+   // alert(divId);
+  var msgID = divId+"Message";
+
+  if(document.getElementById(divId)!=null)
+  var disabledDesc = document.getElementById(divId).value;
+
+  // alert("disabledDesc ::"+disabledDesc+"  MEMBEBER ID :: "+memberId+" Account Status :: "+accountStatus);
+
+  if(accountStatus==0){
+    if(disabledDesc==null || disabledDesc == ""){
+      document.getElementById(msgID).innerHTML = "Please enter a reason for disabling the account.";
+      document.getElementById(divId).className+= " error";
+      return;
+    }else {
+            document.getElementById(msgID).innerHTML = "";
+            document.getElementById(divId).classList.remove("error");   
+
+    }
+  }
+
+
+
+
+       if (window.XMLHttpRequest) {
+                      // code for IE7+, Firefox, Chrome, Opera, Safari
+                      xmlhttp = new XMLHttpRequest();
+                  } else {
+                      // code for IE6, IE5
+                      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                  }
+                  xmlhttp.onreadystatechange = function() {
+                      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                           // alert(xmlhttp.responseText);
+                          if(xmlhttp.responseText.trim() ==""){
+                            //validation was successful
+                             // alert("ssdsdsd");
+                             document.getElementById(msgID).className= " col-sm-offset-4";                            
+                             location.reload(true);
+                          }else {
+                              document.getElementById(msgID).className += " error ";
+                             document.getElementById(msgID).innerHTML = xmlhttp.responseText;
+
+                          }
+                        
+                      }
+                  }
+
+                  var postVars = "operation=changeAccount&serialNo="+memberId+"&status="+accountStatus;
+
+                  if(accountStatus==0){
+                    postVars = postVars+"&disableDesc="+disabledDesc;
+                  }
+
+                  // alert(postVars);
+
+                  xmlhttp.open("POST","admin-operations.php",true);
+                  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                  xmlhttp.send(postVars);
+                  document.getElementById(divId).innerHTML = "<img id='processing' src='images/processing.gif' height='20'> </img>";
+
+
+
+
+}
 
 
 

@@ -1,4 +1,3 @@
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -43,9 +42,10 @@
 	
 			<ul>
 			<?php
-				$result = $db -> query(getFooterImages);
-
-				 if ($result->num_rows > 0) { 
+				 $result = $db->query(getFooterImages);
+				
+//				 if ($result->num_rows > 0) { 
+				if($db->affected_rows > 0){
 
                           while($row = $result->fetch_assoc()) { ?>
 

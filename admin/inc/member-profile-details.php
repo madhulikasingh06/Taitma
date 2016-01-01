@@ -108,7 +108,12 @@
 
                     ?>
 
-            <p style="text-align:center;"><?php echo  $statusMsg ?></p>
+            <p style="text-align:center;"><?php echo  $statusMsg ;
+            
+            header('location:'.$_SERVER["PHP_SELF"].'?status=1');
+          	exit;
+            
+            ?></p>
 
                       <?php  } else {  ?>
 

@@ -58,13 +58,20 @@ define("MSG_ACCOUNT_LOGIN_SUCCESS","Logged in successfully.");
 
 
 define("EMAIL_VERIFICAITON_SUBJECT","[TAITMA]- Email verification.");
+// 
+// define("EMAILID_FROM", "donotreply@taitma.cleari.in");
+// define("EMAIL_FROM", "TAITMA");
+// define("SMTP_SERVER", "taitma.cleari.in");
+// define("SMTP_PORT", 587);
+// define("SMTP_USER","taitmacl");
+// define("SMTP_PASSWORD","tait@123");
 
-define("EMAILID_FROM", "donotreply@taitma.cleari.in");
+define("EMAILID_FROM", "noreply@taitma.com");
 define("EMAIL_FROM", "TAITMA");
-define("SMTP_SERVER", "taitma.cleari.in");
+define("SMTP_SERVER", "taitma.com");
 define("SMTP_PORT", 587);
-define("SMTP_USER","taitmacl");
-define("SMTP_PASSWORD","tait@123");
+define("SMTP_USER","taitma");
+define("SMTP_PASSWORD","clear@7979");
 
 define("MSG_ADMIN_APPROVAL_PENDING", "Your account approval is pending.");
 define('MSG_ACCOUNT_EDIT_PROFILE_SUCCESS', 'Your account is successfully updated.');

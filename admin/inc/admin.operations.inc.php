@@ -71,6 +71,8 @@ class taitmaAdminOperation {
           return $this -> addUpdateBanners();
         }else if ($operation == "edit-profile"){
             return $this -> updateProfile();
+        }elseif ($operation == "changeAccount") {
+            return $this -> updateUserStatus();
         }
 
 
@@ -162,82 +164,77 @@ class taitmaAdminOperation {
                               if($status==1){
 
                                   //update the files 
-                                        if(!empty($_FILES["doc1"]['tmp_name']) || !empty($_FILES["doc2"]['tmp_name'])) {
+  
                                           
-                                               $iterator = new FilesystemIterator(MEMBER_FILE_UPLOAD_FOLDER);
-                                              $filter = new RegexIterator($iterator, "/($serial_no)_*.*$/");
-                                              $filelist = array();
-
-                                              if (iterator_count( $filter)>0) {
-
-
+                                   $iterator = new FilesystemIterator(MEMBER_FILE_UPLOAD_FOLDER);
+                                   $filter = new RegexIterator($iterator, "/($serial_no)_*.*$/");
+                                      if (iterator_count( $filter)>0) {
                                                 foreach($filter as $entry) {
-                                                  $filelist[] = $entry->getFilename();
-                                                   $filename= $entry->getFilename();
-                                                   // echo "class filename ::".$filename;
-                                                  $filenameArray = explode("_", $filename);
+
+                                                        $filename = $entry->getFilename();
+                                                        $filenameArray = explode("_", $filename);
                                                  
-                                                  if($filenameArray[1]=="1"){
-
-                                                        if(!empty($_FILES["doc1"]['tmp_name']) ){
-                                                         
-                                                          $docNew_tmpname=$_FILES['doc1']['tmp_name'];
-                                                          // $docNew_size=$_FILES['doc1']['size'];
-                                                          $docNew_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
-
-                                                          unlink(MEMBER_FILE_UPLOAD_FOLDER.$filename);
-                                                          move_uploaded_file($docNew_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$docNew_filename);
-                                                           
-                                             
+                                                        if($filenameArray[1]=="1"){
+                                                            $oldFile1 = $filename;
+                                                        }else if ($filenameArray[1]=="2"){
+                                                          $oldFile2 = $filename;
                                                         }
 
-                                                  }else if ($filenameArray[1]=="2"){
-
-                                                          if(!empty($_FILES["doc2"]['tmp_name']) ){
-                                                            $doc2New_tmpname=$_FILES['doc2']['tmp_name'];
-                                                             // $doc2New_size=$_FILES['doc2']['size'];
-                                                            $doc2New_filename=$serial_no."_2_".$_FILES["doc2"]["name"];
-
-                                                          unlink(MEMBER_FILE_UPLOAD_FOLDER.$filename);
-                                                          move_uploaded_file($doc2New_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc2New_filename);
-                                                           
-                                                 
-                                                          }
-
-                                                  }
-
-
-
-                                                }
-                                             
-
-                                              }else {
-
-
-                                                 if(!empty($_FILES["doc1"]['tmp_name'])) {
-                                                
-                                                    $doc1_tmpname=$_FILES['doc1']['tmp_name'];
-                                                    $doc_1_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
-                                                     move_uploaded_file($doc1_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_1_filename);
-
-                                                 }
-
-                                                  if(!empty($_FILES["doc2"]['tmp_name'])) {
-
-                                                       $doc2_tmpname=$_FILES['doc2']['tmp_name'];
-                                                      $doc_2_filename= $serial_no."_2_".$_FILES["doc2"]["name"];
-                                                      move_uploaded_file($doc2_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_2_filename);
-
-                                                    }
-
+                                                     }
+                                                        
 
                                               }
 
- 
-                                        
+
+                                    if(!empty($_FILES["doc1"]['tmp_name'])) {
+
+                                          if(!empty($oldFile1)){
+                                          
+                                            // Delete the old file and store new file
+                                            $docNew_tmpname=$_FILES['doc1']['tmp_name'];
+                                            $docNew_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
+
+                                            // echo "updating doc 1";
+                                            unlink(MEMBER_FILE_UPLOAD_FOLDER.$oldFile1);
+                                            move_uploaded_file($docNew_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$docNew_filename);
+                                                      
+
+                                          }else {
+
+                                            // store the new file
+                                             $doc1_tmpname=$_FILES['doc1']['tmp_name'];
+                                             $doc_1_filename=$serial_no."_1_".$_FILES["doc1"]["name"];
+                                             move_uploaded_file($doc1_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_1_filename);
+
+                                         
 
                                           }
-                                          
+
+
+                                    }
+
+
+                                  if(!empty($_FILES["doc2"]['tmp_name'])) {
+
+                                          if(!empty($oldFile2)){
+
+                                                $doc2New_tmpname=$_FILES['doc2']['tmp_name'];
+                                                $doc2New_filename=$serial_no."_2_".$_FILES["doc2"]["name"];
+
+                                               // echo "updating doc 2";
+
+                                                 unlink(MEMBER_FILE_UPLOAD_FOLDER.$oldFile2);
+                                                 move_uploaded_file($doc2New_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc2New_filename);
+                                                   
+                                          }else {
+
+                                                  //echo "inside class doc 2";
+                                                  $doc2_tmpname=$_FILES['doc2']['tmp_name'];
+                                                  $doc_2_filename= $serial_no."_2_".$_FILES["doc2"]["name"];
+                                                  move_uploaded_file($doc2_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_2_filename);
+                                           
+                                          }
+                                    }
 
 
 
@@ -1244,6 +1241,51 @@ class taitmaAdminOperation {
        
 
         return $result;
+
+    }
+
+
+    private function updateUserStatus(){
+
+      $status = "";
+      $accountStatus = $_POST["status"];
+      $serialNumber  = $_POST["serialNo"];
+      $disabledDesc = "";
+      $newStatus = 1;
+      if(!$accountStatus){
+          $disabledDesc = $_POST["disableDesc"];
+      }
+
+
+      if(intval($accountStatus)){
+        $newStatus = 0;
+      }
+      
+$disableDate =date("Y-m-d H:i:s");
+
+
+      $sql = "UPDATE Members_Profile SET disable = ?,disabled_desc=?, disabled_date=? WHERE serial_no = ?";
+
+
+           if($stmt = $this->_db->prepare($sql)) {
+                        $stmt->bind_param("issi", $newStatus, $disabledDesc,$disableDate,$serialNumber);
+                        
+                        if($stmt->execute()){
+                               // $status = MSG_LINK_UPDATE_SUCCESS;
+                        }else {
+                              $status = ERR_LINK_UPDATE_FAILED;
+                        }
+              
+                    }else {
+                          $status = ERR_LINK_UPDATE_FAILED;
+                    }
+            
+            $stmt->close();
+
+
+            return $status;
+            
+      
 
     }
 

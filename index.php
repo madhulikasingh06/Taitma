@@ -23,6 +23,14 @@
           </div>
         </div>
 
+        <div class="item">
+          <img src="images/carousel-img/carousel-img-3.jpg" alt="" width="1024" height="333">
+            <div class="carousel-caption">
+           <p>house of the <br><span style="padding-left:100px;">toy makers...</span></p>
+          </div>
+        </div>
+
+
       </div><!--carousel-inner div ends-->
        
 

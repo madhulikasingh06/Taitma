@@ -132,7 +132,7 @@ a:hover {
 	padding-bottom: 3px;
 	border-bottom: 1px solid #EDEBE7; 
 	outline: none;
-	font-size: 12px;
+/*	font-size: 12px;*/
 
 }
 
@@ -285,8 +285,8 @@ div.carousel-caption {
 	border-bottom: 1px solid #EDEBE7;
 	outline: none; 
     padding: 18px 0px 0px 0px;
-	margin-right:10px;
-	margin-left:10px;
+	margin-right:20px;
+	margin-left:20px;
 	margin-bottom:3px;
 	font-size:14px;
 }
@@ -599,9 +599,8 @@ font-size: 12px;
 	/*margin: 50px  20px 20px 20px;*/
 	margin-top: 20px;
 	padding: 30px 20px 30px 20px;
-	border:  0.5px solid #000000;
 	width: 350px;
-	box-shadow: 1px 1px 2px #000000;
+	box-shadow: 1px 1px 2px #B5B3B3;
 	 -webkit-border-radius: 10px;
 	-moz-border-radius: 5px;
 	-ms-border-radius: 5px;
@@ -622,7 +621,7 @@ font-size: 12px;
 	-ms-border-radius: 5px;
 	-o-border-radius: 5px;
 	border-radius: 5px;
-	padding: 1px;
+	padding: 5px;
 	margin: 5px;
 
 }
@@ -637,11 +636,11 @@ font-size: 12px;
 	background: -ms-linear-gradient(top,   #EDEBE7 0%, #0ABDC8 100%);
 	background: linear-gradient(top,  #EDEBE7 0%, #0ABDC8 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EDEBE7', endColorstr='#0ABDC8',GradientType=0 );
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	-ms-border-radius: 10px;
-	-o-border-radius: 10px;
-	border-radius: 10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-ms-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
 /*	-webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
 	-moz-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
 	-ms-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;

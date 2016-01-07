@@ -85,8 +85,8 @@
                                               <div class="form-group">
                                                 <div class="col-sm-3"><label for="premium_val">Premium Value:</label></div>
                                                 <div class="col-sm-7"><select  class="form-control input-box-link"  type="select" id="premium_val-0" name="premium_val">
-                                                    <option value="">Please choose.</option>
-                                                    <option value="0">Regular</option>
+<!--                                                     <option value="">Please choose.</option>
+ -->                                                    <option value="0" selected>Regular</option>
                                                     <option value="1">Premium</option>                         
                                                   </select>
                                                 </div>         
@@ -96,8 +96,8 @@
                                               <div class="form-group">
                                                  <div class="col-sm-3"><label for="enabled">Enable:</label></div>
                                                     <div class="col-sm-7"><select class="form-control input-box-link" type="select"  id="enabled-0"  name="enabled">
-                                                      <option value="">Please choose.</option>
-                                                      <option value="1">Enable</option>
+<!--                                                       <option value="">Please choose.</option>
+ -->                                                      <option value="1" selected> Enable</option>
                                                       <option value="0">Disable</option>                         
                                                   </select> 
                                                   </div>
@@ -164,7 +164,17 @@
                           <div class="col-sm-3"><p class="text-color-blue"><?php echo $row['title'] ;?></p></div>
                           <div class="col-sm-4"> 
                           <?php foreach ($urls as $url) {?>
-                             <a href= "<?php   if(!(substr($url,0,4)=="http")){echo "http://" ;}echo $url; ?>" target="_blank"><?php echo $url;?></a><br>
+                             <a href= "<?php   if(!(substr($url,0,4)=="http")){echo "http://" ;}echo $url; ?>" target="_blank">
+                            <?php if((substr($url,0,4)=="http")) {
+                              echo substr($url,(strrpos($url,'/')+1)) ;
+
+                            } else {
+                              echo $url;
+                            }
+                            ?>
+                            </a><br>
+
+
                           <?php } ?>
                           </div>
                             <div class="col-sm-1"><?php 
@@ -261,6 +271,8 @@
     $('#add-useful-links-form11').submit();
 });
 </script>
+  <script src="js/jquery-ui.js"></script>
+
 
 
 

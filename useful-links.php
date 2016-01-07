@@ -57,7 +57,13 @@
                           <p class="text-color-blue"><?php echo $row['title'] ;?><br>
 
                           <?php foreach ($urls as $url) {?>
-                              <a href= "http://<?php echo $url; ?>" target="_blank"><?php echo $url;?></a><br>
+                              <a href= "<?php   if(!(substr($url,0,4)=="http")){echo "http://" ;}echo $url; ?>" target="_blank"><?php if((substr($url,0,4)=="http")) {
+                              echo substr($url,(strrpos($url,'/')+1)) ;
+
+                            } else {
+                              echo $url;
+                            }
+                            ?></a><br>
                           <?php } ?>
 
                           </p>

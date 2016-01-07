@@ -447,10 +447,10 @@ div.carousel-caption {
 
 .site-footer img{
 	padding: 0px 10px 0px 10px;
-	height: 60px;
+/*	height: 60px;*/
 /*	max-height: 190px;
 */	width:auto;
-	max-width: 118px;
+/*	max-width: 118px;*/
 
 }
 
@@ -788,6 +788,20 @@ font-size: 12px;
 	border-radius: none;
 	color: #000000;
 	float: left;
+	position: relative;
+	margin:5px;
+}
+
+.button-common1 {
+	background: rgb(#0ABDC8);
+	background: -moz-linear-gradient(top,  #EDEBE7 0%, #0ABDC8 100%);
+	background: -webkit-linear-gradient(top,   #EDEBE7 0%, #0ABDC8 100%);
+	background: -o-linear-gradient(top, #EDEBE7 0%, #0ABDC8 100%);
+	background: -ms-linear-gradient(top,   #EDEBE7 0%, #0ABDC8 100%);
+	background: linear-gradient(top,  #EDEBE7 0%, #0ABDC8 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EDEBE7', endColorstr='#0ABDC8',GradientType=0 );
+	border-radius: none;
+	color: #000000;
 	position: relative;
 	margin:5px;
 }

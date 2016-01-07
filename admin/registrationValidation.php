@@ -55,7 +55,32 @@
 
 
 
+			if($_POST["operation"]=="approve-member"){
 
+				if(!empty($_POST["membershipNumber"])){
+
+					$serialNoReq = $_POST["serial_no"];
+					$membershipNumber = test_input($_POST["membershipNumber"]);
+					if(strlen($membershipNumber)<=8){
+						$isErrored = true;
+						$membershipNumberErr = ERR_MEMBERSHIPNO_LENGTH;
+					}else {
+
+					$sql = "SELECT serial_no FROM Members_Profile WHERE serial_no != ".$serialNoReq." AND membership_no='".$membershipNumber."'";
+						$result = $db -> query($sql);
+						 if ($result->num_rows > 0) {
+							while($row = $result->fetch_assoc()) {
+								$serial_no_temp = $row["serial_no"];
+								if($serial_no_temp>0){
+									$isErrored = true;
+									$membershipNumberErr = ERR_MEMBERSHIPNO_EXISTS;
+								}
+							}
+						}
+					}
+				}
+			}
+			
 
 			if (!empty($_POST["password"])) {
 

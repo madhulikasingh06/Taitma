@@ -160,20 +160,23 @@
            }else {
 
            	    
-           	    $result = $db->query("SELECT *  FROM Messages where disable=0;");
+           	    $result = $db->query("SELECT *  FROM Messages;");
                 
 
                 if ($result->num_rows > 0) { 
 
-                  while($row = $result->fetch_assoc()) {?>
+                  while($row = $result->fetch_assoc()) {
 
+                    $status = $row["disable"];
+                    ?>
 
+                  
 
 
                <div class="row">
                           <div class="col-sm-offset-2  col-sm-9 trasparent-bg  page-content-style">
-                          
-                          <div id="message-<?php echo $row["ID"];  ?>"></div>
+
+                          <div id="message-<?php echo $row["ID"];  ?>" class="center"></div>
                           <div  class="center" ><b><?php if($row["premium_val"]==1)
                           {echo "Member Inquiry" ; }else {echo "Visitor Inquiry" ; } ?></b>&nbsp;for&nbsp;<b><?php echo $row["category"];?>.&nbsp;</b></div><br />
                          
@@ -189,9 +192,18 @@
                             </div>                        
                             </div>
                             <div class="row">
-                            	<div class="col-sm-offset-9 col-sm-3">
+                            	<div class="col-sm-offset-8 col-sm-4" style="margin-right:20px">
                             		<button type="button" onClick="forwardMessage(<?php echo $row["ID"];  ?>,'message-<?php echo $row["ID"];  ?>')">Send to my email</button>
-                          	</div>
+                          	       <button  type="button" onClick="enableMessage('<?php echo $status ;?>','<?php echo $row["ID"];  ?>')">
+                                      <?php if($status==0){
+                                          echo 'Disable';
+                                      }else {
+                                            echo 'Enable';
+                                      } ?>
+
+
+                                    </button>
+                              </div>
                             </div>
 
                           </div>

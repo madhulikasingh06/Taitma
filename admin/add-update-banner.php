@@ -104,9 +104,9 @@ $id=0;
 						$image_height = $image_info[1];
 // 						 printf("%s %s \n",$image_width,$image_height);
 
-						if(!$image_height == 60){
+						if($image_height < 50 OR $image_height>100){
 						 	$isErrored = true;
-						 	$imageErr[$i] = "Please upload an image of width 60px.";
+						 	$imageErr[$i] = "Please upload an image of height between 60px-100px.";
 
 						 }
 			 	 	}

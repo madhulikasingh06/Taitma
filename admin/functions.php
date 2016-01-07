@@ -19,7 +19,8 @@
                           'news-events.php',
                           'useful-links-modal.php',
                           'quality-parameters.php',
-                          'banners.php'); 
+                          'banners.php',
+                          'messages.php'); 
     
           $current=getCurrentPage();    
              foreach($nav_tabs as $nav)
@@ -107,7 +108,9 @@
                return $pageName = "Banners";
             }else if ($current == "add-update-banner.php"){
                return $pageName = "Add / Edit Banners";
-            }
+            }else if ($current == "messages.php"){
+              return $pageName = "Messages";
+            } 
     }
 
 

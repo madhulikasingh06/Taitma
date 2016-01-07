@@ -57,35 +57,131 @@
 
 				if(isset($_GET["sercrit1"])){
 
-					// $searchCrit1 =$_GET["sercrit1"];
+					 $searchCrit1 =$_GET["sercrit1"];
 					if(!($_GET["sercrit1"]=="All")){
 					
 						
 						$searchCrit1 =$_GET["sercrit1"];
 						// echo "sercrit1 is ::".$_GET["sercrit1"];
 
-						$status = $_GET["sercrit1"];
-						if(!empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
+						if($searchCrit1>=0 AND $searchCrit1<=2){
 
-							 $searchCrit  = $_GET["sercrit"];
-							  $searchVal = $_GET["serval"];
+							$status = $_GET["sercrit1"];
+							if(!empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
 
-						 $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
-							$sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"] .' like "'.$_GET["serval"] .'%" AND serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
-							$result = $db -> query($sql);
-							if ($result->num_rows > 0) {
-								$total_members=$result->num_rows;
+								 $searchCrit  = $_GET["sercrit"];
+								  $searchVal = $_GET["serval"];
+
+							 $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+								$sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"] .' like "'.$_GET["serval"] .'%" AND serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+								$result = $db -> query($sql);
+								if ($result->num_rows > 0) {
+									$total_members=$result->num_rows;
+								}
+
+
+							}else {
+								 $query = 'SELECT * FROM Members_Profile where serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+								$sql = 'SELECT serial_no FROM Members_Profile where serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+								$result = $db -> query($sql);
+								if ($result->num_rows > 0) {
+									$total_members=$result->num_rows;
+								}
+							}
+
+						}else if ($searchCrit1 >=3 AND $searchCrit1<=4){
+
+							if($searchCrit1 == 3){
+								$member_category = "M";
+							}else {
+								$member_category = "O";
+							}
+
+							if(!empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
+								$searchCrit  = $_GET["sercrit"];
+								  $searchVal = $_GET["serval"];
+
+								  $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  category="'.$member_category.'"';
+								  $sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  category="'.$member_category.'"';
+								  $result = $db -> query($sql);
+								if ($result->num_rows > 0) {
+									$total_members=$result->num_rows;
+								}
+
+							}else {
+								 $query = 'SELECT * FROM Members_Profile where category="'.$member_category.'"';
+								  $sql = 'SELECT serial_no FROM Members_Profile where  category="'.$member_category.'"';
+								  $result = $db -> query($sql);
+								if ($result->num_rows > 0) {
+									$total_members=$result->num_rows;
+								}
+
 							}
 
 
-						}else {
-							 $query = 'SELECT * FROM Members_Profile where serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
-							$sql = 'SELECT serial_no FROM Members_Profile where serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
-							$result = $db -> query($sql);
-							if ($result->num_rows > 0) {
-								$total_members=$result->num_rows;
+
+						}else if($searchCrit1 >=5 AND $searchCrit1<=6){
+
+							if($searchCrit1==5){
+								$memberType = "0";
+							}else {
+								$memberType = "(1 or 2)";
 							}
+
+							if(!empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
+								$searchCrit  = $_GET["sercrit"];
+								  $searchVal = $_GET["serval"];
+
+								  $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  member_type='.$memberType;
+								  $sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  member_type='.$memberType;
+								  $result = $db -> query($sql);
+								if ($result->num_rows > 0) {
+									$total_members=$result->num_rows;
+								}
+
+							}else {
+								 $query = 'SELECT * FROM Members_Profile where member_type='.$memberType;
+								  $sql = 'SELECT serial_no FROM Members_Profile where  member_type = '.$memberType;
+								  $result = $db -> query($sql);
+								if ($result->num_rows > 0) {
+									$total_members=$result->num_rows;
+								}
+
+							}
+
+						}else if($searchCrit1 >=7 AND $searchCrit1<=8){
+
+							if($searchCrit1==7){
+								$disable = "0";
+							}else {
+								$disable = "1";
+							}
+
+
+							if(!empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
+								$searchCrit  = $_GET["sercrit"];
+								  $searchVal = $_GET["serval"];
+
+								   $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  disable='.$disable;
+								  $sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  disable='.$disable;
+								  $result = $db -> query($sql);
+								if ($result->num_rows > 0) {
+									$total_members=$result->num_rows;
+								}
+
+							}else {
+								 $query = 'SELECT * FROM Members_Profile where disable='.$disable;
+								  $sql = 'SELECT serial_no FROM Members_Profile where  disable = '.$disable;
+								  $result = $db -> query($sql);
+								if ($result->num_rows > 0) {
+									$total_members=$result->num_rows;
+								}
+
+							}
+
 						}
+
+
 					}else {
 
 						if(!empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
@@ -192,6 +288,13 @@
 								        	<option value="0" <?php if($searchCrit1=="0") echo 'selected '; ?>>New/Unverified</option>
 								        	<option value="1" <?php if($searchCrit1=="1") echo 'selected '; ?>>Unapproved</option>
 								        	<option value="2" <?php if($searchCrit1=="2") echo 'selected '; ?>>Approved</option>
+								        	<option value="3" <?php if($searchCrit1=="3") echo 'selected '; ?>>Manufacturers</option>
+								        	<option value="4" <?php if($searchCrit1=="4") echo 'selected '; ?>>Others</option>
+								        	<option value="5" <?php if($searchCrit1=="5") echo 'selected '; ?>>Regular Members</option>
+								        	<option value="6" <?php if($searchCrit1=="6") echo 'selected '; ?>>Premium Members</option>
+								        	<option value="7" <?php if($searchCrit1=="7") echo 'selected '; ?>>Enabled Members</option>
+								        	<option value="8" <?php if($searchCrit1=="8") echo 'selected '; ?>>Disabled Members</option>
+								       
 
 								        </select>
 								    </div>
@@ -203,7 +306,12 @@
 								        	<option value="contact_person" <?php if($searchCrit=="contact_person") echo 'selected '; ?>>Contact Person</option>
 								        	<option value="company_name" <?php if($searchCrit=="company_name") echo 'selected '; ?>>Company Name</option>
 								        	<option value="region" <?php if($searchCrit=="region") echo 'selected '; ?>>Region</option>
+								        	<option value="state" <?php if($searchCrit=="state") echo 'selected '; ?>>State</option>
 								        	<option value="city" <?php if($searchCrit=="city") echo 'selected '; ?>>City</option>
+								        	<option value="pincode" <?php if($searchCrit=="pincode") echo 'selected '; ?>>Pincode</option>
+								        	<option value="phone" <?php if($searchCrit=="phone") echo 'selected '; ?>>Phone</option>
+								        	<option value="mobile" <?php if($searchCrit=="mobile") echo 'selected '; ?>>Mobile</option>
+
 								        </select>
 								    </div>
 
@@ -211,7 +319,7 @@
 								        <input type="text" class="rounded-box" placeholder="Search" name="serval" value="<?php echo $searchVal; ?>">
 								    </div>
 
-								    <button type="submit"><span class="glyphicon glyphicon-search"></span></button>
+								    <button type="submit" class="rounded-box">Search</button>
 								</form>
 
 							
@@ -248,8 +356,8 @@
 												<div class="col-sm-2"><b><u>Email</u></b></div>
 												<div class="col-sm-2"  style="text-align:center;"><b><u>Membership No.</u></b></div>
 												<div class="col-sm-2"><b><u>Comapny Name</u></b></div>
-												<div class="col-sm-2"><b><u>Contact</u></b></div>
-												<div class="col-sm-1"><b><u>Region/City</u></b></div>
+												<div class="col-sm-2"><b><u>Contact person/<br/>Phone/<br/>Mobile</u></b></div>
+												<div class="col-sm-1"><b><u>Region/<br/>City/<br/>Pincode</u></b></div>
 												<div class="col-sm-1"><b><u>Status</u></b></div>
 												<div class="col-sm-2"><b><u>Member Type</u></b></div>												
 											</div>
@@ -286,9 +394,12 @@
 												<div class="col-sm-2<?php if(empty($row["membership_no"])){echo ' error' ;} ?>" style="text-align:center;"><?php if(!empty($row["membership_no"])){echo $row["membership_no"]; } else {echo 'Pending Approval';}  ?></div>
 												<div class="col-sm-2"><?php echo ucfirst($row["company_name"]); ?></div>
 												<div class="col-sm-2"><?php echo ucfirst($row["contact_person"]); ?><br>
-													<?php echo ucfirst($row["phone"]); ?></div>
-												<div class="col-sm-1"><?php echo ucfirst($row["region"]); ?><br>
-													<?php echo ucfirst($row["city"]); ?>
+													<?php echo ucfirst($row["phone"]); ?><br/>
+													<?php echo ucfirst($row["mobile"]); ?>
+												</div>
+												<div class="col-sm-1"><?php echo ucfirst($row["region"]); ?><br/>
+													<?php echo ucfirst($row["city"]); ?><br/>
+													<?php echo $row["pincode"] ; ?>
 												</div>
 
 												<div class="col-sm-1"><?php echo ucfirst($member_status); ?></div>

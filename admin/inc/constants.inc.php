@@ -117,6 +117,31 @@ define("ACTION_DELETE_NEWS", "news-del");
 define("ACTION_DELETE_BANNER", "banner-del"); 
 define("BANNER_FOLDER", "../images/FooterBanners/");
 
+define("PREMIUM_YEARLY_MEMBERSHIP_YEARS", 1);
+define("PREMIUM_LIFETIME_MEMBERSHIP_YEARS", 10);
+
+define("PAYMENT_DATE_REQUIRED","Please enter a payment date");
+define("MEMBERSHIP_START_DATE_REQUIRED","Please enter a membership start date");
+define("MEMBERSHIP_EXPIRY_DATE_REQUIRED","Please enter a membership expiry date");
+define("PAYMENT_MODE_REQUIRED","Please enter a payment mode.");
+define("PAYMENT_AMOUNT", "Please enter payment amount.");
+define("PAYMENT_NUMBER_REQUIRED","Please enter a check/payment number.");
+define("PAYMENT_AGAINST", "Please enter payment against details.");
+define("MEMBERSHIP_TYPE_REGULAR", 0);
+define("MEMBERSHIP_TYPE_YEARLY", 1);
+define("MEMBERSHIP_TYPE_LIFETIME", 2);
+
+
+define("EMAIL_PAYMENT_RECEIVED_SUBJECT","[TAITMA]- Payment Received.");
+define("EMAIL_REMINDER_MEMBERSHIP_EXPIRY_SUBJECT","[TAITMA]- Reminder for membership expiry.");
+define("MEMBERSHIP_NUMBER_CHANGED_SUBJECT", "[TAITMA]- Membership number updated!");
+
+
+
+
+
+
+
 
 
 

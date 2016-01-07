@@ -32,10 +32,10 @@
                 <!-- register-contents div starts -->
 
                 <div class="col-sm-offset-2  col-sm-8 trasparent-bg  page-content-style">
-                 <p> You can download the Registration form here. (Right click &amp;Save link As)</p>
+                 <!-- <p> You can download the Registration form here. (Right click &amp;Save link As)</p>
                     <p> You will need to post a hard copy of the filled in Membership form to TAITMA office address along
                         with a cheque of Rs.3000/- (Rs.1000/- annual fee &amp; Rs.2000/- one time joining fee).</p>
- 
+  -->
 
 
                 <div id="register-form-div"  style="display:block;">
@@ -49,6 +49,7 @@
 
                       <input type="hidden" name="operation" value="register-user"/>
                       <input type="hidden" id="registerUserTokenPost" name="registerUserTokenPost" value="<?php echo $newToken; ?>"/>
+                      <input type="hidden" name="memberType" value="Regular"/>
                             
 
 
@@ -182,7 +183,7 @@
                               <label for="memberSpecifiedCategory" class="col-sm-4">Member Specified Category</label>
                               <input  class="input-box col-sm-8<?php if(!$memberSpecifiedCategoryErr==""){echo " errorBox" ;} ?>" type="" id="memberSpecifiedCategory"  name="memberSpecifiedCategory" value="<?php echo $memberSpecifiedCategory; ?>"/>
                           </div>
-
+<!-- 
                         <span  id="memberTypeMessage" class="col-sm-offset-4 error" ><?php echo $memberTypeErr; ?></span>
                           <div class="form-group">
                             <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
@@ -209,7 +210,7 @@
                              </select>
 
 
-                          </div>
+                          </div> -->
 
                         <span  id="otherDetailsMessage" class="col-sm-offset-4 error" ><?php echo $otherDetailsErr;?></span>
                           <div class="form-group">

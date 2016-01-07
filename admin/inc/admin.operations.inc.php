@@ -73,6 +73,10 @@ class taitmaAdminOperation {
             return $this -> updateProfile();
         }elseif ($operation == "changeAccount") {
             return $this -> updateUserStatus();
+        }elseif ($operation == "addPaymentDetails") {
+            return $this -> addPaymentDetails();
+        }elseif ($operation == 'updateMessage') {
+            return $this -> updateMessageStatus();
         }
 
 
@@ -112,6 +116,8 @@ class taitmaAdminOperation {
         $doc_1 = NULL;
         $doc_2 = NULL;
 
+        $reminder = intval($_POST["reminder"]);
+
         $result =  array();
 
         $email = stripslashes($email);
@@ -123,15 +129,20 @@ class taitmaAdminOperation {
 
         }
 
-
-
-
         try {
 
-           // encrypt the password
-           
-            $stmt = $this->_db->prepare("CALL approveAndUpdateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
-            $stmt -> bind_param("issssssssssssssssss",
+            if($membeship_number==null OR trim($membeship_number)==""){
+               // echo "without membershipNumber";
+            $stmt = $this->_db->prepare("CALL approveAndUpdateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
+
+            }else{
+               // echo "with membershipNumber".$membeship_number;
+            $stmt = $this->_db->prepare("CALL updateMemberProfileWithMembershipNo(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
+
+            }
+
+
+            $stmt -> bind_param("issssssssssssssssssi",
                                                       $serial_no,
                                                       $membeship_number,
                                                       $password,
@@ -150,7 +161,8 @@ class taitmaAdminOperation {
                                                         $category,
                                                         $member_specified_category, 
                                                         $member_type,
-                                                        $other_details
+                                                        $other_details,
+                                                        $reminder
                                                         );
 
 
@@ -237,6 +249,15 @@ class taitmaAdminOperation {
                                     }
 
 
+                                     if(!($membeship_number==null OR trim($membeship_number)=="")){
+
+                                         $subject = MEMBERSHIP_NUMBER_CHANGED_SUBJECT;
+                                         $text = "Dear Taitma Member,\nThis is to inform you that your membership is changed.\nYour new Membership number is -".$membeship_number."\nFrom \nTaitma";
+                                         $html = "Dear Taitma Member,<br/> This is to inform you that your membership is changed.
+                                                Your new Membership number is -<b><i>".$membeship_number."</i></b>.<br/>-Taitma";
+
+                                       $this->sendMail($email,$subject,$html,$text);
+                                     }
 
                                   $result = array(SUCCESS ,MSG_ACCOUNT_EDIT_PROFILE_SUCCESS);
                               }else {
@@ -1261,9 +1282,7 @@ class taitmaAdminOperation {
         $newStatus = 0;
       }
       
-$disableDate =date("Y-m-d H:i:s");
-
-
+      $disableDate =date("Y-m-d H:i:s");
       $sql = "UPDATE Members_Profile SET disable = ?,disabled_desc=?, disabled_date=? WHERE serial_no = ?";
 
 
@@ -1290,7 +1309,125 @@ $disableDate =date("Y-m-d H:i:s");
     }
 
 
+    private function addPaymentDetails(){
 
-}
+      $serialNo       = $_POST["serialNo"];
+      $paymentDate    = $_POST["paymentDate"];
+      $memStartDate   = $_POST["membershipStartDate"];
+      $memExpiryDate  = $_POST["membershipEndDate"];
+      $paymentMode    = $_POST["paymentMode"];
+      $amount         = $_POST["amount"];
+      $paymentNumber  = $_POST["paymentNumber"];
+      $paymentAgainst = $_POST["paymentAgainst"];
+      $otherDetails   = $_POST["otherDetails"];
+      $memberType     = trim($_POST["memberType"]);
+      $status = "";
+      $email = "";
+
+      if(strcasecmp($memberType,"Regular")==0){
+        $memberTypeSQL = MEMBERSHIP_TYPE_REGULAR;
+      }else if(strcasecmp($memberType,"Premium Yearly")==0){
+        $memberTypeSQL = MEMBERSHIP_TYPE_YEARLY;
+      }else if(strcasecmp($memberType,"Premium Lifetime")==0){
+        $memberTypeSQL = MEMBERSHIP_TYPE_LIFETIME;
+      }
+
+
+
+      $paymentDateSQL = date("Y-m-d H:i:s", strtotime($paymentDate));
+      $memStartDateSQL = date("Y-m-d H:i:s", strtotime($memStartDate));
+      $memExpiryDateSQL = date("Y-m-d H:i:s", strtotime($memExpiryDate));
+
+      $transId = md5(uniqid());
+
+      $stmt = $this->_db->prepare("CALL addPaymentDetails(?,?,?,?,?,?,?,?,?,?,?,@out_payment_id)");
+
+      $stmt -> bind_param("iissssdssss",$serialNo,
+                                        $memberTypeSQL,
+                                        $paymentDateSQL,
+                                        $memStartDateSQL,
+                                        $memExpiryDateSQL,
+                                        $paymentMode,
+                                        $amount,
+                                        $paymentNumber,
+                                        $transId,
+                                        $paymentAgainst,
+                                        $otherDetails);
+
+       if ($select=$stmt->execute()) {
+
+                        $stmt->bind_result($out_payment_id);
+
+                            while ($stmt->fetch()){
+                               // echo " status : $out_payment_id";
+                                if($out_payment_id>0){
+                                  //send a mail to the user incluing payment details
+
+
+                                      $sql = "SELECT email FROM Members_Profile WHERE serial_no=".$serialNo;
+
+                                      // echo $sql;
+                                     if($result = $this->_db->query($sql)){
+
+                                      echo "$result";
+                                         while ($obj = $result->fetch_object()) {
+                                                   $email =  $obj->email;
+                                                   echo $email;
+                                         }
+
+                                     }
+
+                                     if(!empty($email)){
+                                        $subject = EMAIL_PAYMENT_RECEIVED_SUBJECT;
+                                        $text = "Dear Taitma Member,\nWe are glad to inform you that your payment of Rs.".$amount." is received.
+                                                    \nYour Membership type is -".$memberType. ". And its valid upto ".$paymentDate."\n\nFrom \nTaitma";
+                                        $html = "Dear Taitma Member,<br/> We are glad to inform you that your payment of Rs.".$amount." is received.
+                                              Your Membership type is -<b><i>".$memberType."</i></b>.And its valid upto <b><i>".$paymentDate."</i></b>.<br/>-Taitma";
+
+                                        $this->sendMail($email,$subject,$html,$text);
+                                      
+                                     }
+
+                              }
+                          }
+        }
+        $stmt->close();
+        return $status;
+
+
+      }
+
+
+
+
+      private function updateMessageStatus(){
+
+        $messageStatus = $_POST["status"];
+        $messageID  = $_POST["messageID"];
+        $newStatus = 1;
+        // echo "updateMessageStatus";
+       
+        if(intval($messageStatus)){
+          $newStatus = 0;
+        }
+
+              $sql = "UPDATE Messages SET disable = ? WHERE ID = ?";
+
+              if($stmt = $this->_db->prepare($sql)) {
+                $stmt->bind_param("ii", $newStatus, $messageID);
+                        
+                        if($stmt->execute()){
+                               // $status = MSG_LINK_UPDATE_SUCCESS;
+                        }
+
+              }
+
+      return;
+
+      }
+  
+
+
+  }
 
 ?>

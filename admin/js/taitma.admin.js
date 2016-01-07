@@ -89,7 +89,7 @@
 
         function updateUsefulLink(id){
 
-          alert ("inside updateUsefulLink id:"+id );
+//           alert ("inside updateUsefulLink id:"+id );
 
 
               divId="editLinkStatus"+id;
@@ -532,7 +532,8 @@
     var msgID = divId+"Message";
 
     if(membershipNo == ""){
-
+       document.getElementById(msgID).className += " error ";
+        document.getElementById(divId).className += " errorBox";
       document.getElementById(msgID).innerHTML = "Please enter a membership number";
       return;
     }else {
@@ -552,11 +553,13 @@
                             //validation was successful
                              // alert("ssdsdsd");
                             document.getElementById("approve-button").style.display='none';
-                             document.getElementById(msgID).className= " col-sm-offset-4";
+                             document.getElementById(msgID).classList.remove("error");
+                              document.getElementById(divId).classList.remove("errorBox");
                              document.getElementById(msgID).innerHTML = "The member is approved.";
 
                           }else {
                               document.getElementById(msgID).className += " error ";
+                              document.getElementById(divId).className += " errorBox";
                              document.getElementById(msgID).innerHTML = xmlhttp.responseText;
 
                           }
@@ -713,6 +716,14 @@
 
 function enableDisableMember(divId,memberId,accountStatus){
 
+
+  if(accountStatus==1){
+     if (confirm("Are you sure you want to Enable this user?") == false) {
+      return;
+    }
+  }
+
+ 
    // alert(divId);
   var msgID = divId+"Message";
 
@@ -727,6 +738,7 @@ function enableDisableMember(divId,memberId,accountStatus){
       document.getElementById(divId).className+= " error";
       return;
     }else {
+
             document.getElementById(msgID).innerHTML = "";
             document.getElementById(divId).classList.remove("error");   
 
@@ -775,17 +787,248 @@ function enableDisableMember(divId,memberId,accountStatus){
                   document.getElementById(divId).innerHTML = "<img id='processing' src='images/processing.gif' height='20'> </img>";
 
 
+}
+
+function Upgrade_membership(elem){
+
+  // alert("value of member_type : "+elem.value );
+  var member_type = elem.value;
+      var button= document.getElementById("upgradeMembershipButton");
+
+  if(member_type != "Regular"){
+    //show a div to add payment_details
+    // alert("premium member");
+            button.style.display='block';
+
+  }else{
+        button.style.display='none';
+
+
+  }
+}
+
+
+function addPaymentDetails(memberId,operation,respDivId,memberTypeDiv){
+
+    var isErrored = false;
+    var memberType = document.getElementById(memberTypeDiv).value;
+    // alert(isErrored);
+    // alert(memberId);
+             if (memberId == "") {
+                  document.getElementById(divId).innerHTML = "";
+                      return;
+                } else { 
+
+                      var paymentDate = document.getElementById("datepicker").value;
+                      var membershipStartDate = document.getElementById("memStartDate").value;
+                      var membershipEndDate = document.getElementById("memExpiryDate").value;
+                      var paymentMode = document.getElementById("paymentMode").value;
+                      var amount = document.getElementById("amount").value;
+                      var paymentNumber = document.getElementById("paymentNumber").value;
+                      var paymentAgainst = document.getElementById("paymentAgainst").value;
+                      var otherDetails = document.getElementById("payOtherDetails").value;
+
+
+                      // alert(paymentDate+" & "+membershipStartDate +" & "+membershipEndDate +" & "+paymentMode +" & "+amount+" & "+ paymentNumber +" & "+paymentAgainst +" & "+otherDetails);
+
+                      //validate the form
+                      if(paymentDate == null || paymentDate ==""){
+                        isErrored = true;
+                        addErrorMessage("paymentDateMessage","Please enter Payment date.","datepicker");
+                      }else{
+
+                          if(!validateDate(paymentDate)){
+                            isErrored = true;
+                            addErrorMessage("paymentDateMessage","Please enter a valid Payment date.","datepicker");
+                          }else {
+                            removeErrorMessage("paymentDateMessage","datepicker");
+
+                          }
+                      }
+
+                      if(membershipStartDate== null || membershipStartDate ==""){
+                        isErrored = true;
+                        addErrorMessage("memStartDateMessage","Please enter Memberhsip start date.","memStartDate");
+                      }else{
+                         if(!validateDate(membershipStartDate)){
+                            isErrored = true;
+                            addErrorMessage("paymentDateMessage","Please enter a valid Memberhsip start date.","memStartDate");
+                          }else {
+                          removeErrorMessage("memStartDateMessage","memStartDate");
+                        }
+                      }
+
+
+                      if(membershipEndDate== null || membershipEndDate ==""){
+                        isErrored = true;
+                        addErrorMessage("memExpiryDateMessage","Please enter Membership expiry date.","memExpiryDate");
+                      }else{
+                        if(!validateDate(membershipEndDate)){
+                            isErrored = true;
+                            addErrorMessage("paymentDateMessage","Please enter a valid Memberhsip expiry date.","memStartDate");
+                          }else {
+                          removeErrorMessage("memExpiryDateMessage","memExpiryDate");
+                        }
+                      }
+
+
+
+                      if(paymentMode== null || paymentMode ==""){
+                        isErrored = true;
+                        addErrorMessage("paymentModeMessage","Please enter Payment mode.","paymentMode");
+                      }else{
+                          removeErrorMessage("paymentModeMessage","paymentMode");
+                      }
+
+
+
+                      if(amount== null || amount ==""){
+                        isErrored = true;
+                        addErrorMessage("amountMessage","Please enter Payment amount.","amount");
+                      }else{
+
+                          if(isNaN(amount)){
+                            isErrored = true;
+                            addErrorMessage("amountMessage","Please enter a valid Payment amount.","amount");
+                          }else {
+                           removeErrorMessage("amountMessage","amount");                         
+                          }
+                      }
+
+
+
+                      if(paymentNumber== null || paymentNumber ==""){
+                        isErrored = true;
+                        addErrorMessage("paymentNumberMessage","Please enter a check/payment number.","paymentNumber");
+                      }else{
+                          removeErrorMessage("paymentNumberMessage","paymentNumber");
+                      }
+
+
+                      if(paymentAgainst== null || paymentAgainst ==""){
+                         isErrored = true;
+                       addErrorMessage("paymentAgainstMessage","Please enter payment against details.","paymentAgainst");
+                      }else{
+                          removeErrorMessage("paymentAgainstMessage","paymentAgainst");
+                      }
+
+
+
+                      if(!isErrored){
+
+                          var postVars = "operation="+operation+"&serialNo="+memberId+"&memberType="+memberType+"&paymentDate="+paymentDate+"&membershipStartDate="+membershipStartDate+"&membershipEndDate="+membershipEndDate+
+                                      "&paymentMode="+paymentMode+"&amount="+amount+"&paymentNumber="+paymentNumber+"&paymentAgainst="+paymentAgainst+"&otherDetails="+otherDetails;
+                            // alert(postVars);
+
+                            sendPaymentDetails(postVars,respDivId);
+
+                      }
+
+
+                }
+}
+
+
+
+
+function sendPaymentDetails(postVars,divId){
+
+    if(postVars==null || postVars ==""){
+
+    }else{
+        if (window.XMLHttpRequest) {
+                              // code for IE7+, Firefox, Chrome, Opera, Safari
+                              xmlhttp = new XMLHttpRequest();
+                          } else {
+                              // code for IE6, IE5
+                              xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                          }
+                          xmlhttp.onreadystatechange = function() {
+                              if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                                   document.getElementById(divId).innerHTML = xmlhttp.responseText;
+                                  location.reload(true);
+                              }
+                          }
+
+                             xmlhttp.open("POST","admin-operations.php",true);
+                              xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                              xmlhttp.send(postVars);
+                              document.getElementById(divId).innerHTML = "<img id='processing' src='images/processing.gif' height='20'> </img>";
+    }
+
 
 
 }
 
 
 
+    function addErrorMessage(msgDiv,msg,inputDiv) {
+     document.getElementById(msgDiv).innerHTML = msg;
+      document.getElementById(inputDiv).className+= " errorBox" ;
+    }
+
+    function removeErrorMessage(msgDiv,inputDiv) {
+      document.getElementById(msgDiv).innerHTML = "";
+      document.getElementById(inputDiv).classList.remove("errorBox");   
+    }
+
+    function validateDate(dateStr){
+
+      var dateObj = new Date(dateStr);
+      if(dateObj && dateObj.getFullYear()>0) 
+      return true;
+      else 
+      return false;
+      
+
+    }
 
 
+function enableMessage(status,messageID){
+
+               if (messageID == "") {
+                    return;
+                } else { 
+                     if (window.XMLHttpRequest) {
+                      // code for IE7+, Firefox, Chrome, Opera, Safari
+                      xmlhttp = new XMLHttpRequest();
+                  } else {
+                      // code for IE6, IE5
+                      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                  }
+                  xmlhttp.onreadystatechange = function() {
+                      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
 
+                        document.getElementById("message-"+messageID).innerHTML = xmlhttp.responseText;
+                         location.reload(true);
+                           // alert(xmlhttp.responseText);
+                          // if(xmlhttp.responseText.trim() ==""){
+                          //   //validation was successful
+                          //    // alert("ssdsdsd");
+                          //    document.getElementById(msgID).className= " col-sm-offset-4";                            
+                          //    location.reload(true);
+                          // }else {
+                          //     document.getElementById(msgID).className += " error ";
+                          //    document.getElementById(msgID).innerHTML = xmlhttp.responseText;
 
+                          // }
+                        
+                      }
+                  }
+
+                  var postVars = "operation=updateMessage&messageID="+messageID+"&status="+status;
+
+                  xmlhttp.open("POST","admin-operations.php",true);
+                  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                  xmlhttp.send(postVars);
+                  document.getElementById("message-"+messageID).innerHTML = "<img id='processing' src='images/processing.gif' height='20'> </img>";
+
+                }
+
+}
 
 
 

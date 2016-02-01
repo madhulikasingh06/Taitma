@@ -101,7 +101,7 @@
                   <div  id ="message" > <?php 
 
                       if ($statusCode==SUCCESS) {
-                           echo "<meta http-equiv='refresh' content='0;/index.php'>";
+                           echo "<meta http-equiv='refresh' content='0;index.php'>";
                         // header('location:/index.php');	
                          exit;
                       }

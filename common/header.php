@@ -1,7 +1,7 @@
 <?php
-header( 'Cache-Control: no-store, no-cache, must-revalidate' ); 
-header( 'Cache-Control: post-check=0, pre-check=0', false ); 
-header( 'Pragma: no-cache' ); 
+header( 'Cache-Control: no-store, no-cache, must-revalidate');
+header( 'Cache-Control: post-check=0, pre-check=0', false );
+header( 'Pragma: no-cache' );
 ?>
 <?php
 //include_once "common/constants.db.php";
@@ -35,7 +35,8 @@ include_once "inc/user.operations.inc.php";
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="js/taitma.member.js"></script>
- 
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+
   </head>
  
   <body>
@@ -89,6 +90,8 @@ include_once "inc/user.operations.inc.php";
 
   </div><!--site-header end-->
 <div id="body"> <!-- body div start-->
+<?php require_once "recaptchalib.php"; ?>
+
 
 
 

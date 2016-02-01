@@ -15,6 +15,9 @@ class taitmaMembersOperation {
      */
     private $_db;
 
+
+    private $ADMIN_EMAILS  = array('madhulikasingh06@gmail.com');
+
     /**
      * Checks for a database object and creates one if none is found
      *
@@ -811,7 +814,13 @@ class taitmaMembersOperation {
       private function sendMail($email,$subject,$html,$text,$replyto){
             
             $from = array(EMAILID_FROM =>EMAIL_FROM);
-            $to = array( $email=> $email);
+            
+            if(is_array($email)){
+              $to = $email;
+            }else {
+              $to = array( $email=> $email);
+            }
+            
 
             
             $transport = Swift_SmtpTransport::newInstance(SMTP_SERVER, SMTP_PORT);
@@ -950,21 +959,61 @@ class taitmaMembersOperation {
         $companyName = stripcslashes($_POST["companyName"]);
         $phone = stripcslashes($_POST["phone"]);
 
-          $sql = "INSERT INTO Messages(name,email,company_name,phone,message,premium_val,category)
-                VALUES(?, ?,?,?,?,?,?)";
+        $verCode= sha1(time());  
+        // By default the message will be disabled, admin will have to approve the message
+        $disable = 1;
+
+
+          $sql = "INSERT INTO Messages(name,email,company_name,phone,message,premium_val,category,disable,verification_code)
+                VALUES(?, ?,?,?,?,?,?,?,?)";
 
                 if($stmt = $this->_db->prepare($sql)) {
                     $stmt->bind_param("sssssis", $name, $email,$companyName,$phone, $message, $premium_val,$category);
                    
                     if($stmt->execute()){
                       $status = SUCCESS;
-                       $userID = $this->_db->insert_id;
-                       echo "insert ID ".$userID;
+                       $messageId = $this->_db->insert_id;
+                       // echo "insert ID ".$userID;
+                       //create and send link to admin for approval
+
+                      
+                      
+
+                      $message_approve_link = $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/taitma/admin/messages.php?oper=verMes&id=".$messageId."&ver=".$verCode."&ena=0";
+
+                      // $message_approve_link = $_SERVER["SERVER_NAME"]."/admin/messages.php?oper=verMes&id=.$messageId.&ver=".$verCode."&ena=1";
+
+                      $subject = ADMIN_MESSAGE_APPROVE;
+
+                      $html = "<p>Hi,<br/>A new message has been added. Please take neccessary action. <br/>
+                                For approval Please click on below link - <br/>http://".$message_approve_link."</p>";
+
+                      $text = "Hi,\nA new message has been added. Please take the neccessary action. \n
+                                For approval Please click on below link - \nhttp://".$message_approve_link;
+
+
+
+                      $toEmail = $this->ADMIN_EMAILS;
+
+                      if($this->sendMail($toEmail,$subject,$html,$text,"")){
+
+
+                        echo "Message was sent to your email.";
+
+                        
+                      
+                       }else {
+
+                        echo  "There was some error sending email.";
+                       }
+
+
+
 
                     }else {
                        $status = ERROR;
                       $status =" ERR_LINK_ADD_FAILED";
-                        echo "error  ::". $this->_db->error;
+                        // echo "error  ::". $this->_db->error;
 
                     }     
       

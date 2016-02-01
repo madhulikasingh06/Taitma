@@ -77,6 +77,10 @@ class taitmaAdminOperation {
             return $this -> addPaymentDetails();
         }elseif ($operation == 'updateMessage') {
             return $this -> updateMessageStatus();
+        }elseif ($operation == 'verMes') {
+          return $this -> approveMessage();
+        }elseif ($operation == "delMes") {
+           return $this -> deleteMessage();
         }
 
 
@@ -687,7 +691,7 @@ class taitmaAdminOperation {
 
        }else {
 
-         if(strlen($membershipNo)>=8) {
+         if(strlen($membershipNo)>7) {
 
           if($this->checkIfMembershipNoExists($membershipNo)){
              $result = ERR_MEMBERSHIPNO_EXISTS;
@@ -826,16 +830,25 @@ class taitmaAdminOperation {
         $id=intval($_POST["id"]);
         $articleType=$_POST["articleType"];
 
+        $eventDate = $_POST["eventDate"];
+
+        $eventDateSQL = null;
+        if(!empty($eventDate)){
+            $eventDateSQL = date("Y-m-d H:i:s", strtotime($eventDate));
+        }
+
+
+
         echo $id;
 
 
 
           if ($id>0) {
             # code...
-              $sql = "UPDATE News_And_Notices set title=?, data=?,premium_val=?,enabled=?,article_type=? where id=?";
+              $sql = "UPDATE News_And_Notices set title=?, data=?,premium_val=?,enabled=?,article_type=?,event_date=? where id=?";
           
                     if($stmt = $this->_db->prepare($sql)) {
-                        $stmt->bind_param("ssiisi", $title, $content, $premium_val,$enabled,$articleType,$id);
+                        $stmt->bind_param("ssiissi", $title, $content, $premium_val,$enabled,$articleType,$eventDateSQL,$id);
                         
                         if($stmt->execute()){
                                $status = MSG_LINK_UPDATE_SUCCESS;
@@ -850,11 +863,11 @@ class taitmaAdminOperation {
                 
 
           }else {
-              $sql = "INSERT INTO News_And_Notices(title,data,premium_val,enabled,article_type)
-                VALUES(?, ?,?,?,?)";
+              $sql = "INSERT INTO News_And_Notices(title,data,premium_val,enabled,article_type,event_date)
+                VALUES(?, ?,?,?,?,?)";
 
                 if($stmt = $this->_db->prepare($sql)) {
-                    $stmt->bind_param("ssiis", $title, $content, $premium_val,$enabled,$articleType);
+                    $stmt->bind_param("ssiiss", $title, $content, $premium_val,$enabled,$articleType,$eventDateSQL);
                    
                     if($stmt->execute()){
                       $status = MSG_LINK_ADD_SUCCESS;
@@ -1324,6 +1337,8 @@ class taitmaAdminOperation {
       $status = "";
       $email = "";
 
+      $billNumber = $_POST["billNumber"];
+
       if(strcasecmp($memberType,"Regular")==0){
         $memberTypeSQL = MEMBERSHIP_TYPE_REGULAR;
       }else if(strcasecmp($memberType,"Premium Yearly")==0){
@@ -1340,15 +1355,16 @@ class taitmaAdminOperation {
 
       $transId = md5(uniqid());
 
-      $stmt = $this->_db->prepare("CALL addPaymentDetails(?,?,?,?,?,?,?,?,?,?,?,@out_payment_id)");
+      $stmt = $this->_db->prepare("CALL addPaymentDetails(?,?,?,?,?,?,?,?,?,?,?,?,@out_payment_id)");
 
-      $stmt -> bind_param("iissssdssss",$serialNo,
+      $stmt -> bind_param("iissssdsssss",$serialNo,
                                         $memberTypeSQL,
                                         $paymentDateSQL,
                                         $memStartDateSQL,
                                         $memExpiryDateSQL,
                                         $paymentMode,
                                         $amount,
+                                        $billNumber,
                                         $paymentNumber,
                                         $transId,
                                         $paymentAgainst,
@@ -1424,6 +1440,42 @@ class taitmaAdminOperation {
 
       return;
 
+      }
+
+
+      private function approveMessage(){
+
+        $id = $_GET["id"];
+        $verificationCode = $_GET["ver"];
+        $enable = intval($_GET["ena"]);
+
+
+         $sql = "UPDATE Messages SET disable = ? WHERE verification_code=? AND ID = ?";
+
+              if($stmt = $this->_db->prepare($sql)) {
+                $stmt->bind_param("isi", $enable,$verificationCode, $id);
+                        
+                        if($stmt->execute()){
+                               // $status = MSG_LINK_UPDATE_SUCCESS;
+                          echo "<div class='center'>Link is approved.</div>";
+                        }
+
+              }
+
+      return;
+
+
+      }
+
+      private function deleteMessage(){
+
+        $id = $_GET["id"];
+
+        $sql = "DELETE FROM Messages WHERE id=".$id;
+        $result = $this->_db->query($sql);
+        $status = MSG_LINK_DELETE_SUCCESS;
+
+        return $status;
       }
   
 

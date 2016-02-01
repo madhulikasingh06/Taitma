@@ -66,7 +66,7 @@
          $_POST["companyName"] = $companyName;
          $_POST["phone"] = $phone;
 
-            include_once "user-operations.php";
+            include_once "admin-operations.php";
              echo "<meta http-equiv='refresh' content='0;/messages.php'>";
                          exit;
  		}
@@ -81,15 +81,12 @@
 
 ?>
 
-
-           <?php
+          <?php
            
-           	if (isset($_GET["oper"]) && $_GET["oper"]=="addPost"){
+            if (isset($_GET["oper"])){
 
-           		// echo "get request";
-           	//Show the form ?>	
-
-				 <form  role="form" action="" method="post"  class="form-horizontal" class="row" >
+              if($_GET["oper"]=="addPost"){ ?>
+                   <form  role="form" action="" method="post"  class="form-horizontal" class="row" >
                       
                         <input type="hidden" name="operation" value="drop-message"/>
                         <input type="hidden" name="premium_val" value="1"/>
@@ -156,11 +153,21 @@
 
                         </form>
 
-		<?php 
-           }else {
 
-           	    
-           	    $result = $db->query("SELECT *  FROM Messages;");
+
+             <?php   }else if(($_GET["oper"]=="verMes")){
+
+                //code for approving the message
+                include_once "admin-operations.php";
+                // echo "<meta http-equiv='refresh' content='0;/messages.php'>";
+                //          exit;
+
+               }
+
+             }else {
+
+
+                $result = $db->query("SELECT *  FROM Messages;");
                 
 
                 if ($result->num_rows > 0) { 
@@ -185,16 +192,16 @@
                               <div class="col-sm-4"><i>Company name&nbsp;:&nbsp;</i><b><?php echo $row["company_name"];?></b></div>
                               <div class="col-sm-4"><i>Email&nbsp;:&nbsp;</i><b><?php echo $row["email"];?></b></div>
                           </div>
-<!--                           	<div class="" id="message-<?php echo ""  ?>"><b><i>Inquiry&nbsp;:&nbsp;</i></b></div>
+<!--                            <div class="" id="message-<?php echo ""  ?>"><b><i>Inquiry&nbsp;:&nbsp;</i></b></div>
  -->                            <div class="row">
                               <div class="col-sm-10">                               
-                            		<p><?php echo nl2br(str_replace('\\r\\n', "\r\n", $row["message"])); ?></p>
+                                <p><?php echo nl2br(str_replace('\\r\\n', "\r\n", $row["message"])); ?></p>
                             </div>                        
                             </div>
                             <div class="row">
-                            	<div class="col-sm-offset-8 col-sm-4" style="margin-right:20px">
-                            		<button type="button" onClick="forwardMessage(<?php echo $row["ID"];  ?>,'message-<?php echo $row["ID"];  ?>')">Send to my email</button>
-                          	       <button  type="button" onClick="enableMessage('<?php echo $status ;?>','<?php echo $row["ID"];  ?>')">
+                              <div class="col-sm-offset-7 col-sm-5" >
+                                <button type="button" onClick="forwardMessage(<?php echo $row["ID"];  ?>,'message-<?php echo $row["ID"];  ?>')">Send to my email</button>
+                                  <button  type="button" onClick="enableMessage('<?php echo $status ;?>','<?php echo $row["ID"];  ?>')">
                                       <?php if($status==0){
                                           echo 'Disable';
                                       }else {
@@ -203,6 +210,7 @@
 
 
                                     </button>
+                                  <button type="button" onClick="deleteMessage(<?php echo $row["ID"];  ?>)">Delete</button>
                               </div>
                             </div>
 
@@ -210,20 +218,11 @@
                           <div class="col-sm-1"></div>
 
               </div>
-                <?php }
-
-              }
 
 
-
-           }
-
-
-
-
-
-
-  ?>
+           <?php }
+          } 
+        } ?>
     
     </div> <!-- -page div ends -->  
 

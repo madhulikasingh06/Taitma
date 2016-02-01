@@ -359,7 +359,7 @@
 												<div class="col-sm-2"><b><u>Contact person/<br/>Phone/<br/>Mobile</u></b></div>
 												<div class="col-sm-1"><b><u>Region/<br/>City/<br/>Pincode</u></b></div>
 												<div class="col-sm-1"><b><u>Status</u></b></div>
-												<div class="col-sm-2"><b><u>Member Type</u></b></div>												
+												<div class="col-sm-2"><b><u>Member Type/<br/>Expiry Date</u></b></div>												
 											</div>
 										</div>	
                   					<?php 	while($row = $result1->fetch_assoc()) {
@@ -390,8 +390,17 @@
                   						?>
 										<div class="col-sm-12" style="line-height:2.2em;font-size:12px;">
 											<div class="row">
-												<div class="col-sm-2" ><a href="?id=<?php echo $row["serial_no"]?>" class="<?php if($member_status=='new') echo ' error';?>"><?php echo $row["email"] ?></a></div>												
-												<div class="col-sm-2<?php if(empty($row["membership_no"])){echo ' error' ;} ?>" style="text-align:center;"><?php if(!empty($row["membership_no"])){echo $row["membership_no"]; } else {echo 'Pending Approval';}  ?></div>
+												<div class="col-sm-2" ><a href="member-profile-details.php?id=<?php echo $row["serial_no"]?>" class="<?php if($member_status=='new') echo ' error';?>"><?php echo $row["email"] ?></a></div>												
+												<?php if(intval($memberType_id)>0){ ?>
+												<div class="col-sm-2<?php if(empty($row["membership_no"])){echo ' error' ;} ?>" style="text-align:center;">
+													<?php  if(!empty($row["membership_no"])){echo $row["membership_no"]; } else {echo 'Pending Approval'; } ?>
+												</div>
+													<?php  }else { ?>
+												<div class="col-sm-2 center" ><p>-</p></div>
+
+												<?php	 } ?>
+
+												
 												<div class="col-sm-2"><?php echo ucfirst($row["company_name"]); ?></div>
 												<div class="col-sm-2"><?php echo ucfirst($row["contact_person"]); ?><br>
 													<?php echo ucfirst($row["phone"]); ?><br/>
@@ -403,7 +412,9 @@
 												</div>
 
 												<div class="col-sm-1"><?php echo ucfirst($member_status); ?></div>
-												<div class="col-sm-2"><?php echo ucfirst($memberType); ?></div>
+												<div class="col-sm-2"><?php echo ucfirst($memberType); ?> <br/>
+													<?php echo $row["membership_expiry_date"]; ?>
+												</div>
 												
 	
 											</div>

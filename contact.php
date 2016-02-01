@@ -3,11 +3,42 @@
 <?php 
 
    $category= $name = $email = $message = $companyName = $phone = "";
-   $categoryErr = $nameErr = $emailErr = $messageErr = $companyNameErr = $phoneErr ="";
+   $categoryErr = $nameErr = $emailErr = $messageErr = $companyNameErr = $phoneErr = $captchaMessageErr ="";
 
    if(isset($_POST["operation"])){
 
         $isErrored = false;
+
+
+        // your secret key
+        $secret = RECAPTCHA_SECRET_KEY;
+         
+        // empty response
+        $response = null;
+         
+        // check secret key
+        $reCaptcha = new ReCaptcha($secret);
+
+        // if submitted check response
+        if (isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])) {
+            $response = $reCaptcha->verifyResponse(
+                $_SERVER["REMOTE_ADDR"],
+                $_POST["g-recaptcha-response"]
+            );
+
+            if (!($response != null && $response->success)) {
+                $isErrored = true;
+                $captchaMessageErr = "Please verify again.";
+
+            }
+
+        }else{
+            $isErrored = true;
+           $captchaMessageErr = "Please check this box.";
+        }
+
+
+
 
         if(empty($_POST["name"])){
             $isErrored = true;
@@ -60,7 +91,7 @@
 
         if(!$isErrored){
             include_once "user-operations.php";
-              echo "<meta http-equiv='refresh' content='0;/contact.php'>";
+              echo "<meta http-equiv='refresh' content='0;contact.php'>";
                          exit;
         }
 
@@ -184,11 +215,18 @@
                                     <div class="form-group">
                                         <label for="message" class="control-label col-sm-4">Message:<sup>*</sup></label>
                                         <div class="col-sm-7">
-                                        <textarea type="text" class="form-control input-sm <?php if(!$messageErr==""){echo " errorBox" ;} ?>"  id="message" rows="5" columns="5" name="message">
-                                            <?php echo $message; ?></textarea>
+                                        <textarea type="text" class="form-control input-sm <?php if(!$messageErr==""){echo " errorBox" ;} ?>"  id="message" rows="5" columns="5" name="message"><?php echo $message; ?></textarea>
                                         </div>
                                         <div class="col-sm-1"></div>
                                     </div>
+
+                                    <span  id="captchaMessage" class="col-sm-offset-2 error" ><?php echo $captchaMessageErr;?></span>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-4 col-sm-7">
+                                            <div class="g-recaptcha" data-sitekey="<?php echo RECAPTCHA_SITE_KEY ;?>"></div>
+                                        </div>
+                                    </div>
+
 
                                     <div class="col-sm-offset-9 col-sm-3">
                                           <button type="submit" class="btn btn-default">Submit</button>

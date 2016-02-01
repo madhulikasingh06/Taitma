@@ -824,6 +824,7 @@ function addPaymentDetails(memberId,operation,respDivId,memberTypeDiv){
                       var membershipEndDate = document.getElementById("memExpiryDate").value;
                       var paymentMode = document.getElementById("paymentMode").value;
                       var amount = document.getElementById("amount").value;
+                      var billNumber = document.getElementById("billNumber").value;                      
                       var paymentNumber = document.getElementById("paymentNumber").value;
                       var paymentAgainst = document.getElementById("paymentAgainst").value;
                       var otherDetails = document.getElementById("payOtherDetails").value;
@@ -896,6 +897,12 @@ function addPaymentDetails(memberId,operation,respDivId,memberTypeDiv){
                       }
 
 
+                    if(billNumber== null || billNumber ==""){
+                        isErrored = true;
+                        addErrorMessage("billNumberMessage","Please enter a bill number.","billNumber");
+                      }else{
+                          removeErrorMessage("billNumberMessage","billNumber");
+                      }
 
                       if(paymentNumber== null || paymentNumber ==""){
                         isErrored = true;
@@ -917,7 +924,7 @@ function addPaymentDetails(memberId,operation,respDivId,memberTypeDiv){
                       if(!isErrored){
 
                           var postVars = "operation="+operation+"&serialNo="+memberId+"&memberType="+memberType+"&paymentDate="+paymentDate+"&membershipStartDate="+membershipStartDate+"&membershipEndDate="+membershipEndDate+
-                                      "&paymentMode="+paymentMode+"&amount="+amount+"&paymentNumber="+paymentNumber+"&paymentAgainst="+paymentAgainst+"&otherDetails="+otherDetails;
+                                      "&paymentMode="+paymentMode+"&amount="+amount+"&billNumber="+billNumber+"&paymentNumber="+paymentNumber+"&paymentAgainst="+paymentAgainst+"&otherDetails="+otherDetails;
                             // alert(postVars);
 
                             sendPaymentDetails(postVars,respDivId);
@@ -1028,6 +1035,46 @@ function enableMessage(status,messageID){
 
                 }
 
+}
+
+function deleteMessage(id){
+
+
+      if(id==""){
+        return;
+      }else{
+
+         if (window.XMLHttpRequest) {
+                      // code for IE7+, Firefox, Chrome, Opera, Safari
+                      xmlhttp = new XMLHttpRequest();
+          } else {
+                      // code for IE6, IE5
+                      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+              xmlhttp.onreadystatechange = function() {
+                      if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                          location.reload(true);
+                        }
+
+           }
+
+
+            if (confirm("Are you sure you want to delete this Link? This cannot be undone!") == true) {
+              xmlhttp.open("GET","admin-operations.php?oper=delMes&id="+id,true);
+              xmlhttp.send();
+
+              document.getElementById(divId).innerHTML = "<img id='processing' src='images/processing.gif' height='20'></img>";
+
+          }
+
+      }
+
+
+
+
+
+
+    
 }
 
 

@@ -88,6 +88,12 @@ define("PASSWORD_UPDATE_SUCCESS", "Your password is successfully reset. Please c
 define("BANNER_FOLDER", "images/FooterBanners/");
 define("MESSAGE_FORWARD_SUBJECT", "[TAITMA]- You forwarded a message.");
 
+define("ADMIN_MESSAGE_APPROVE", "[TAITMA]- A new message for your approval.");
+
+define("RECAPTCHA_SECRET_KEY", "6LeKHxYTAAAAACXAbbMzveiFVo5MF42Cfx8Ve-Su");
+define("RECAPTCHA_SITE_KEY", "6LeKHxYTAAAAAD3SX9zE5WwyFdhvL_Z2CmIKHFfM");
+
+
 
 
 

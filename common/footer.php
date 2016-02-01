@@ -3,7 +3,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
 
-
 	  	<?php if (!($pageName=='Home')) { ?>
 
 			  	<div id="site-footer-link" class="row"> <!--site-footer-links div starts-->

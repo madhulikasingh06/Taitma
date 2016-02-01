@@ -7,13 +7,14 @@
        $category = $memberSpecifiedCategory = $memberType = $otherDetails = $doc1 = 
        $doc2= $doc1_name = $doc2_name = $doc1_ref =$doc2_ref = $membershipNumber = $disable = $disableDesc =  $disabledDate = 
        $addPaymentDetails = $paymentMode = $amount =$paymentNumber = $paymentAgainst = $payOtherDetails = 
-       $paymentID= $membershipStartDate =$membershipExpiryDate = $reminder = $statusMsg= $statusCode ="";
+       $paymentID= $membershipStartDate =$membershipExpiryDate = $reminder = $statusMsg= $statusCode = 
+       $billNumber = "";
 
        $emailErr = $passwordErr = $confirmPasswordErr = $companyNameErr = $contactPersonErr = $address1Err = 
        $address2Err =$cityErr = $pincodeErr = $stateErr = $phoneErr = $mobileErr = $websiteErr = $regionErr = 
        $categoryErr = $memberSpecifiedCategoryErr = $memberTypeErr = $otherDetailsErr = $doc1Err = $doc2Err = 
        $membershipNumberErr  = $disableDescErr = $addPaymentDetailsErr = $paymentModeErr = $amountErr =$paymentNumberErr = 
-       $paymentAgainstErr = $payOtherDetailsErr = $paymentDateErr ="";
+       $paymentAgainstErr = $payOtherDetailsErr = $paymentDateErr = $billNumberErr ="";
 
         if(isset($_POST["operation"]) && ($_POST["operation"]=="approve-member")) { 
 
@@ -31,6 +32,7 @@
 
                         }
           }
+
 
 		$memberSerial = $_GET["id"];
 		$result = $db -> query(getUnapprovedMemberDetails.$memberSerial);
@@ -117,11 +119,11 @@
 <div id="approve-member-div"> 	<!-- Approve-admin-div-starts -->
                   <?php  if($statusCode==SUCCESS){?>
 
-            <p style="text-align:center;"><?php echo  $statusMsg ?></p>
+            <p style="text-align:center;"><?php echo  $statusMsg; ?></p>
 
                       <?php } else {  ?>
 
-            <p style="text-align:center;color:#FF5050;"><?php echo  ERR_ACCOUNT_EDIT_FORM_VAL_FAILED ?></p>
+            <p style="text-align:center;color:#FF5050;"><?php echo  ERR_ACCOUNT_EDIT_FORM_VAL_FAILED; ?></p>
 
                       <?php }  ?>
 
@@ -148,7 +150,7 @@
                   			<input class="input-box col-sm-7 <?php if(!$membershipNumberErr==""){echo " errorBox" ;} ?>" id="membershipNumber" type="text" name="membershipNumber"  
                           <?php if(!empty($membershipNumber)){ ?>
                                   onBlur="showAlert(this)"
-                          <?php }?>  value="<?php echo $membershipNumber?>"   onchange="showAlert(this)" />
+                          <?php }?>  value="<?php echo $membershipNumber;?>"   onchange="showAlert(this)" />
                   		  <?php if(strlen(trim($membershipNumber))<3)  { ?>
                         <div id="approve-button"><button style="vertical-align:top;margin-left:10px;" type="button" onClick="validateAndApproveMembershipNumber('membershipNumber','<?php echo $memberSerial; ?>' , '<?php echo $email; ?>')">Approve!</button></div>
                         <?php } ?>
@@ -557,7 +559,16 @@
                       <span  id="paymentModeMessage" class="col-sm-offset-4 error" ><?php echo $paymentModeErr;?></span>
                       <div class="row form-group">
                           <label  for="paymentMode" class="col-sm-4">Payment Mode : </label>
-                          <input  id="paymentMode" class="col-sm-8 input-box <?php if(!empty($paymentModeErr)){ echo " errorBox" ;} ?>" name="paymentMode" type="text" value="<?php echo $paymentMode; ?>"/> 
+<!--                           <input  id="paymentMode" class="col-sm-8 input-box <?php if(!empty($paymentModeErr)){ echo " errorBox" ;} ?>" name="paymentMode" type="text" value="<?php echo $paymentMode; ?>"/> 
+ -->                          <select id="paymentMode" class="col-sm-8 form-control input-box <?php if(!empty($paymentModeErr)){ echo " errorBox" ;} ?>" name="paymentMode" >
+                              <option value="">Please choose payment mode.</option>
+                              <option value="Cash" <?php if($paymentMode=='Cash') {echo 'selected' ; } ?> >Cash</option>
+                              <option value="Cheque" <?php if($paymentMode=='Cheque') {echo 'selected' ; } ?>>Cheque</option>
+                              <option value="Online" <?php if($paymentMode=='Online') {echo 'selected' ; } ?>>Online</option>
+                              <option vlaue="Other" <?php if($paymentMode=='Other') {echo 'selected' ;} ?>>Other</option>
+
+                          </select>
+
 
                       </div>
 
@@ -565,6 +576,13 @@
                       <div class="row  form-group">
                           <label  for="amount" class="col-sm-4">Amount : </label>
                           <input id="amount" class="col-sm-8 input-box <?php if(!empty($amountErr)){ echo " errorBox" ;} ?>" type="text"  name="amount"  value="<?php echo $amount; ?>"/> 
+                      </div>
+
+
+                      <span  id="billNumberMessage" class="col-sm-offset-4 error" ><?php echo $billNumberErr;?></span>
+                      <div class="row  form-group">
+                          <label  for="billNumber" class="col-sm-4">Bill number :</label>
+                          <input id="billNumber" class="col-sm-8 input-box <?php if(!empty($billNumberErr)){ echo " errorBox" ;} ?>" type="text" name="billNumber" value="<?php echo $billNumber; ?>"/> 
                       </div>
 
                       <span  id="paymentNumberMessage" class="col-sm-offset-4 error" ><?php echo $paymentNumberErr;?></span>
@@ -686,7 +704,7 @@ $( "#datepicker" ).datepicker({
 
   function showAlert(membershipNumberDiv){
 
-      alert(membershipNumberDiv.value);
+      // alert(membershipNumberDiv.value);
 
       if(membershipNumberDiv.value==""){
         alert("After approval membership number cannot be blank.");
@@ -695,5 +713,5 @@ $( "#datepicker" ).datepicker({
 
 
 </script>
-
+<?php include_once "common/footer.php"; ?>
 

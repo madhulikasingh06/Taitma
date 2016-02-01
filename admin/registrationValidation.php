@@ -60,8 +60,8 @@
 				if(!empty($_POST["membershipNumber"])){
 
 					$serialNoReq = $_POST["serial_no"];
-					$membershipNumber = test_input($_POST["membershipNumber"]);
-					if(strlen($membershipNumber)<=8){
+				    $membershipNumber = test_input($_POST["membershipNumber"]);
+					if(strlen($membershipNumber)<8){
 						$isErrored = true;
 						$membershipNumberErr = ERR_MEMBERSHIPNO_LENGTH;
 					}else {

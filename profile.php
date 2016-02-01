@@ -301,7 +301,8 @@
                         <span  id="memberTypeMessage" class="col-sm-offset-4 error" ><?php echo $memberTypeErr; ?></span>
                           <div class="form-group">
                             <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
-                             <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
+                            <div class="col-sm-8"><b><?php echo $memberType ; ?></b></div>
+               <!--               <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
                                 <option value="" >Please choose a member type.</option>
 
                                 <?php
@@ -321,7 +322,7 @@
                                         <?php }
                                      }
                                  ?>
-                             </select>
+                             </select> -->
 
 
                           </div>

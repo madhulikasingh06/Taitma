@@ -6,7 +6,7 @@
       
 
       $id=0;
-      $articleType = $title = $content = $enabled = $premiumVal = $status1="";
+      $articleType = $title = $content = $enabled = $premiumVal = $status1= $eventDate="";
       $articleTypeErr = $titleErr = $contentErr = $enableErr = $premiumValErr = "";
 
       if ($_SERVER['REQUEST_METHOD']==="GET") {
@@ -27,6 +27,10 @@
                              $enabled = $row["enabled"];
                               $premiumVal = $row["premium_val"];
                               $articleType = $row["article_type"];
+                              if(!empty($row["event_date"])){
+                                  $eventDate = date_create($row["event_date"]);
+                                 $eventDate = date_format($eventDate,"m/d/Y");
+                              }                            
                          }
                 }
 
@@ -147,6 +151,13 @@
                     </div>
 
 
+                    <div class="form-group row">
+                       <div class="col-sm-2"><label>Event Date:</label></div>
+                       <div class="col-sm-10"><input   id="datepicker" class="input-box"
+                       name="eventDate" type="text" value="<?php echo $eventDate  ?>"/></div>
+
+                        
+                    </div>
 
                     <div id="title-msg" class=" col-sm-offset-2 error"><?php echo $titleErr ?></div> 
                     <div class="form-group row">
@@ -219,3 +230,18 @@ $(function(){
 });
 
 </script>
+<script type="text/javascript">
+
+$( "#datepicker" ).datepicker({
+      changeMonth : true,
+      changeYear : true,
+      yearRange : '-50:+1',
+      showButtonPanel : true,
+      dateFormat : 'mm/d/yy',
+      maxDate: '0',
+  }
+
+  );
+
+</script>
+  <script src="js/jquery-ui.js"></script>

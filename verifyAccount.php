@@ -27,7 +27,11 @@
         <?php include_once "common/inner-nav-bar.php"; ?>
                 <div class="col-sm-offset-2  col-sm-8 trasparent-bg  page-content-style">
 
-        <p style="text-align:center;"><?php echo  $statusMsg ?></p>
+        <p style="text-align:center;"><?php echo  $statusMsg ?><br/>
+          <?php if($statusCode ==SUCCESS) {  ?>
+            <a href="index.php">Login Here</a>
+
+            <?php } ?></p>
     </div>
     
     </div> <!-- notice-board-page div ends -->  

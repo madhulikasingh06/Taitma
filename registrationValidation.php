@@ -3,7 +3,35 @@
 	$isErrored=false;
 
 		if($_POST["operation"]=="register-user"){
-					$email = test_input($_POST["email"]);
+			
+					// your secret key
+		        $secret = RECAPTCHA_SECRET_KEY;
+		         
+		        // empty response
+		        $response = null;
+		         
+		        // check secret key
+		        $reCaptcha = new ReCaptcha($secret);
+
+		        // if submitted check response
+		        if (isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])) {
+		            $response = $reCaptcha->verifyResponse(
+		                $_SERVER["REMOTE_ADDR"],
+		                $_POST["g-recaptcha-response"]
+		            );
+
+		            if (!($response != null && $response->success)) {
+		                $isErrored = true;
+		                $captchaMessageErr = "Please verify again.";
+
+		            }
+
+		        }else{
+		            $isErrored = true;
+		           $captchaMessageErr = "Please check this box.";
+		        }
+				
+				$email = test_input($_POST["email"]);
 		 
 		 		if (empty($_POST["email"])) {
 		 		  $isErrored = true;

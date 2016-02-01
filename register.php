@@ -11,7 +11,7 @@
 
                 <?php 
                    $email = $password = $confirmPassword = $companyName = $contactPerson = $address1 = $address2 =$city = $pincode = $state = $phone = $mobile = $website = $region = $category = $memberSpecifiedCategory = $memberType = $otherDetails ="";
-                   $emailErr = $passwordErr = $confirmPasswordErr = $companyNameErr = $contactPersonErr = $address1Err = $address2Err =$cityErr = $pincodeErr = $stateErr = $phoneErr = $mobileErr = $websiteErr = $regionErr = $categoryErr = $memberSpecifiedCategoryErr = $memberTypeErr = $otherDetailsErr = $doc1Err = $doc2Err = "";
+                   $emailErr = $passwordErr = $confirmPasswordErr = $companyNameErr = $contactPersonErr = $address1Err = $address2Err =$cityErr = $pincodeErr = $stateErr = $phoneErr = $mobileErr = $websiteErr = $regionErr = $categoryErr = $memberSpecifiedCategoryErr = $memberTypeErr = $otherDetailsErr = $doc1Err = $doc2Err = $captchaMessageErr ="";
 
                  if(isset($_POST["operation"])) {
 
@@ -219,7 +219,7 @@
                           </div>
 
                         <span  id="doc1Message" class="col-sm-offset-4 error" ><?php echo $doc1Err;?></span>
-                        <div>
+                        <div class="form-group">
                           <label for="doc1" class="col-sm-4">Select file to upload: </label>                          
                           <input type="file" name="doc1" id="doc1">
 
@@ -227,9 +227,17 @@
 
 
                         <span  id="doc2Message" class="col-sm-offset-4 error" ><?php echo $doc2Err;?></span>
-                        <div>
+                        <div class="form-group">
                           <label for="doc2" class="col-sm-4">Select file to upload: </label>                          
                           <input type="file" name="doc2" id="doc1">
+                        </div>
+
+
+                        <span  id="captchaMessage" class="col-sm-offset-4 error" ><?php echo $captchaMessageErr;?></span>
+                         <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-7">
+                              <div class="g-recaptcha" data-sitekey="<?php echo RECAPTCHA_SITE_KEY ;?>"></div>
+                            </div>
                         </div>
 
 

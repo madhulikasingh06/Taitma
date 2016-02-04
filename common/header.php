@@ -35,7 +35,9 @@ include_once "inc/user.operations.inc.php";
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="js/taitma.member.js"></script>
-  <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src="js/bootstrap.min.js"></script>
+   <script src="js/bootstrap-paginator.js"></script>
+   <script src='https://www.google.com/recaptcha/api.js'></script>
 
   </head>
  

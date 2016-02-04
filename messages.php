@@ -15,7 +15,7 @@
 
 	<?php 
 
-   $category= $name = $email = $message = "";
+   $category= $name = $email = $message = $totalPages = $pageNumber = "";
    $categoryErr = $nameErr = $emailErr = $messageErr = "";
 
    if(isset($_POST["operation"])){
@@ -159,8 +159,28 @@
 		<?php 
            }else {
 
+
+             $start = 0;
+              $range = 10;
+
+                if (isset($_GET["oper"]) && $_GET["oper"]=="showMessage"){  
+                    $start = $_GET["start"];
+                 }
+
+
+              $totalMessages = $db -> query("SELECT ID FROM Messages where disable=0");
+                
+                if ($totalMessages->num_rows > 0) {
+                   $messageCount=$totalMessages->num_rows;
+                   // echo (floor($totalPages/10));
+                    $totalPages = (floor($messageCount/10) + 1);
+                    
+
+                }
            	    
-           	    $result = $db->query("SELECT *  FROM Messages where disable=0;");
+                $pageNumber = (floor($start/10)+1);
+
+           	    $result = $db->query("SELECT *  FROM Messages where disable=0 LIMIT ".$start." , ".$range. " ;");
                 
 
                 if ($result->num_rows > 0) { 
@@ -212,8 +232,31 @@
 
 
   ?>
-    
+    <div class="center"><ul id="paginator"></ul></div>
+
     </div> <!-- -page div ends -->  
+
+    <script type='text/javascript'>
+        var options = {
+            size:"small",
+            bootstrapMajorVersion:3,
+            // currentPage: 1,
+            // totalPages: 3,
+            currentPage: <?php echo $pageNumber ; ?>,
+            totalPages: <?php echo $totalPages ; ?>,
+            onPageClicked : function(e, originalEvent, type, page) {
+               fetchMessages(page)
+            },
+        }
+
+
+        $('#paginator').bootstrapPaginator(options);
+
+          function fetchMessages(page) {
+            var start = (page * 10) - 10;
+          window.location.href="?oper=showMessage&start="+start+"&range=10";
+          }
+    </script>
 
 
 <?php include_once "common/footer.php"; ?>

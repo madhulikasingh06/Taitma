@@ -981,8 +981,8 @@ class taitmaMembersOperation {
 
 //                       $message_approve_link = $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/taitma/admin/messages.php?oper=verMes&id=".$messageId."&ver=".$verCode."&ena=0";
 
-                     $message_approve_link = $_SERVER["SERVER_NAME"]."/admin/messages.php?oper=verMes&id=.$messageId.&ver=".$verCode."&ena=1";
-                      $message_approve_link = $_SERVER["SERVER_NAME"]."/admin/messages.php?oper=delMes&id=.$messageId;
+                     $message_approve_link = $_SERVER["SERVER_NAME"]."/admin/messages.php?oper=verMes&id=".$messageId."&ver=".$verCode."&ena=0";
+                      $message_delete_link = $_SERVER["SERVER_NAME"]."/admin/messages.php?oper=delMes&id=".$messageId;
 
                       $subject = ADMIN_MESSAGE_APPROVE;
 
@@ -1072,10 +1072,10 @@ class taitmaMembersOperation {
         }
 
         $html = "Hi<br />You forwarded below message from Taitma.<br /><b><i>Name : </i></b>".$name."<br><b><i>Company Name : </i></b>".$companyName.
-                "<br/><b><i>Phone : </i></b>".$phone."<br /><b><i>Categoty : </i></b>".$category."<br/>".$message;
+                "<br/><b><i>Phone : </i></b>".$phone."<br /><b><i>Categoty : </i></b>".$category."<br/>".nl2br(str_replace('\\r\\n', "\r\n", $message));
 
         $text = "Hi\n You forwarded below message from Taitma.\n Name : ".$name."\n Company Name :".$companyName.
-                "\n Phone : ".$phone."\n Categoty : ".$category."\n".$message;
+                "\n Phone : ".$phone."\n Categoty : ".$category."\n".str_replace('\\r\\n', "\r\n", $message);
 
         $subject = MESSAGE_FORWARD_SUBJECT;
 

@@ -1475,7 +1475,8 @@ class taitmaAdminOperation {
         $result = $this->_db->query($sql);
         $status = MSG_LINK_DELETE_SUCCESS;
 
-        return $status;
+        echo "<div class='center'>Link is deleted.</div>";
+        return;
       }
   
 

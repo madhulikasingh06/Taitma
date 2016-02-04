@@ -67,7 +67,7 @@
          $_POST["phone"] = $phone;
 
             include_once "user-operations.php";
-             echo "<meta http-equiv='refresh' content='0;/messages.php'>";
+             echo "<meta http-equiv='refresh' content='0;messages.php'>";
                          exit;
  		}
 

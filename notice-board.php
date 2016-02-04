@@ -72,7 +72,7 @@
                             <div id="delete-status-<?php echo $row["ID"]; ?>"></div>
                             <div class="row">
                               <div class="col-sm-10">                               
-                                <h4 style=""><a href="#"  class="text-color-blue"><?php echo $row["title"]; ?></a>
+                                <h4 style=""><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>"  class="text-color-blue"><?php echo $row["title"]; ?></a>
                                     <small style="float:right" class="text-color-blue">
                                       <?php if(!empty($row["event_date"])){
                                       echo  date_format(date_create($row["event_date"]),"m/d/Y");

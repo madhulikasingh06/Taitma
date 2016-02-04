@@ -968,7 +968,7 @@ class taitmaMembersOperation {
                 VALUES(?, ?,?,?,?,?,?,?,?)";
 
                 if($stmt = $this->_db->prepare($sql)) {
-                    $stmt->bind_param("sssssis", $name, $email,$companyName,$phone, $message, $premium_val,$category);
+                    $stmt->bind_param("sssssisis", $name, $email,$companyName,$phone, $message, $premium_val,$category,$disable,$verCode);
                    
                     if($stmt->execute()){
                       $status = SUCCESS;
@@ -979,18 +979,35 @@ class taitmaMembersOperation {
                       
                       
 
-                      $message_approve_link = $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/taitma/admin/messages.php?oper=verMes&id=".$messageId."&ver=".$verCode."&ena=0";
+//                       $message_approve_link = $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"]."/taitma/admin/messages.php?oper=verMes&id=".$messageId."&ver=".$verCode."&ena=0";
 
-                      // $message_approve_link = $_SERVER["SERVER_NAME"]."/admin/messages.php?oper=verMes&id=.$messageId.&ver=".$verCode."&ena=1";
+                     $message_approve_link = $_SERVER["SERVER_NAME"]."/admin/messages.php?oper=verMes&id=.$messageId.&ver=".$verCode."&ena=1";
+                      $message_approve_link = $_SERVER["SERVER_NAME"]."/admin/messages.php?oper=delMes&id=.$messageId;
 
                       $subject = ADMIN_MESSAGE_APPROVE;
 
-                      $html = "<p>Hi,<br/>A new message has been added. Please take neccessary action. <br/>
-                                For approval Please click on below link - <br/>http://".$message_approve_link."</p>";
+                     $html = "<p>Hi,<br/>A new message has been added as below. <br> <b><i>From: </i></b>".$name." 
+                                <br/><b><i>Email: </i></b>".$email."
+                                <br/><b><i>Categoty: </i></b>".$category."
+                                <br/><b><i>Company Name:</i></b> ".$companyName."
+                                <br/><b><i>Phone: </i></b>".$phone."
+                                <br/><b><i>Message: </i></b>".nl2br(str_replace('\\r\\n', "\r\n", $message))."<br/></p>
 
-                      $text = "Hi,\nA new message has been added. Please take the neccessary action. \n
-                                For approval Please click on below link - \nhttp://".$message_approve_link;
+ 
+                                <br>Please take neccessary action. <br/>
+                                <p>For approval Please click on below link - <br/>http://".$message_approve_link."</p>
+                                <p>For deletion Please click on below link - <br/>http://".$message_delete_link."</p>";
 
+
+                      $text = "Hi,\nA new message has been added as below. Please take the neccessary action. 
+                                \nFrom : ".$name.
+                                "\nEmail : ".$email.
+                                "\nCategory : ".$category.
+                                "\nCompany Name : ".$companyName.
+                                "\nPhone : ".$phone.
+                                "\nMessage : ".str_replace('\\r\\n', "\r\n", $message).
+                                "\nFor approval Please click on below link - \nhttp://".$message_approve_link.
+                                "\nFor deletion Please click on below link - \nhttp://".$message_delete_link;
 
 
                       $toEmail = $this->ADMIN_EMAILS;

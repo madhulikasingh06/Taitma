@@ -67,7 +67,7 @@
          $_POST["phone"] = $phone;
 
             include_once "admin-operations.php";
-             echo "<meta http-equiv='refresh' content='0;/messages.php'>";
+             echo "<meta http-equiv='refresh' content='0;messages.php'>";
                          exit;
  		}
 
@@ -161,6 +161,13 @@
                 include_once "admin-operations.php";
                 // echo "<meta http-equiv='refresh' content='0;/messages.php'>";
                 //          exit;
+
+               }else if(($_GET["oper"]=="delMes")){
+
+                //code for approving the message
+                include_once "admin-operations.php";
+                 echo "<meta http-equiv='refresh' content='0;messages.php'>";
+                          exit;
 
                }
 

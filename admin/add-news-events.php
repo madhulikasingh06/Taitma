@@ -179,7 +179,6 @@
                      <div class="form-group row">
                        <div class="col-sm-2"><label for="premium_val">Premium Value:</label></div>
                        <div class="col-sm-4"><select  class="form-control input-box-link"  type="select" id="premium_val" name="premium_val">
-                           <option value=""></option>
                            <option value="0" <?php if ($premiumVal=='0') {echo 'selected' ;} ?> >Regular</option>
                            <option value="1" <?php if ($premiumVal=='1') {echo 'selected' ;} ?>>Premium</option>                         
                          </select>
@@ -190,7 +189,6 @@
                      <div class="form-group row">
                         <div class="col-sm-2"><label for="enabled">Enable:</label></div>
                            <div class="col-sm-4"><select class="form-control input-box-link" type="select"  id="enabled"  name="enabled">
-                             <option value=""?></option>
                              <option value="1"  <?php if ($enabled=='1') {echo 'selected' ;} ?> >Enable</option>
                              <option value="0" <?php if ($enabled=='0') {echo 'selected' ;} ?> >Disable</option>                         
                          </select> 

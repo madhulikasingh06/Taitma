@@ -1,3 +1,4 @@
+<?php include_once "common/header.php"; ?>
 <?php 
 		
 		//declare the variables 
@@ -116,6 +117,14 @@
 
 ?>
 
+<div id="members-div"  class="page-background"> <!--home-main starts -->
+
+  <div id="members-page" class="page-contents"> <!-- members-page div starts  -->
+
+    <?php include_once "common/inner-nav-bar.php"; ?>
+
+      <div id="approve-members-contents" class="row">
+          <div class="col-sm-offset-1  col-sm-10 trasparent-bg  page-content-style">
 <div id="approve-member-div"> 	<!-- Approve-admin-div-starts -->
                   <?php  if($statusCode==SUCCESS){?>
 
@@ -626,35 +635,12 @@
 <!-- MODAL DIV FOR ADDING PAYMENT TO USER ACCOUNT - ENDS -->
 
 
-<!-- MODAL DIV FOR VIEWING PAYMENT DETAILS - ENDS -->
-  
-  <div id="addPaymentDetails" class="modal fade" role="dialog">
-      <div class="modal-dialog ">
-
-                  <!-- Modal content-->
-        <div class="modal-content" style="border:1px solid #0ABDC8">
-                    <div class="modal-header site-header white-text ">
-                      <button type="button" class="close" data-dismiss="modal" >&times;</button>
-                      <h4 class="center">Payment Details</h4>
-                      <div id="PaymentStatus"></div>
-                    </div>
-                  
-        </div>
-
-      </div>
-  </div>
-
-
-
-
-
-<!-- MODAL DIV FOR VIEWING PAYMENT DETAILS - ENDS -->
-
-
-	
 
 
 </div> 	<!-- Approve-admin-div-ends -->
+</div> 
+</div> 
+</div> 
 <script type="text/javascript">
 
 $( "#datepicker" ).datepicker({

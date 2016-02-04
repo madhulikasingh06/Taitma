@@ -234,7 +234,7 @@ $id=0;
 										<div class="col-sm-offset-1 col-sm-2" ><label for="enable">Enable&nbsp;:<sup>*</sup></label></div>
 										<div class="col-sm-6">
 											<select class="form-control input-box-link <?php if(!empty($enableErr[$i]))echo 'errorBox'; ?>" type="select"  name="banners[<?php echo $i?>][enable]" >
-						                            <option value=""  >Please choose an option.</option>
+						                           <!--  <option value=""  >Please choose an option.</option> -->
 						                            <option value="1" <?php if(isset( $banners[$i]['enable']) && $banners[$i]['enable']=="1")  echo 'selected' ?> >Enable</option>
 						                            <option value="0" <?php if(isset( $banners[$i]['enable']) && $banners[$i]['enable']=="0")  echo 'selected'?> >Disable</option>                         
 						                        </select> 

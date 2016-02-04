@@ -66,7 +66,7 @@
                             <div id="delete-status-<?php echo $row["ID"]; ?>"></div>
                             <div class="row">
                               <div class="col-sm-10">                               
-                                <h4 style=""><a href="#"  class="text-color-blue"><?php echo $row["title"]; ?></a> </h4> 
+                                <h4 style=""><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>"  class="text-color-blue"><?php echo $row["title"]; ?></a> </h4> 
                               </div>
                               <div class="col-sm-2">
                                 <button onclick="location.href='add-news-events.php?oper=edit&amp;id=<?php echo $row["ID"]; ?>'">Edit</button> 

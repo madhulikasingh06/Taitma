@@ -110,7 +110,9 @@
                return $pageName = "Add / Edit Banners";
             }else if ($current == "messages.php"){
               return $pageName = "Messages";
-            } 
+            }else if ($current == "member-profile-details.php"){
+               return $pageName = "Members profile";
+            }
     }
 
 

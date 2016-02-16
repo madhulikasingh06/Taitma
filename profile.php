@@ -10,8 +10,13 @@
 
 
                 <?php  
-       $membership_no=$serial_no=$email = $password = $confirmPassword = $companyName = $contactPerson = $address1 = $address2 =$city = $pincode = $state = $phone = $mobile = $website = $region = $category = $memberSpecifiedCategory = $memberType = $otherDetails = $doc1 = $doc2= $doc1_name = $doc2_name = $doc1_ref =$doc2_ref ="";
-       $emailErr = $passwordErr = $confirmPasswordErr = $companyNameErr = $contactPersonErr = $address1Err = $address2Err =$cityErr = $pincodeErr = $stateErr = $phoneErr = $mobileErr = $websiteErr = $regionErr = $categoryErr = $memberSpecifiedCategoryErr = $memberTypeErr = $otherDetailsErr = $doc1Err = $doc2Err = "";
+       $membership_no=$serial_no=$email = $password = $confirmPassword = $companyName = $contactPerson = 
+       $address1 = $address2 =$city = $pincode = $state = $phone = $mobile = $website = $region = $category = 
+       $memberSpecifiedCategory = $memberType = $otherDetails = $doc1 = $doc2= $doc1_name = $doc2_name = 
+       $doc1_ref =$doc2_ref = $membershipStartDate = $membershipExpiryDate="";
+       $emailErr = $passwordErr = $confirmPasswordErr = $companyNameErr = $contactPersonErr = $address1Err = 
+       $address2Err =$cityErr = $pincodeErr = $stateErr = $phoneErr = $mobileErr = $websiteErr = $regionErr = 
+       $categoryErr = $memberSpecifiedCategoryErr = $memberTypeErr = $otherDetailsErr = $doc1Err = $doc2Err = "";
 
 
 
@@ -50,6 +55,9 @@
             $memberType_id = $row["member_type"];
             $otherDetails = $row["other_details"];
             $email=$row["email"];
+            $paymentID = $row["payment_id"];
+           $membershipStartDate = date_create($row["membership_start_date"]);
+            $membershipExpiryDate = date_create($row["membership_expiry_date"]);
 
          }
 
@@ -301,7 +309,9 @@
                         <span  id="memberTypeMessage" class="col-sm-offset-4 error" ><?php echo $memberTypeErr; ?></span>
                           <div class="form-group">
                             <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
-                            <div class="col-sm-8"><b><?php echo $memberType ; ?></b></div>
+                            <div class="col-sm-3"><b><?php echo $memberType ; ?></b></div>
+                            <div class="col-sm-5"><button type="Button" class="button-common" style="margin: 0px;">Become A Member!</button></div>
+              
                <!--               <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
                                 <option value="" >Please choose a member type.</option>
 
@@ -327,9 +337,20 @@
 
                           </div>
 
+                         
+                         
+                          <div class="form-group">
+                           <?php if (!empty($paymentID)){?>
+                            <label for="membership-period" class="col-sm-4" >Membership Period:</label>
+                            <div class="col-sm-8"><i>Membership Starts -</i><?php echo date_format($membershipStartDate,"m/d/Y");?><br/>
+                                    <i>Membership Ends -</i><?php echo date_format($membershipExpiryDate,"m/d/Y");?>
+                            </div>  
+                            <?php  } ?>
+                          </div>
+
                         <span  id="otherDetailsMessage" class="col-sm-offset-4 error" ><?php echo $otherDetailsErr;?></span>
                           <div class="form-group">
-                              <label for="otherDetails" class="col-sm-4">Other Details</label>
+                              <label for="otherDetails" class="col-sm-4">Other Details:</label>
                              <textarea  class="rounded-Box col-sm-6<?php if(!$otherDetailsErr==""){echo " errorBox" ;} ?>" rows="5" id="otherDetails"  name="otherDetails"><?php echo $otherDetails ?></textarea>
                           </div>
 

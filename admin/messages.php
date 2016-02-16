@@ -210,9 +210,9 @@
                                 <button type="button" onClick="forwardMessage(<?php echo $row["ID"];  ?>,'message-<?php echo $row["ID"];  ?>')">Send to my email</button>
                                   <button  type="button" onClick="enableMessage('<?php echo $status ;?>','<?php echo $row["ID"];  ?>')">
                                       <?php if($status==0){
-                                          echo 'Disable';
+                                          echo 'Reject';
                                       }else {
-                                            echo 'Enable';
+                                            echo 'Approve';
                                       } ?>
 
 

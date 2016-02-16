@@ -67,9 +67,10 @@
          $_POST["phone"] = $phone;
 
             include_once "user-operations.php";
-             echo "<meta http-equiv='refresh' content='0;messages.php'>";
-                         exit;
- 		}
+              // echo "<meta http-equiv='refresh' content='0;messages.php'>";
+              //  exit;
+
+ 		   }
 
         	
 
@@ -180,7 +181,7 @@
            	    
                 $pageNumber = (floor($start/10)+1);
 
-           	    $result = $db->query("SELECT *  FROM Messages where disable=0 LIMIT ".$start." , ".$range. " ;");
+           	    $result = $db->query("SELECT *  FROM Messages where disable=0  ORDER BY created_date DESC LIMIT ".$start." , ".$range. ";");
                 
 
                 if ($result->num_rows > 0) { 

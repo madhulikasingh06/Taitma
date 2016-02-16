@@ -91,8 +91,8 @@
 
         if(!$isErrored){
             include_once "user-operations.php";
-              echo "<meta http-equiv='refresh' content='0;contact.php'>";
-                         exit;
+               echo "<meta http-equiv='refresh' content='0;contact.php?showMessage=1'>";
+                          exit;
         }
 
    }
@@ -119,7 +119,22 @@
                     Toy Guide Mumbai - 400064</p>
             </div>
 
+
             <div class="col-sm-7  page-content-style  left-border"><!---->
+
+                    <div id="contact-message">
+                       <?php if(isset($_GET["showMessage"]) && ($_GET["showMessage"]==1)){
+
+                            echo "<b><i>Thank you for your message.
+                            <br/>It needs to be approved by admin for other members to read.</i></b>";
+
+                       }
+                       
+                       ?> 
+                        
+                    </div>
+                    
+
                     <div  id="contact-form" > <!--contact-form div starts-->
                            <div>
                               <p class="form-control-static">You can leave a message using the contact form below.</p>
@@ -132,7 +147,7 @@
 
 
                                    
-                                   <span  id="nameMessage" class="col-sm-offset-2 error" ><?php echo $nameErr;?></span>
+                                   <span  id="nameMessage" class="col-sm-offset-4 col-sm-8 error" ><?php echo $nameErr;?></span>
                                     <div class="form-group">
                                         <label for="name" class="control-label col-sm-4">Your Name:<sup>*</sup></label>
                                         <div class="col-sm-7">
@@ -141,7 +156,7 @@
                                         <div class="col-sm-1"></div>
                                     </div>
 
-                                   <span  id="emailMessage" class="col-sm-offset-2 error" ><?php echo $emailErr;?></span>
+                                   <span  id="emailMessage" class="col-sm-offset-4 col-sm-8  error" ><?php echo $emailErr;?></span>
                                     <div class="form-group">
                                         <label for="email" class="control-label col-sm-4">Your e-mail address:<sup>*</sup></label>
                                         <div class="col-sm-7">
@@ -150,7 +165,7 @@
                                         <div class="col-sm-1"></div>
                                     </div>
 
-                                   <span  id="companyNameMessage" class="col-sm-offset-2 error" ><?php echo $companyNameErr;?></span>
+                                   <span  id="companyNameMessage" class="col-sm-offset-4  col-sm-8  error" ><?php echo $companyNameErr;?></span>
                                     <div class="form-group">
                                         <label for="companyName" class="control-label col-sm-4">Your company name:<sup>*</sup></label>
                                         <div class="col-sm-7">
@@ -159,7 +174,7 @@
                                         <div class="col-sm-1"></div>
                                     </div>
 
-                                   <span  id="phoneMessage" class="col-sm-offset-2 error" ><?php echo $phoneErr;?></span>
+                                   <span  id="phoneMessage" class="col-sm-offset-4  col-sm-8  error" ><?php echo $phoneErr;?></span>
                                     <div class="form-group">
                                         <label for="phone" class="control-label col-sm-4">Your phone:<sup>*</sup></label>
                                         <div class="col-sm-7">
@@ -182,7 +197,7 @@
                                         <div class="col-sm-1"></div>
                                     </div>
  -->
-                            <span  id="categoryMessage" class="col-sm-offset-2 error" ><?php echo $categoryErr;?></span>
+                            <span  id="categoryMessage" class="col-sm-offset-4  col-sm-8 error" ><?php echo $categoryErr;?></span>
                              <div class="form-group">
                               <label for="category" class="control-label col-sm-4">Category:&nbsp;<sup>*</sup></label>
                                 <div class="col-sm-6">
@@ -211,7 +226,7 @@
                               <div class="col-sm-1"></div>
                           </div>
 
-                                   <span  id="messageMessage" class="col-sm-offset-2 error" ><?php echo $messageErr;?></span>
+                                   <span  id="messageMessage" class="col-sm-offset-4  col-sm-8  error" ><?php echo $messageErr;?></span>
                                     <div class="form-group">
                                         <label for="message" class="control-label col-sm-4">Message:<sup>*</sup></label>
                                         <div class="col-sm-7">
@@ -220,7 +235,7 @@
                                         <div class="col-sm-1"></div>
                                     </div>
 
-                                    <span  id="captchaMessage" class="col-sm-offset-2 error" ><?php echo $captchaMessageErr;?></span>
+                                    <span  id="captchaMessage" class="col-sm-offset-4  col-sm-8  error" ><?php echo $captchaMessageErr;?></span>
                                     <div class="form-group">
                                         <div class="col-sm-offset-4 col-sm-7">
                                             <div class="g-recaptcha" data-sitekey="<?php echo RECAPTCHA_SITE_KEY ;?>"></div>

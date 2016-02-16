@@ -58,8 +58,8 @@ include_once "inc/user.operations.inc.php";
       <ul>
         <?php if(isset($_SESSION["loggedIN"])) { ?>
           <li style="color:#EDEBE7;">          <?php if (isset($_SESSION["accountStatus"])) {
-              if ($_SESSION["accountStatus"]==1) {?>
-               <span style="color:red;"> <?php echo MSG_ADMIN_APPROVAL_PENDING;?></span>
+              if ($_SESSION["accountStatus"]==1) {?><!-- 
+               <span style="color:red;"> <?php echo MSG_ADMIN_APPROVAL_PENDING;?></span> -->
             <?php }
           } 
           ?>Welcome! <?php echo $_SESSION["userID"] ;?></li>

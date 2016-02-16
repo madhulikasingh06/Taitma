@@ -93,7 +93,7 @@
         }
 
         // echo $member_type;
-     $result = $db->query(getNewsAndEventsForMemberType.$member_type);
+     $result = $db->query(getNewsAndEventsForMemberType.$member_type." ORDER BY event_date DESC ;");
                 
                 if ($result->num_rows > 0) { 
 

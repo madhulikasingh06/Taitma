@@ -21,7 +21,9 @@
                       // echo "oper is set";
                         include_once "user-operations.php";
                         echo $status[1];
-                    }
+                    }else {
+
+                    
 
                ?>
 
@@ -50,6 +52,10 @@
 
         		</div>
         	
+
+             <?php        }
+
+               ?>
           </div>
        	</div>
 		</div>

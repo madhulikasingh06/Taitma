@@ -16,7 +16,7 @@ class taitmaMembersOperation {
     private $_db;
 
 
-    private $ADMIN_EMAILS  = array('madhulikasingh06@gmail.com');
+    private $ADMIN_EMAILS  = array('vipul@cleari.in');
 
     /**
      * Checks for a database object and creates one if none is found
@@ -174,8 +174,8 @@ class taitmaMembersOperation {
 
                                         $this->sendVerificationEmail($email,$verificationLink);
 
-                                $returnMessage1 = MSG_ACCOUNT_REGISTRATION_SUCCESS."\n User created with verfication  link : $verificationLink ";
-                                // $returnMessage[] = MSG_ACCOUNT_REGISTRATION_SUCCESS;
+                                // $returnMessage1 = MSG_ACCOUNT_REGISTRATION_SUCCESS."\n User created with verfication  link : $verificationLink ";
+                                 $returnMessage1 = MSG_ACCOUNT_REGISTRATION_SUCCESS;
 
                                 $result =  array(SUCCESS ,$returnMessage1);
 
@@ -963,12 +963,13 @@ class taitmaMembersOperation {
         // By default the message will be disabled, admin will have to approve the message
         $disable = 1;
 
+        $messageDate = date("Y-m-d H:i:s");
 
-          $sql = "INSERT INTO Messages(name,email,company_name,phone,message,premium_val,category,disable,verification_code)
-                VALUES(?, ?,?,?,?,?,?,?,?)";
+          $sql = "INSERT INTO Messages(name,email,company_name,phone,message,premium_val,category,disable,verification_code,created_date)
+                VALUES(?, ?,?,?,?,?,?,?,?,?)";
 
                 if($stmt = $this->_db->prepare($sql)) {
-                    $stmt->bind_param("sssssisis", $name, $email,$companyName,$phone, $message, $premium_val,$category,$disable,$verCode);
+                    $stmt->bind_param("sssssisiss", $name, $email,$companyName,$phone, $message, $premium_val,$category,$disable,$verCode,$messageDate);
                    
                     if($stmt->execute()){
                       $status = SUCCESS;
@@ -1015,13 +1016,13 @@ class taitmaMembersOperation {
                       if($this->sendMail($toEmail,$subject,$html,$text,"")){
 
 
-                        echo "Message was sent to your email.";
+                        echo "<div class='center'>Message was sent.</div>";
 
                         
                       
                        }else {
 
-                        echo  "There was some error sending email.";
+                        echo  "<div class='center'>There was some error sending message.</div>";
                        }
 
 
@@ -1037,7 +1038,7 @@ class taitmaMembersOperation {
                  }else {
 
                    $status = ERROR;
-                    echo "error  ::". $this->_db->error;
+                    // echo "error  ::". $this->_db->error;
 
                  }
 

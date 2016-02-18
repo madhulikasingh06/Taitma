@@ -174,7 +174,7 @@
              }else {
 
 
-                $result = $db->query("SELECT *  FROM Messages;");
+                $result = $db->query("SELECT *  FROM Messages  ORDER BY created_date DESC;");
                 
 
                 if ($result->num_rows > 0) { 

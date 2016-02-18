@@ -55,7 +55,7 @@
 
         <?php 
 
-     $result = $db->query(getNotices);
+     $result = $db->query(getNotices." ORDER BY event_date DESC ;");
                 
                 if ($result->num_rows > 0) { 
 

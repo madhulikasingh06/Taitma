@@ -67,7 +67,7 @@
 
         <?php 
 
-     $result = $db->query(getNewsAndEvents);
+     $result = $db->query(getNewsAndEvents." ORDER BY event_date DESC ;");
                 
 
                 if ($result->num_rows > 0) { 

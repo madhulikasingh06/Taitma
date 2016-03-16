@@ -310,7 +310,10 @@
                           <div class="form-group">
                             <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
                             <div class="col-sm-3"><b><?php echo $memberType ; ?></b></div>
-                            <div class="col-sm-5"><button type="Button" class="button-common" style="margin: 0px;">Become A Member!</button></div>
+                            <div class="col-sm-5"><?php if($memberType_id==0) { ?>
+                                <button type="Button" class="button-common" style="margin: 0px;">Become A Member!</button>
+                            <?php } ?>
+                              </div>
               
                <!--               <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
                                 <option value="" >Please choose a member type.</option>

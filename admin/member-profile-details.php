@@ -2,6 +2,7 @@
 <?php 
 		
 		//declare the variables 
+          $memberSerial = $_GET["id"];
 
        $serial_no=$email = $password = $confirmPassword = $companyName = $contactPerson = $address1 = 
        $address2 =$city = $pincode = $state = $phone = $mobile = $website = $region = 
@@ -29,6 +30,8 @@
                            if (!$isErrored) {
                             $statusCode = $status[0]; 
                             $statusMsg = $status[1];  
+                            header('location:'.$_SERVER["PHP_SELF"].'?status='.$statusCode.'&id='.$memberSerial);
+                            exit;
                           }
 
                         }
@@ -126,15 +129,16 @@
       <div id="approve-members-contents" class="row">
           <div class="col-sm-offset-1  col-sm-10 trasparent-bg  page-content-style">
 <div id="approve-member-div"> 	<!-- Approve-admin-div-starts -->
-                  <?php  if($statusCode==SUCCESS){?>
+                  <?php if(isset($_GET["status"]) ) {
+                      if($_GET["status"]==1) { ?>
 
-            <p style="text-align:center;"><?php echo  $statusMsg; ?></p>
+            <p style="text-align:center;"><?php echo  MSG_ACCOUNT_EDIT_PROFILE_SUCCESS; ?></p>
 
                       <?php } else {  ?>
 
             <p style="text-align:center;color:#FF5050;"><?php echo  ERR_ACCOUNT_EDIT_FORM_VAL_FAILED; ?></p>
 
-                      <?php }  ?>
+                      <?php }  }?>
 
 
 
@@ -152,7 +156,7 @@
                       <input type="hidden" name="email" value="<?php echo $email; ?>"/>
                       <input type="hidden" name="serial_no" value="<?php echo $memberSerial; ?>"/>
 
-
+                    <?php if($memberType_id>0) {?>
                   		<span id="membershipNumberMessage"  class="col-sm-offset-4 <?php if(!$membershipNumberErr==""){echo " error" ;} ?>" ><?php echo $membershipNumberErr?></span>
                   		<div class="form-group">
                   			<label for="membershipNumber" class="col-sm-4">Membership Number:&nbsp;<sup>*</sup></label>
@@ -160,10 +164,12 @@
                           <?php if(!empty($membershipNumber)){ ?>
                                   onBlur="showAlert(this)"
                           <?php }?>  value="<?php echo $membershipNumber;?>"   onchange="showAlert(this)" />
-                  		  <?php if(strlen(trim($membershipNumber))<3)  { ?>
+                  		  <?php if(strlen(trim($membershipNumber))<3 AND intval($paymentID)>0)  { ?>
                         <div id="approve-button"><button style="vertical-align:top;margin-left:10px;" type="button" onClick="validateAndApproveMembershipNumber('membershipNumber','<?php echo $memberSerial; ?>' , '<?php echo $email; ?>')">Approve!</button></div>
                         <?php } ?>
-                      </div>  
+                      </div> 
+                    <?php } ?>
+
 
 
 						<div class="form-group">

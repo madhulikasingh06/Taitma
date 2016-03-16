@@ -98,8 +98,7 @@ class taitmaAdminOperation {
         $result =  array();
         $password = "";
         $confirmPassword = "";
-        $membeship_number = $_POST["membershipNumber"];
-  
+       $membeship_number = null;
          $email = $_POST["email"];
          $serial_no =intval($_POST["serial_no"]);
         $company_name = $_POST["companyName"];
@@ -120,7 +119,10 @@ class taitmaAdminOperation {
         $doc_1 = NULL;
         $doc_2 = NULL;
 
-        $reminder = intval($_POST["reminder"]);
+          if( $member_type != "Regular"){
+           $membeship_number = $_POST["membershipNumber"];
+          }
+         $reminder = intval($_POST["reminder"]);
 
         $result =  array();
 
@@ -1457,7 +1459,7 @@ class taitmaAdminOperation {
                         
                         if($stmt->execute()){
                                // $status = MSG_LINK_UPDATE_SUCCESS;
-                          echo "<div class='center'>Link is approved.</div>";
+                          echo "<div class='center'>The message is approved.</div>";
                         }
 
               }
@@ -1475,7 +1477,7 @@ class taitmaAdminOperation {
         $result = $this->_db->query($sql);
         $status = MSG_LINK_DELETE_SUCCESS;
 
-        echo "<div class='center'>Link is deleted.</div>";
+        echo "<div class='center'>The message is deleted.</div>";
         return;
       }
   

@@ -390,7 +390,9 @@
                   						?>
 										<div class="col-sm-12" style="line-height:2.2em;font-size:12px;">
 											<div class="row">
-												<div class="col-sm-2" ><a href="member-profile-details.php?id=<?php echo $row["serial_no"]?>" class="<?php if($member_status=='new') echo ' error';?>"><?php echo $row["email"] ?></a></div>												
+												<div class="col-sm-2" ><a href="member-profile-details.php?id=<?php echo $row["serial_no"]?>" class="<?php if($member_status=='new') echo ' error';?>"><?php echo $row["email"] ?></a><br/>
+													<?php if ($member_status=='new') { ?> <span class="error"><I>unverified.</I></span><?php } ; ?>
+												</div>												
 												<?php if(intval($memberType_id)>0){ ?>
 												<div class="col-sm-2<?php if(empty($row["membership_no"])){echo ' error' ;} ?>" style="text-align:center;">
 													<?php  if(!empty($row["membership_no"])){echo $row["membership_no"]; } else {echo 'Pending Approval'; } ?>

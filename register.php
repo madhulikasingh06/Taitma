@@ -1,4 +1,4 @@
-<?php include_once "common/header.php";?>
+<?php include_once "common/headerNew.php";?>
 
   <div id=""  class="page-background"> <!--home-main starts -->
 
@@ -141,7 +141,7 @@
                           <div class="form-group">
                               <label for="region" class="col-sm-4">Region:&nbsp;<sup>*</sup></label>
                               <select class="input-box col-sm-8 form-control <?php if(!$regionErr==""){echo " errorBox" ;} ?>" id="region"  name="region">
-                                <option value="" ></option>
+                                <option value="" >Please Choose.</option>
                                 <option value="North" <?php if($region=="North"){ echo "selected" ;}?>   <?php if($region=="North"){ echo "selected" ;}?> >North</option>
                                 <option value="East" <?php if($region=="East"){ echo "selected" ;}?> >East</option>
                                 <option value="West" <?php if($region=="West"){ echo "selected" ;}?> >West</option>
@@ -154,7 +154,7 @@
                          <div class="form-group">
                               <label for="category" class="col-sm-4">Category:&nbsp;<sup>*</sup></label>
                                 <select class="input-box col-sm-8 form-control<?php if(!$categoryErr==""){echo " errorBox" ;} ?>" id="category"  name="category" >
-                                <option value="" ></option>
+                                <option value="" >Please Choose.</option>
 
                                 <?php
                                  // $sql="select * from Members_Categories" ;
@@ -218,7 +218,7 @@
                              <textarea  class="rounded-Box col-sm-6<?php if(!$otherDetailsErr==""){echo " errorBox" ;} ?>" rows="5" id="otherDetails"  name="otherDetails"><?php echo $otherDetails ?></textarea>
                           </div>
 
-                        <span  id="doc1Message" class="col-sm-offset-4 error" ><?php echo $doc1Err;?></span>
+<!--                         <span  id="doc1Message" class="col-sm-offset-4 error" ><?php echo $doc1Err;?></span>
                         <div class="form-group">
                           <label for="doc1" class="col-sm-4">Select file to upload: </label>                          
                           <input type="file" name="doc1" id="doc1">
@@ -230,7 +230,7 @@
                         <div class="form-group">
                           <label for="doc2" class="col-sm-4">Select file to upload: </label>                          
                           <input type="file" name="doc2" id="doc1">
-                        </div>
+                        </div> -->
 
 
                         <span  id="captchaMessage" class="col-sm-offset-4 error" ><?php echo $captchaMessageErr;?></span>

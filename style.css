@@ -277,7 +277,8 @@ div.carousel-caption {
 
 
 .inner-menu a:link,
-.inner-menu a:visited { 
+.inner-menu a:visited,
+.inner-menu li >span { 
 	float:left;
 	text-decoration: none;
 	color:#EDEBE7 ; 
@@ -822,4 +823,41 @@ font-size: 12px;
 {
     color: #0ABDC8;
 }
+
+.navbar {
+	margin-bottom: 10px;
+}
+
+.navbar-nav > li > a {
+	padding: 5px;
+	    line-height: 12px;
+}
+
+
+.navbar-nav > li > a:hover,
+.dropdown-menu > a:hover,
+.dropdown-menu > li > a:hover
+{
+	text-decoration: none; 
+	color: #000000;
+	border-bottom:1px solid #000000;
+	background-color: #0ABDC8;
+}
+
+.open > .dropdown-menu {
+    display: block;
+    padding-top: 5px;
+    background-color: #0ABDC8;
+   	color: #000000;
+}
+
+.dropdown-menu > li > a{
+	 color: #EDEBE7 ;
+	 padding: 10px 0px 0px 0px;
+	 font-size: 13px;
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+     background-color: #0ABDC8;
+  }
 

@@ -1,4 +1,4 @@
-<?php include_once "common/header.php";?>
+<?php include_once "common/headerNew.php";?>
 
   <div id=""  class="page-background"> <!--home-main starts -->
 
@@ -190,14 +190,15 @@
                       <input type="hidden" id="editProfileTokenPost" name="editProfileTokenPost" value="<?php echo $newToken; ?>"/>
                       <input type="hidden" name="email" value="<?php echo $email; ?>"/>
                       <input type="hidden" name="serial_no" value="<?php echo $serial_no; ?>"/>
+                      <input type="hidden" name="memberType" value="<?php echo $memberType; ?>"/>
                         
-
+                    <?php if(strlen($membership_no)>0) { ?>
                           <div class="form-group">
                               <label class="col-sm-4">Membership number:&nbsp;<sup>*</sup></label>
-                              <div  class="input-box col-sm-8 <?php if($membership_no=="" || $membership_no==NULL){echo ' error';} ?>"> <?php if($membership_no=="" || $membership_no==NULL){echo "Not Assigned" ;}else {echo $membership_no ;} ?>
+                              <div  class="input-box col-sm-8"> <?php echo $membership_no ;?>
                               </div>
                           </div>
-
+                      <?php } ?>
                         <span  id="companyNameMessage" class="col-sm-offset-4 error" ><?php echo $companyNameErr;?></span>
                         <div class="form-group">
                               <label for="companyName" class="col-sm-4">Company Name:&nbsp;<sup>*</sup></label>
@@ -306,51 +307,6 @@
                               <input  class="input-box col-sm-8<?php if(!$memberSpecifiedCategoryErr==""){echo " errorBox" ;} ?>" type="" id="memberSpecifiedCategory"  name="memberSpecifiedCategory" value="<?php echo $memberSpecifiedCategory; ?>"/>
                           </div>
 
-                        <span  id="memberTypeMessage" class="col-sm-offset-4 error" ><?php echo $memberTypeErr; ?></span>
-                          <div class="form-group">
-                            <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
-                            <div class="col-sm-3"><b><?php echo $memberType ; ?></b></div>
-                            <div class="col-sm-5"><?php if($memberType_id==0) { ?>
-                                <button type="Button" class="button-common" style="margin: 0px;">Become A Member!</button>
-                            <?php } ?>
-                              </div>
-              
-               <!--               <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
-                                <option value="" >Please choose a member type.</option>
-
-                                <?php
-                                  $sql="select * from Members_Type" ;
-
-                                    $resultMembersType = $db->query($sql);
-
-                                    if ($resultMembersType->num_rows > 0) {
-
-                                         while($member = $resultMembersType->fetch_assoc()) {
-
-                                              // echo "id: " . $memberType["ID"]. " - category_ID: " . $memberType["member_type"]. "  - category_desc:" . $memberType["member_desc"]. "<br>";
-                                        
-                                        ?>
-                                        <option value= "<?php echo $member["member_desc"]; ?>" <?php if($memberType_id==$member["member_type"]){ echo "selected" ;}  ?>  ><?php echo $member["member_desc"]; ?></option>
-
-                                        <?php }
-                                     }
-                                 ?>
-                             </select> -->
-
-
-                          </div>
-
-                         
-                         
-                          <div class="form-group">
-                           <?php if (!empty($paymentID)){?>
-                            <label for="membership-period" class="col-sm-4" >Membership Period:</label>
-                            <div class="col-sm-8"><i>Membership Starts -</i><?php echo date_format($membershipStartDate,"m/d/Y");?><br/>
-                                    <i>Membership Ends -</i><?php echo date_format($membershipExpiryDate,"m/d/Y");?>
-                            </div>  
-                            <?php  } ?>
-                          </div>
-
                         <span  id="otherDetailsMessage" class="col-sm-offset-4 error" ><?php echo $otherDetailsErr;?></span>
                           <div class="form-group">
                               <label for="otherDetails" class="col-sm-4">Other Details:</label>
@@ -405,7 +361,47 @@
                           <input  class="col-sm-8" type="file" name="doc2" id="doc2" />
                         </div>
 
+                       <span  id="memberTypeMessage" class="col-sm-offset-4 error" ><?php echo $memberTypeErr; ?></span>
+                          <div class="form-group">
+                            <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
+                            <div class="col-sm-3"><b><?php echo $memberType ; ?></b></div>
+                            <div class="col-sm-5"><?php if($memberType_id==0) { ?>
+                                <button type="Button" class="button-common" style="margin: 0px;">Become A Member!</button>
+                            <?php } ?>
+                              </div>
+              
+               <!--               <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
+                                <option value="" >Please choose a member type.</option>
 
+                                <?php
+                                  $sql="select * from Members_Type" ;
+
+                                    $resultMembersType = $db->query($sql);
+
+                                    if ($resultMembersType->num_rows > 0) {
+
+                                         while($member = $resultMembersType->fetch_assoc()) {
+
+                                              // echo "id: " . $memberType["ID"]. " - category_ID: " . $memberType["member_type"]. "  - category_desc:" . $memberType["member_desc"]. "<br>";
+                                        
+                                        ?>
+                                        <option value= "<?php echo $member["member_desc"]; ?>" <?php if($memberType_id==$member["member_type"]){ echo "selected" ;}  ?>  ><?php echo $member["member_desc"]; ?></option>
+
+                                        <?php }
+                                     }
+                                 ?>
+                             </select> -->
+
+
+                          </div>
+
+                          <div class="form-group">
+                           <?php if (!empty($paymentID)){?>
+                            <label for="membership-period" class="col-sm-4" >Membership Period:</label>
+                            <div class="col-sm-8"><?php echo date_format($membershipStartDate,"m/d/Y");?> - <?php echo date_format($membershipExpiryDate,"m/d/Y");?>
+                            </div>  
+                            <?php  } ?>
+                          </div>
 
                         <div class="col-sm-offset-4 col-sm-8"  style="padding-top:10px;">
                             <!-- <button type="Submit">Submit</button> -->

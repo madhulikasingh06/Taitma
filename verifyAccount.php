@@ -1,4 +1,4 @@
-<?php include_once "common/header.php"; 
+<?php include_once "common/headerNew.php"; 
 
 //verifyAccount.php?oper=ver&ver=6fdc6c1a28604d5bbabf2c027fe3ddcbe7fbd912&em=madhulika@abc.com
 

@@ -1,4 +1,4 @@
-<?php include_once "common/header.php"; ?>
+<?php include_once "common/headerNew.php"; ?>
 
     
   <div id=""  class="page-background"> <!--home-main starts -->

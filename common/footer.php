@@ -6,7 +6,6 @@
  	 <script src="js/bootstrap-paginator.js"></script>
  -->
 
-	  	<?php if (!($pageName=='Home')) { ?>
 
 			  	<div id="site-footer-link" class="row"> <!--site-footer-links div starts-->
 
@@ -32,7 +31,7 @@
 				    	</div>
 						<div class="col-sm-2"></div>
 				</div><!--site-footer-links div ends-->
-		<?php };?>
+		
 		
 		
 

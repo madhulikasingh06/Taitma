@@ -1,4 +1,4 @@
-<?php include_once "common/header.php"; ?>
+<?php include_once "common/headerNew.php"; ?>
 
 <?php $pageName="Home" ?>
 
@@ -61,6 +61,7 @@
 
   <div id="home-main"  class="page-background"><!--home-main div start-->
 
+  <div id="main-content" class="page-contents"> 
     <div class="row"> <!--row  starts-->
 
             <div  class="col-sm-offset-1  col-sm-4 "> <!--col div starts-->
@@ -72,8 +73,8 @@
                       <li><a href="contact.php">Contact</a></li>
                       <!-- <li><a href="register.php">Login / Register</a></li> -->
                       <li><?php if(!isset($_SESSION["loggedIN"])) { ?>
-
-                        <a href='javascript:onclick=showLoginBox();'>Login</a>
+                         <span>Login</span>  
+                       
                         <?php }else { ?><a href="logout.php">Logout</a> <?php }?></li>
                       
 
@@ -116,8 +117,8 @@
                 ?>
               <div class="row"><!-- inside row 2 starts  -->
 
-                    
-                    <div  id="login-box"  class="col-sm-12  trasparent-bg " style="display:none;">
+                    <?php if(!isset($_SESSION["loggedIN"])) { ?>
+                    <div  id="login-box"  class="col-sm-12  trasparent-bg " >
 
                       <section id="" style="padding-top:0px;">
                       <?php 
@@ -161,6 +162,7 @@
                         </form><!-- form -->
                       </section><!-- content -->
                   </div><!-- login-box -->
+                  <?php } ?>
               </div> <!-- inside row 2 ends  -->
 
             </div>  <!--col div ends-->
@@ -181,6 +183,8 @@
 
             </div>
     </div> <!--row  ends-->
+
+      </div>
 
 
          <script type="text/javascript">

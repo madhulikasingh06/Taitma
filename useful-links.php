@@ -1,4 +1,4 @@
-<?php include_once "common/header.php";?>
+<?php include_once "common/headerNew.php";?>
 <div id=""  class="page-background"> <!--home-main start -->
 
     <div id="useful-links-page" class="page-contents"> <!-- useful-links-page div starts  -->
@@ -10,7 +10,7 @@
               
               <div class="col-sm-2"></div>
 
-               <div class="col-sm-7 page-content-style">
+               <div class="col-sm-7 page-content-style trasparent-bg ">
 
  <!--              <?php 
 

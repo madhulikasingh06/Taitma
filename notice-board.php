@@ -1,4 +1,4 @@
-<?php include_once "common/header.php"; ?>
+<?php include_once "common/headerNew.php"; ?>
     
   <div id=""  class="page-background"> <!--home-main starts -->
 
@@ -81,8 +81,9 @@
                                 </h4> 
                               </div>                        
                             </div>
-                            <p><?php echo substr($row["data"], 0, 300); ?><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>">...(read more)</a></p>
-                          </div>
+                            <p><?php echo substr($row["data"], 0, 500); ?><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>"><?php if(strlen($row["data"])>500) { ?>...(read more)<?php } ?></a></p>
+<!--                             <p><?php echo substr($row["data"], 0, 300); ?><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>">...(read more)</a></p>
+ -->                          </div>
                           <div class="col-sm-1"></div>
 
               </div>

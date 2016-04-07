@@ -96,6 +96,13 @@ define("ADMIN_MESSAGE_APPROVE", "[TAITMA]- A new message for your approval.");
 define("RECAPTCHA_SECRET_KEY", "6LeKHxYTAAAAACXAbbMzveiFVo5MF42Cfx8Ve-Su");
 define("RECAPTCHA_SITE_KEY", "6LeKHxYTAAAAAD3SX9zE5WwyFdhvL_Z2CmIKHFfM");
 
+define("EMAIL_MEMBERSHIP_REQUESTED_SUBJECT", "[TAITMA]- Membership Requested.");
+define("EMAIL_MEMBERSHIP_REQUEST_ADMIN_SUBJECT", "[TAITMA]- Membership Request Received.");
+
+define("RECORDS_PER_PAGE", 50);
+
+define("MSG_PROFILE_INCOMPLETE", "Please complete your profile.");
+
 
 
 

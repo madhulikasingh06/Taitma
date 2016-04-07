@@ -81,7 +81,8 @@
                                 </h4> 
                               </div>                        
                             </div>
-                            <p><?php echo substr($row["data"], 0, 500); ?><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>"><?php if(strlen($row["data"])>500) { ?>...(read more)<?php } ?></a></p>
+                            <p><?php echo substr($row["data"], 0, 500); ?><?php if(strlen($row["data"])>500) { ?><span class="readMore"><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>"><b>&nbsp;...read more </b></a></span><?php } ?></p>
+                            
 <!--                             <p><?php echo substr($row["data"], 0, 300); ?><a href="?oper=view&amp;id=<?php echo $row["ID"]; ?>">...(read more)</a></p>
  -->                          </div>
                           <div class="col-sm-1"></div>

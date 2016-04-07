@@ -10,7 +10,7 @@
               
               <div class="col-sm-2"></div>
 
-               <div class="col-sm-7 page-content-style trasparent-bg ">
+               <div class="col-sm-8 page-content-style">
 
  <!--              <?php 
 
@@ -52,7 +52,9 @@
                        $urls = explode('|', $row["url"]); ?>
 
 
-                      <div class="space-after-para">
+<!--                       <div class="space-after-para">
+ -->
+                          <div class="trasparent-bg  page-content-style">
 
                           <p class="text-color-blue"><?php echo $row['title'] ;?><br>
 
@@ -67,8 +69,9 @@
                           <?php } ?>
 
                           </p>
-                      </div>
-                    
+                          </div>
+<!--                       </div>
+ -->                    
                   
                   
                 <?php } //while ends
@@ -84,7 +87,7 @@
 
                 </div>
 
-              <div class="col-sm-3"></div>
+              <div class="col-sm-2"></div>
 
           </div> <!-- useful-links-contents div ends -->
 

@@ -10,13 +10,13 @@
        $doc2= $doc1_name = $doc2_name = $doc1_ref =$doc2_ref = $membershipNumber = $disable = $disableDesc =  $disabledDate = 
        $addPaymentDetails = $paymentMode = $amount =$paymentNumber = $paymentAgainst = $payOtherDetails = 
        $paymentID= $membershipStartDate =$membershipExpiryDate = $reminder = $statusMsg= $statusCode = 
-       $billNumber = "";
+       $billNumber =  $membershipRequested = $membershipMemo = $daysToExpiry=$membershipNumberOld =  "" ;
 
        $emailErr = $passwordErr = $confirmPasswordErr = $companyNameErr = $contactPersonErr = $address1Err = 
        $address2Err =$cityErr = $pincodeErr = $stateErr = $phoneErr = $mobileErr = $websiteErr = $regionErr = 
        $categoryErr = $memberSpecifiedCategoryErr = $memberTypeErr = $otherDetailsErr = $doc1Err = $doc2Err = 
        $membershipNumberErr  = $disableDescErr = $addPaymentDetailsErr = $paymentModeErr = $amountErr =$paymentNumberErr = 
-       $paymentAgainstErr = $payOtherDetailsErr = $paymentDateErr = $billNumberErr ="";
+       $paymentAgainstErr = $payOtherDetailsErr = $paymentDateErr = $billNumberErr =   $memberTypeRequestedErr = "";
 
         if(isset($_POST["operation"]) && ($_POST["operation"]=="approve-member")) { 
 
@@ -25,14 +25,16 @@
                         $_SESSION["approveMemberToken"]='';
                           include_once "registrationValidation.php";
 
-                            // echo "isErrored :: ".intval($isErrored);
+                              echo "isErrored :: ".intval($isErrored);
                            
                            if (!$isErrored) {
                             $statusCode = $status[0]; 
                             $statusMsg = $status[1];  
-                            header('location:'.$_SERVER["PHP_SELF"].'?status='.$statusCode.'&id='.$memberSerial);
+                            // header('location:'.$_SERVER["PHP_SELF"].'?status='.$statusCode.'&id='.$memberSerial);
+                            // exit;                           
+                            header('location:'.$_SERVER["PHP_SELF"].'?status='.$isErrored.'&id='.$memberSerial);
                             exit;
-                          }
+                            }
 
                         }
           }
@@ -43,7 +45,7 @@
 			 if ($result->num_rows > 0) {
 					while($row = $result->fetch_assoc()) {
 						$email = $row["email"];
-            $membershipNumber = $row["membership_no"];
+            			$membershipNumberOld = $membershipNumber = $row["membership_no"];
 						$companyName = $row["company_name"];
 						$contactPerson = $row["contact_person"];
 						$address1 = $row["address_1"];
@@ -65,7 +67,8 @@
             $membershipStartDate = date_create($row["membership_start_date"]);
             $membershipExpiryDate = date_create($row["membership_expiry_date"]);
             $reminder = $row["reminder"];
-
+            $membershipRequested = $row["membership_requested"];
+            $membershipMemo = $row["membership_memo"];
 
 					}
 
@@ -117,6 +120,9 @@
                                               }
 
 
+       $todays_date= date_create(date("Y-m-d H:i:s"));
+         $diff=date_diff($todays_date,$membershipExpiryDate);
+         $daysToExpiry = $diff->format("%R%a days");
 
 ?>
 
@@ -130,16 +136,22 @@
           <div class="col-sm-offset-1  col-sm-10 trasparent-bg  page-content-style">
 <div id="approve-member-div"> 	<!-- Approve-admin-div-starts -->
                   <?php if(isset($_GET["status"]) ) {
-                      if($_GET["status"]==1) { ?>
+                      if($_GET["status"]==0) { ?>
 
             <p style="text-align:center;"><?php echo  MSG_ACCOUNT_EDIT_PROFILE_SUCCESS; ?></p>
 
-                      <?php } else {  ?>
+                      <?php } else  if($isErrored){  ?>
 
             <p style="text-align:center;color:#FF5050;"><?php echo  ERR_ACCOUNT_EDIT_FORM_VAL_FAILED; ?></p>
 
                       <?php }  }?>
 
+
+            <?php if(isset($isErrored) && $isErrored){  ?>
+
+            <p style="text-align:center;color:#FF5050;"><?php echo  ERR_ACCOUNT_EDIT_FORM_VAL_FAILED; ?></p>
+
+                      <?php } ?>
 
 
 	<form action="" id="approve-member-form" role="form"  method="post"   
@@ -155,6 +167,8 @@
                       <input type="hidden" id="approveMemberTokenPost" name="approveMemberTokenPost" value="<?php echo $newToken; ?>"/>
                       <input type="hidden" name="email" value="<?php echo $email; ?>"/>
                       <input type="hidden" name="serial_no" value="<?php echo $memberSerial; ?>"/>
+                      <input type="hidden" name="memberType" value="<?php echo $memberType; ?>"/>
+                      <input type="hidden" name="membershipNumberOld" value="<?php echo $membershipNumberOld; ?>" />
 
                     <?php if($memberType_id>0) {?>
                   		<span id="membershipNumberMessage"  class="col-sm-offset-4 <?php if(!$membershipNumberErr==""){echo " error" ;} ?>" ><?php echo $membershipNumberErr?></span>
@@ -282,69 +296,6 @@
                              </select>
                           </div>
 
-                        <span  id="memberSpecifiedCategoryMessage" class="col-sm-offset-4 error" ><?php echo $memberSpecifiedCategoryErr;?></span>
-                          <div class="form-group">
-                              <label for="memberSpecifiedCategory" class="col-sm-4">Member Specified Category</label>
-                              <input  class="input-box col-sm-8<?php if(!$memberSpecifiedCategoryErr==""){echo " errorBox" ;} ?>" type="" id="memberSpecifiedCategory"  name="memberSpecifiedCategory" 
-                                value="<?php echo $memberSpecifiedCategory; ?>"/>
-                          </div>
-
-                        <span  id="memberTypeMessage" class="col-sm-offset-4 error" ><?php echo $memberTypeErr; ?></span>
-                          <div class="form-group">
-                            <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
-                             <select class="input-box col-sm-6 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" 
-                               onchange="Upgrade_membership(this)"> 
-                                <option value="" >Please select.</option>
-
-                                <?php 
-                                  $sql="select * from Members_Type" ;
-
-                                    if (is_object($db)) {
-                                      echo "DB is alive";
-                                    }else {
-                                        echo "DB is not alive";
-                                    }
-                                    $resultMembersType = $db->query($sql);
-
-                                    if ($resultMembersType->num_rows > 0) {
-
-                                         while($member = $resultMembersType->fetch_assoc()) {
-
-                                              // echo "id: " . $memberType["ID"]. " - category_ID: " . $memberType["member_type"]. "  - category_desc:" . $memberType["member_desc"]. "<br>";
-                                        
-                                        ?>
-                                        <option value= "<?php echo $member["member_desc"]; ?>" <?php if($memberType_id==$member["member_type"]){ echo "selected" ;}  ?>  ><?php echo $member["member_desc"]; ?></option>
-
-                                        <?php }
-                                     }
-                                 ?>
-                             </select>
-
-                           
-
-
-                          </div>
-
-                         <div class="form-group">
-                            <label for="memberType" class="col-sm-4">Payment Details&nbsp;</label>
-                             
-                            <div class= "col-sm-5">
-                              <?php if (!empty($paymentID)){?>
-
-                                    <b>Membership Start Date :</b><?php echo date_format($membershipStartDate,"m/d/Y");?><br/>
-                                    <b>Membership End Date :</b><?php echo date_format($membershipExpiryDate,"m/d/Y");?>
-                              <?php  } ?>
-                              </div>
-                            <div class= "col-sm-2">  
-                            <button id="upgradeMembershipButton" class="button-common" type="button" style="margin-left:auto;width:100px;"
-                            data-toggle="modal" data-target="#addPaymentDetails" 
-                            >Add Payment</button>
-                          </div>
-
-
-
-                          </div>
-
 
                         <div class="form-group">
                           <label for="reminder" class="col-sm-4">Reminder</label>
@@ -353,8 +304,6 @@
                               <option value="0" <?php if(!$reminder) echo 'selected' ?>>No</option>
 
                           </select>
-                          
-
                         </div>
 
                         <span  id="otherDetailsMessage" class="col-sm-offset-4 error" ><?php echo $otherDetailsErr;?></span>
@@ -375,9 +324,6 @@
                             <input  class="input-box col-sm-8 <?php if(!$confirmPasswordErr==""){echo " errorBox" ;} ?>" type="password" id="confirmPassword"  name="confirmPassword" value="<?php echo $confirmPassword; ?>" />
                           </div>
                             
-
-
-
                         <?php if(!empty($doc1_name)) { ?>
                           <div>
                             <div id="doc1_name" class="col-sm-4"  style="font-weight: bold;">Uploaded File 1 :</div>                 
@@ -392,10 +338,6 @@
                           </div>
                             
                          <?php }?>
-
-
-
-
 
                         <span  id="doc1Message" class="col-sm-offset-4 col-sm-8 error" ><?php echo $doc1Err;?></span>
                         <div class="form-group">
@@ -436,7 +378,97 @@
 
                          <?php } ?>
                         </div>
-                      </div>      
+                      </div>  
+                      
+                      <span  id="memberSpecifiedCategoryMessage" class="col-sm-offset-4 error" ><?php echo $memberSpecifiedCategoryErr;?></span>
+                          <div class="form-group">
+                              <label for="memberSpecifiedCategory" class="col-sm-4">Member Specified Category</label>
+                              <input  class="input-box col-sm-8<?php if(!$memberSpecifiedCategoryErr==""){echo " errorBox" ;} ?>" type="" id="memberSpecifiedCategory"  name="memberSpecifiedCategory" 
+                                value="<?php echo $memberSpecifiedCategory; ?>"/>
+                          </div>
+
+                        <span  id="memberTypeMessage" class="col-sm-offset-4 error" ><?php echo $memberTypeErr; ?></span>
+                          <div class="form-group">
+                            <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
+                            <div class="col-sm-8"><?php echo $memberType ; ?></div>
+                             <!-- <select class="input-box col-sm-6 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" 
+                               onchange="Upgrade_membership(this)"> 
+                                <option value="" >Please select.</option>
+
+                                <?php 
+                                  $sql="select * from Members_Type" ;
+
+                                    $resultMembersType = $db->query($sql);
+
+                                    if ($resultMembersType->num_rows > 0) {
+
+                                         while($member = $resultMembersType->fetch_assoc()) {
+
+                                              // echo "id: " . $memberType["ID"]. " - category_ID: " . $memberType["member_type"]. "  - category_desc:" . $memberType["member_desc"]. "<br>";
+                                        
+                                        ?>
+                                        <option value= "<?php echo $member["member_desc"]; ?>" <?php if($memberType_id==$member["member_type"]){ echo "selected" ;}  ?>  ><?php echo $member["member_desc"]; ?></option>
+
+                                        <?php }
+                                     }
+                                 ?>
+                             </select> -->
+                          </div>
+
+
+  
+                          <div class="form-group">
+                            <label for="" class="col-sm-4">Upgrade Membership&nbsp;:</label>
+<!--                             <div class="col-sm-8"><?php echo($membershipRequested) ;?></div> 
+                             <button id="upgradeMembershipButton" class="button-common" type="button" style="margin-left:auto;width:100px;"
+                              data-toggle="modal" data-target="#addPaymentDetails" 
+                            >Upgrade</button>  -->
+                              <?php 
+                              // if($membershipRequested) {   
+                                    if($memberType_id==0) { ?>
+                                <button type="Button" class="button-common" style="margin: 0px;" data-toggle="modal" data-target="#addPaymentDetails"  >Upgrade Membership!</button>
+                            <?php } else if ($daysToExpiry <=30) { ?>
+                                <button type="Button" class="button-common" style="margin: 0px;" data-toggle="modal" data-target="#addPaymentDetails"  >Renew Membership!</button>
+                             <?php }  ?>
+                           <!-- }?> -->
+                          </div>
+
+                         
+                        <?php if($membershipRequested) { ?>
+                          <div class="form-group">
+                            <label for="" class="col-sm-4">Membership Memo&nbsp;:</label>
+                            <div class="col-sm-8"><?php 
+                              $memo = (explode("|",$membershipMemo));
+                              // print_r($memo );
+                              $arrlength = count($memo);
+
+                                for($x = 0; $x < $arrlength; $x++) {
+                                     $pos = stripos($memo[$x],":") ;
+                                    echo substr($memo[$x], 0,$pos);
+                                    echo "<b>".substr($memo[$x],$pos)."</b>";
+                                    echo "<br>";
+                                }
+
+                             ;?></div>                        
+                          </div>
+                        <?php }
+
+                        ?>
+
+
+
+                         <div class="form-group">
+                            <label for="memberType" class="col-sm-4">Payment Details&nbsp;:</label>                             
+                            <div class= "col-sm-8">
+                         <!--      <?php if (!empty($paymentID)){?> -->
+
+                                    <b>Membership Start Date :</b><?php echo date_format($membershipStartDate,"m/d/Y");?><br/>
+                                    <b>Membership End Date :</b><?php echo date_format($membershipExpiryDate,"m/d/Y");?>
+                             <!--  <?php  } ?> -->
+                              </div>
+
+                          </div>
+                        </div>    
 
                         <div class="col-sm-offset-4 col-sm-8"  style="padding-top:10px;">
                             <!-- <button type="Submit">Submit</button> -->
@@ -532,8 +564,8 @@
                     </div>
 
                     <div class="modal-body transparent-bg">
-                    <div id="responseText" class="center"></div>
-                        <form id="addPaymentForm" method="POST" action="">
+<!--                     <div id="responseText" class="center"></div>
+ -->                        <form id="addPaymentForm" method="POST" action="">
 
                            <!--Generate a unique token-->
                         <?php $newToken= sha1(time());
@@ -545,7 +577,18 @@
                           <input type="hidden" name="serialNo" value="<?php echo $memberSerial; ?>"/>
                           <input type="hidden" id="addPaymentTokenPost" name="addPaymentTokenPost" value="<?php echo $newToken; ?>"/>
 
-  
+                        <span  id="memberTypeRequestedMessage" class="col-sm-offset-4 error" ><?php echo $memberTypeRequestedErr; ?></span>
+                        <div class="row form-group">
+                        <label  for="memberTypeRequested" class="col-sm-4">Membership Type : </label>
+                        <select class="input-box col-sm-8 form-control <?php if(!$memberTypeRequestedErr==""){echo " errorBox" ;} ?>" id="memberTypeRequested"  name="memberTypeRequested" 
+                          onchange="calculateExpiyDate1()" >
+                          <option value="" >Please choose a member type.</option>
+                          <option value= "Premium Yearly">Premium Yearly</option>
+                          <option value="Premium Lifetime">Premium Lifetime</option>
+                        </select> 
+                        </div>                     
+ 
+
                       <span  id="paymentDateMessage" class="col-sm-offset-4 error" ><?php echo $paymentDateErr;?></span>
                       <div class="row form-group">
                           <label  for="paymentDate" class="col-sm-4">Payment Date : </label>
@@ -620,12 +663,14 @@
                             <textarea  class="form-control col-sm-8  input-box<?php if(!empty($payOtherDetailsErr)){ echo " errorBox" ;} ?>" rows="5" id="payOtherDetails" 
                                name="payOtherDetails" ><?php echo $payOtherDetails ?></textarea>
                       </div>
+                    <div id="responseText" class="center"></div>
 
                         <div class="row">
                            <div class="col-sm-offset-4 col-sm-8">                                      
-                           <button type ="button" onclick="addPaymentDetails('<?php echo $memberSerial; ?>','addPaymentDetails','responseText','memberType')">Submit</button>
+                           <button type ="button" onclick="addPaymentDetails('<?php echo $memberSerial; ?>','addPaymentDetails','responseText','memberTypeRequested')">Submit</button>
                            <button type="Reset">Reset</button>
                            <button type="button"  data-dismiss="modal" >Cancel</button>
+
                    
                          </div>
 
@@ -646,7 +691,7 @@
 </div> 	<!-- Approve-admin-div-ends -->
 </div> 
 </div> 
-</div> 
+<!-- </div>  -->
 <script type="text/javascript">
 
 $( "#datepicker" ).datepicker({
@@ -661,14 +706,14 @@ $( "#datepicker" ).datepicker({
   );
 
 </script>
-  <script src="js/jquery-ui.js"></script>
+   <script src="js/jquery-ui.js"></script>
 
 <script type="text/javascript">
 
   function calculateExpiyDate(datestr){
 
     if(validateDate(datestr.value)){
-      var memberType = document.getElementById("memberType").value;
+      var memberType = document.getElementById("memberTypeRequested").value;
       // alert("Member type :"+memberType);
        
        var yearsToAdd = <?php echo PREMIUM_YEARLY_MEMBERSHIP_YEARS ;?>;
@@ -693,6 +738,33 @@ $( "#datepicker" ).datepicker({
 
   }
 
+
+  function calculateExpiyDate1(){
+
+    var datestr = document.getElementById("datepicker");
+    
+    console.log(datestr);
+      if(validateDate(datestr.value)){
+      var memberType = document.getElementById("memberTypeRequested").value;
+      // alert("Member type :"+memberType);
+       
+       var yearsToAdd = <?php echo PREMIUM_YEARLY_MEMBERSHIP_YEARS ;?>;
+          if(memberType == "Premium Lifetime"){
+            yearsToAdd = <?php echo PREMIUM_LIFETIME_MEMBERSHIP_YEARS ;?>;
+          }
+
+           // alert ("years to add :"+yearsToAdd);
+
+        document.getElementById("memStartDate").value = datestr.value;
+
+        var startDate = new Date(datestr.value);
+
+        startDate.setFullYear(startDate.getFullYear() + yearsToAdd); 
+       // alert("final ::"+startDate.toDateString());
+                     
+        document.getElementById("memExpiryDate").value = startDate.toLocaleDateString("en-IN");
+    } 
+  }
 
   function showAlert(membershipNumberDiv){
 

@@ -19,8 +19,8 @@
                <div class="col-sm-offset-2  col-sm-8 trasparent-bg  page-content-style">
                 <h4 ><a href="files/std_of_weights_and_measures_act76.doc" class="text-color-blue" target="_blank">EXTRACTS FROM THE STANDARDS OF WEIGHTS &amp; MEASURES ACT, 1976</a></h4>
               
-                <?php echo  "file size::".filesize("files/std_of_weights_and_measures_act76.doc"); ?>
-              </div>
+<!--                 <?php echo  "file size::".filesize("files/std_of_weights_and_measures_act76.doc"); ?>
+ -->              </div>
           </div>          
 
    

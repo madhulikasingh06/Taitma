@@ -101,6 +101,8 @@
               return $pageName = "Forgot Password";
             }else if ($current == "messages.php"){
               return $pageName = "Messages";
+            } else if ($current == "members.php"){
+              return $pageName = "Members";
             }   
     }
 

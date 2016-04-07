@@ -63,6 +63,8 @@ class taitmaMembersOperation {
           return $this -> dropMessage();
         }else if($operation == "forwardMessage"){
          return $this -> forwardMessage();
+        }else if($operation =="requestMembership"){
+          return $this -> requestMembership();
         }
 
 
@@ -565,7 +567,8 @@ class taitmaMembersOperation {
         $doc_2 = NULL;
         $oldFile1 = "";
         $oldFile2 = "";
-
+        $receive_message = intval($_POST["receiveMessage"]);
+        $showProfile  = intval($_POST["showProfile"]);
         $result =  array();
 
         $email = stripslashes($email);
@@ -584,8 +587,8 @@ class taitmaMembersOperation {
 
            // encrypt the password
            
-            $stmt = $this->_db->prepare("CALL updateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
-            $stmt -> bind_param("isssssssssssssssss",
+            $stmt = $this->_db->prepare("CALL updateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
+            $stmt -> bind_param("isssssssssssssssssii",
                                                       $serial_no,
                                                       $password,
                                                        $company_name , 
@@ -603,7 +606,9 @@ class taitmaMembersOperation {
                                                         $category,
                                                         $member_specified_category, 
                                                         $member_type,
-                                                        $other_details
+                                                        $other_details,
+                                                        $receive_message,
+                                                        $showProfile
                                                         );
 
 
@@ -615,6 +620,13 @@ class taitmaMembersOperation {
                             while ($stmt->fetch()){
                               // echo " status : $status";
                               if($status==1){
+
+
+                                  //check if Profile is completed and update the session variable
+
+                                    if($_SESSION["accountStatus"]==3){
+                                      $_SESSION["accountStatus"]=2;
+                                    }
 
                                   //update the files 
 
@@ -903,7 +915,7 @@ class taitmaMembersOperation {
                                     
                                     $result= array(ERROR ,ERR_ACCOUNT_LOGIN_UNVERIFIED);
 
-                                }else if ($accountStatus==1 OR $accountStatus==2){
+                                }else if ($accountStatus==1 OR $accountStatus==2 OR $accountStatus==3){
                                        
                                     $_SESSION["accountStatus"]=$accountStatus;
                                     $_SESSION["loggedIN"]=1;
@@ -915,9 +927,6 @@ class taitmaMembersOperation {
 
 
                                 }
-
-
-
 
 
                       }
@@ -1092,6 +1101,220 @@ class taitmaMembersOperation {
          }
 
          return;
+
+
+    }
+
+    private function requestMembership(){
+
+      
+//       echo "inside requestMembership";
+
+      $serialNo       = $_POST["serialNo"];
+      $paymentDate    = $_POST["paymentDate"];
+      $paymentMode    = $_POST["paymentMode"];
+      $amount         = $_POST["amount"];
+      $paymentNumber  = $_POST["paymentNumber"];
+      $paymentAgainst = $_POST["paymentAgainst"];
+      $otherDetails   = $_POST["payOtherDetails"];
+      $memberType     = trim($_POST["memberTypeRequested"]);
+      $status = "";
+      $email = "";
+
+      $membershipRequested = 1;
+
+      $paymentDateSQL = date("Y-m-d H:i:s", strtotime($paymentDate));
+  
+      $membershipMemo = "Member Type Requested : ".$memberType."| Payment Amount : ".$amount." | Payment Mode : ".$paymentMode.
+                        " | Payment Date : ".$paymentDate." | Payment/Check Number : ".$paymentNumber." | Payment Against : ".
+                        $paymentAgainst." | Other Details : ".$otherDetails;
+
+        // echo  $membershipMemo ;
+        
+        $sql = "UPDATE Members_Profile SET membership_requested=? , membership_memo= ? where  serial_no = ?";
+
+        // echo $sql;
+
+        // print_r($_FILES);
+
+        if($stmt = $this->_db->prepare($sql)) {
+                $stmt->bind_param("isi",$membershipRequested, $membershipMemo, $serialNo);
+                        
+                        if($stmt->execute()){
+                               // $status = MSG_LINK_UPDATE_SUCCESS;
+                            //   if(!empty($_FILES["doc1"]['tmp_name'])) {
+                            //         $doc1_tmpname=$_FILES['doc1']['tmp_name'];
+                            //         $doc_1 = file_get_contents($doc1_tmpname);
+                            //         $doc_1_filename=$serialNo."_1_".$_FILES["doc1"]["name"];
+                            //         move_uploaded_file($doc1_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_1_filename);
+                   
+                            // }
+                            // if(!empty($_FILES["doc2"]['tmp_name'])) {
+                            //         $doc2_tmpname=$_FILES['doc2']['tmp_name'];
+                            //         $doc_2 = file_get_contents($doc2_tmpname);
+                            //         $doc_2_filename= $serialNo."_2_".$_FILES["doc2"]["name"];
+                            //          move_uploaded_file($doc2_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_2_filename);
+
+                            // }
+                $iterator = new FilesystemIterator(MEMBER_FILE_UPLOAD_FOLDER);
+                                   $filter = new RegexIterator($iterator, "/($serialNo)_*.*$/");
+                                      if (iterator_count( $filter)>0) {
+                                                foreach($filter as $entry) {
+
+                                                        $filename = $entry->getFilename();
+                                                        $filenameArray = explode("_", $filename);
+                                                 
+                                                        if($filenameArray[1]=="1"){
+                                                            $oldFile1 = $filename;
+                                                        }else if ($filenameArray[1]=="2"){
+                                                          $oldFile2 = $filename;
+                                                        }
+
+                                                     }
+                                                        
+
+                                              }
+
+
+                                    if(!empty($_FILES["doc1"]['tmp_name'])) {
+
+                                          if(!empty($oldFile1)){
+                                          
+                                            // Delete the old file and store new file
+                                            $docNew_tmpname=$_FILES['doc1']['tmp_name'];
+                                            $docNew_filename=$serialNo."_1_".$_FILES["doc1"]["name"];
+
+//                                             echo "updating doc 1";
+                                            unlink(MEMBER_FILE_UPLOAD_FOLDER.$oldFile1);
+                                            move_uploaded_file($docNew_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$docNew_filename);
+                                                      
+
+                                          }else {
+
+                                            // store the new file
+                                             $doc1_tmpname=$_FILES['doc1']['tmp_name'];
+                                             $doc_1_filename=$serialNo."_1_".$_FILES["doc1"]["name"];
+                                             move_uploaded_file($doc1_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_1_filename);
+
+                                         
+
+                                          }
+
+
+                                    }
+
+
+                                  if(!empty($_FILES["doc2"]['tmp_name'])) {
+
+                                          if(!empty($oldFile2)){
+
+                                                $doc2New_tmpname=$_FILES['doc2']['tmp_name'];
+                                                $doc2New_filename=$serialNo."_2_".$_FILES["doc2"]["name"];
+
+                                               // echo "updating doc 2";
+
+                                                 unlink(MEMBER_FILE_UPLOAD_FOLDER.$oldFile2);
+                                                 move_uploaded_file($doc2New_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc2New_filename);
+                                                   
+                                          }else {
+
+                                                  //echo "inside class doc 2";
+                                                  $doc2_tmpname=$_FILES['doc2']['tmp_name'];
+                                                  $doc_2_filename= $serialNo."_2_".$_FILES["doc2"]["name"];
+                                                  move_uploaded_file($doc2_tmpname,MEMBER_FILE_UPLOAD_FOLDER.$doc_2_filename);
+                                           
+                                          }
+                                    }
+
+                            //Send email to Admin and user 
+
+                             $sql = "SELECT email FROM Members_Profile WHERE serial_no=".$serialNo;
+
+                                      // echo $sql;
+                                     if($result = $this->_db->query($sql)){
+
+                                      // echo "$result";
+                                         while ($obj = $result->fetch_object()) {
+                                                   $email =  $obj->email;
+//                                                    echo $email;
+                                         }
+
+                                     }
+
+                                     if(!empty($email)){
+                                        $subject = EMAIL_MEMBERSHIP_REQUESTED_SUBJECT;
+                                        $text = "Dear Taitma Member,\nYour request for Taitma Membership is send to the admin for approval.\nBelow are the details -".
+                                                "\n\tMembership type requested : ".$memberType.
+                                                "\n\tPayment Amount :  Rs.".$amount.
+                                                "\n\tPayment Date : ".$paymentDate.
+                                                "\n\tPayment Mode : ".$paymentMode.
+                                                "\n\tPayment/Check Number : ".$paymentNumber.
+                                                "\n\tPayment Against : ".$paymentAgainst;
+                                            
+                                            if($otherDetails!=null || $otherDetails !=""){
+                                                $text = $text."\n\tOther Details : ".$otherDetails;
+                                            }
+                                              $text = $text."\n\nFrom \nTaitma";
+
+                                        $html = "Dear Taitma Member,<br/> Your request for Taitma Membership is send to the admin for approval.<br/>Below are the details -".
+                                                "<br/>Membership type requested : <b><i>".$memberType."</i></b>".
+                                                "<br/>Payment Amount :  <b><i>Rs.".$amount."</i></b>".
+                                                "<br/>Payment Date : <b><i>".$paymentDate."</i></b>".
+                                                "<br/>Payment Mode : <b><i>".$paymentMode."</i></b>".
+                                                "<br/>Payment/Check Number : <b><i>".$paymentNumber."</i></b>".
+                                                "<br/>Payment Against : <b><i>".$paymentAgainst."</i></b>";
+                                          if($otherDetails!=null || $otherDetails !=""){
+                                                $html = $html."<br/>Other Details : <b><i>".$otherDetails."</i></b>";
+                                            }
+
+                                               $html = $html."<br/>-Taitma";
+
+                                        $this->sendMail($email,$subject,$html,$text,"");
+                                      
+                                     }
+
+                                     //send email to admin 
+
+                                        $subject = EMAIL_MEMBERSHIP_REQUEST_ADMIN_SUBJECT;
+                                        $text = "Dear Taitma Admin,\nA new  requested for Membership is awaiting your approval.\nBelow are the details -".
+                                                "\n\tMembership Email : ".$email.
+                                                "\n\tMembership type requested : ".$memberType.
+                                                "\n\tPayment Amount :  Rs.".$amount.
+                                                "\n\tPayment Date : ".$paymentDate.
+                                                "\n\tPayment Mode : ".$paymentMode.
+                                                "\n\tPayment/Check Number : ".$paymentNumber.
+                                                "\n\tPayment Against : ".$paymentAgainst;
+                                            
+                                            if($otherDetails!=null || $otherDetails !=""){
+                                                $text = $text."\n\tOther Details : ".$otherDetails;
+                                            }
+                                              $text = $text."\n\nFrom \nTaitma";
+
+                                        $html = "Dear Taitma Admin,<br/> A new  requested for Membership is awaiting your approval.<br/>Below are the details -".
+                                                "<br/>Membership Email : <b><i>".$email."</i></b>".
+                                                "<br/>Membership type requested : <b><i>".$memberType."</i></b>".
+                                                "<br/>Payment Amount :  <b><i>Rs.".$amount."</i></b>".
+                                                "<br/>Payment Date : <b><i>".$paymentDate."</i></b>".
+                                                "<br/>Payment Mode : <b><i>".$paymentMode."</i></b>".
+                                                "<br/>Payment/Check Number : <b><i>".$paymentNumber."</i></b>".
+                                                "<br/>Payment Against : <b><i>".$paymentAgainst."</i></b>";
+                                          if($otherDetails!=null || $otherDetails !=""){
+                                                $html = $html."<br/>Other Details : <b><i>".$otherDetails."</i></b>";
+                                            }
+
+                                               $html = $html."<br/>-Taitma";
+
+                                        $this->sendMail($this->ADMIN_EMAILS,$subject,$html,$text,"");                                     
+
+
+
+                        }
+
+              }
+
+
+        $stmt->close();
+        return $status;
 
 
     }

@@ -19,6 +19,8 @@ include_once "inc/user.operations.inc.php";
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.css" rel="stylesheet">
+    
+    <link rel='stylesheet' href="jquery-ui.css"  type="text/css" media="all">
 
     <!-- style-sheet -->
     <link href="style.css" rel="stylesheet">
@@ -34,6 +36,7 @@ include_once "inc/user.operations.inc.php";
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="jquery-ui.js"></script>
   <script src="js/taitma.member.js"></script>
     <script src="js/bootstrap.min.js"></script>
    <script src="js/bootstrap-paginator.js"></script>
@@ -90,7 +93,8 @@ include_once "inc/user.operations.inc.php";
      </li> 
       <?php if(isset($_SESSION["memberType"]) && $_SESSION["memberType"]>0 ) {  ?>
           <li><a href="messages.php">Messages</a></li> 
-        <?php  } ?> 
+          <li><a href="members.php">Members</a></li>
+        <?php  } ?>  
     </ul>
  
 </nav>    

@@ -833,6 +833,16 @@ function addPaymentDetails(memberId,operation,respDivId,memberTypeDiv){
                       // alert(paymentDate+" & "+membershipStartDate +" & "+membershipEndDate +" & "+paymentMode +" & "+amount+" & "+ paymentNumber +" & "+paymentAgainst +" & "+otherDetails);
 
                       //validate the form
+
+                    if(memberType == null || memberType==""){
+                      isErrored = true;
+                      addErrorMessage(memberTypeDiv+"Message", "Please choose a Membership type.", memberTypeDiv);
+                     }else{
+                        removeErrorMessage(memberTypeDiv+"Message",memberTypeDiv);
+                     }
+
+
+
                       if(paymentDate == null || paymentDate ==""){
                         isErrored = true;
                         addErrorMessage("paymentDateMessage","Please enter Payment date.","datepicker");
@@ -1059,7 +1069,7 @@ function deleteMessage(id){
            }
 
 
-            if (confirm("Are you sure you want to delete this Link? This cannot be undone!") == true) {
+            if (confirm("Are you sure you want to delete this message? This cannot be undone!") == true) {
               xmlhttp.open("GET","admin-operations.php?oper=delMes&id="+id,true);
               xmlhttp.send();
 

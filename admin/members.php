@@ -265,10 +265,13 @@
 					
 					<?php  if(!isset($_GET["id"])){ ?>
 						<div class="row"><!-- div for  search box  starts-->
-							<div class="col-sm-3  navbar-form navbar-left">
+							<div class="col-sm-2  navbar-form navbar-left">
 								<button type="button" onClick="location.href = 'register.php'">Add New Member</button>
 							</div>
 							
+							<div class="col-sm-2  navbar-form navbar-left">
+								<button type="button" onClick="location.href = 'downloadMemberForMessages.php'">Get Emails for Message</button>
+							</div>
 
 								<form class="navbar-form navbar-right" role="search">
 

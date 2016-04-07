@@ -8,6 +8,10 @@ include_once "common/constants.db.php";
 include_once "common/db_connect.php";
 include_once "constants.inc.php";
 include_once "../swiftmailer-5/lib/swift_required.php";
+require_once "tcpdf/config/tcpdf_config.php";
+require_once "tcpdf/tcpdf.php";
+
+
 
 
 class taitmaAdminOperation {
@@ -74,15 +78,16 @@ class taitmaAdminOperation {
         }elseif ($operation == "changeAccount") {
             return $this -> updateUserStatus();
         }elseif ($operation == "addPaymentDetails") {
-            return $this -> addPaymentDetails();
+             return $this -> addPaymentDetails();
         }elseif ($operation == 'updateMessage') {
             return $this -> updateMessageStatus();
         }elseif ($operation == 'verMes') {
           return $this -> approveMessage();
         }elseif ($operation == "delMes") {
            return $this -> deleteMessage();
-        }
-
+        }elseif ($operation == "testBill") {
+            return $this ->testBill();
+          }
 
     }
 
@@ -118,6 +123,8 @@ class taitmaAdminOperation {
         $other_details = $_POST["otherDetails"];
         $doc_1 = NULL;
         $doc_2 = NULL;
+
+    	$memebershipNoOld= $_POST["membershipNumberOld"];
 
           if( $member_type != "Regular"){
            $membeship_number = $_POST["membershipNumber"];
@@ -255,7 +262,7 @@ class taitmaAdminOperation {
                                     }
 
 
-                                     if(!($membeship_number==null OR trim($membeship_number)=="")){
+                                     if(strcasecmp($membeship_number, $memebershipNoOld)!=0){
 
                                          $subject = MEMBERSHIP_NUMBER_CHANGED_SUBJECT;
                                          $text = "Dear Taitma Member,\nThis is to inform you that your membership is changed.\nYour new Membership number is -".$membeship_number."\nFrom \nTaitma";
@@ -796,7 +803,13 @@ class taitmaAdminOperation {
         private function sendMail($email,$subject,$html,$text){
             
             $from = array(EMAILID_FROM =>EMAIL_FROM);
-            $to = array( $email => $email);
+            // $to = array( $email => $email);
+
+             if(is_array($email)){
+              $to = $email;
+            }else {
+              $to = array( $email=> $email);
+            }
 
             
             $transport = Swift_SmtpTransport::newInstance(SMTP_SERVER, SMTP_PORT);
@@ -1323,10 +1336,18 @@ class taitmaAdminOperation {
 
     }
 
+    /**
+    * This method insert the payment details in payment_details table, 
+    * upgrades the membership and 
+    * payment id in Members_Profile.
+    * Create the bill in pdf format and Send it to the members.
+    * 
+    **/
+
 
     private function addPaymentDetails(){
 
-      $serialNo       = $_POST["serialNo"];
+      $serialNo       = intval($_POST["serialNo"]);
       $paymentDate    = $_POST["paymentDate"];
       $memStartDate   = $_POST["membershipStartDate"];
       $memExpiryDate  = $_POST["membershipEndDate"];
@@ -1338,6 +1359,8 @@ class taitmaAdminOperation {
       $memberType     = trim($_POST["memberType"]);
       $status = "";
       $email = "";
+      $address = "";
+      $companyName = "";
 
       $billNumber = $_POST["billNumber"];
 
@@ -1348,8 +1371,6 @@ class taitmaAdminOperation {
       }else if(strcasecmp($memberType,"Premium Lifetime")==0){
         $memberTypeSQL = MEMBERSHIP_TYPE_LIFETIME;
       }
-
-
 
       $paymentDateSQL = date("Y-m-d H:i:s", strtotime($paymentDate));
       $memStartDateSQL = date("Y-m-d H:i:s", strtotime($memStartDate));
@@ -1372,43 +1393,54 @@ class taitmaAdminOperation {
                                         $paymentAgainst,
                                         $otherDetails);
 
-       if ($select=$stmt->execute()) {
+               if ($select=$stmt->execute()) {
 
-                        $stmt->bind_result($out_payment_id);
+                           do {
 
-                            while ($stmt->fetch()){
-                               // echo " status : $out_payment_id";
-                                if($out_payment_id>0){
-                                  //send a mail to the user incluing payment details
+                              if (!$stmt->bind_result($out_payment_id)) {
+                                  echo "Bind failed: (" . $stmt->errno . ") " . $stmt->error;
+                              }
+                           
+                              while ($stmt->fetch()) {
+                                  // echo "id = $out_payment_id\n";
+                              }
+                           } while ($this->_db->more_results() && $this->_db->next_result());
 
+                     }
+ 
+                  if($out_payment_id>0){
+                                $sql = "SELECT * FROM Members_Profile WHERE serial_no=$serialNo";    
+                                  if($result = $this->_db->query($sql)){
 
-                                      $sql = "SELECT email FROM Members_Profile WHERE serial_no=".$serialNo;
-
-                                      // echo $sql;
-                                     if($result = $this->_db->query($sql)){
-
-                                      echo "$result";
-                                         while ($obj = $result->fetch_object()) {
-                                                   $email =  $obj->email;
-                                                   echo $email;
+                                         while ($row = $result->fetch_assoc()) {
+                                                   $email =  $row["email"];
+                                                   $companyName=$row["company_name"];
+                                                   $address = $row["address_1"].','.$row["city"].','.$row["pincode"];
                                          }
 
-                                     }
+                                     }else {
+                                       die("Some error has occured : " .$this->_db->error);
+
+                                     }                                     
+                                    // echo "email is ".$address;     
+                                   //create the bill   
+                                   $attach = $this-> createBill($serialNo,$companyName,$address,$amount,$paymentDate,$billNumber);
+
+                                  //send a mail to the user with bill attachemnent
 
                                      if(!empty($email)){
                                         $subject = EMAIL_PAYMENT_RECEIVED_SUBJECT;
-                                        $text = "Dear Taitma Member,\nWe are glad to inform you that your payment of Rs.".$amount." is received.
+                                        $text = "Dear Taitma Member,\nWe are glad to inform you that your payment of is received.
+                                                    Please find the invoive attached.
                                                     \nYour Membership type is -".$memberType. ". And its valid upto ".$paymentDate."\n\nFrom \nTaitma";
-                                        $html = "Dear Taitma Member,<br/> We are glad to inform you that your payment of Rs.".$amount." is received.
+                                        $html = "Dear Taitma Member,<br/> We are glad to inform you that your payment is received. Please find the invoive attached.
                                               Your Membership type is -<b><i>".$memberType."</i></b>.And its valid upto <b><i>".$paymentDate."</i></b>.<br/>-Taitma";
 
-                                        $this->sendMail($email,$subject,$html,$text);
+                                        $this->sendMailWithAttachment($email,$subject,$html,$text,$_SERVER['DOCUMENT_ROOT'].$attach);
                                       
                                      }
 
-                              }
-                          }
-        }
+                    }
         $stmt->close();
         return $status;
 
@@ -1450,6 +1482,8 @@ class taitmaAdminOperation {
         $id = $_GET["id"];
         $verificationCode = $_GET["ver"];
         $enable = intval($_GET["ena"]);
+        $emails = array();
+        $name = $emailFrom = $category = $companyName = $phone = $message = "";
 
 
          $sql = "UPDATE Messages SET disable = ? WHERE verification_code=? AND ID = ?";
@@ -1460,6 +1494,94 @@ class taitmaAdminOperation {
                         if($stmt->execute()){
                                // $status = MSG_LINK_UPDATE_SUCCESS;
                           echo "<div class='center'>The message is approved.</div>";
+
+
+//                          do {
+                           
+                              while ($stmt->fetch()) {
+                                  
+                              }
+//                            } while ($stmt->more_results() && $stmt->next_result());
+
+
+                            //get the emails of all the members  who opted for receiving messages 
+                              $rows = $this->_db->query('SELECT email FROM Members_Profile where receive_message=1');
+
+                                // loop over the rows, outputting them
+                               
+                               if($rows ){
+                                  do {
+                                 
+                                  while ($row = $rows->fetch_assoc()) {
+                                    $email =  $row["email"];
+                                    // $emails = $email;
+                                    array_push($emails,$email);
+
+                                  } 
+                                } while ($this->_db->more_results() && $this->_db->next_result());
+
+                                   $rows->free();
+
+                               }
+                                else {
+                                       die("Some error has occured : " .$this->_db->error);
+
+                              } 
+                               
+//                           print_r($emails);
+
+                          //Get Message Details 
+                          $result = $this->_db->query("SELECT *  FROM Messages WHERE ID = $id;");
+                
+
+                          if ($result->num_rows > 0) { 
+
+                            while($row = $result->fetch_assoc()) {
+
+                                $name = $row["name"];
+                                $emailFrom = $row["email"];
+                                $category = $row["category"];
+                                $companyName = $row["company_name"];
+                                $phone = $row["phone"];
+                                $message = $row["message"];
+
+                            }
+                          }
+
+
+                          $subject = NEW_MESSAGE_SUBJECT;
+
+                           $html = "<p>Hi,<br/>A new message has been added as below. <br> <b>
+                                      <i>From: </i></b>".$name." 
+                                      <br/><b><i>Email: </i></b>".$emailFrom."
+                                      <br/><b><i>Categoty: </i></b>".$category."
+                                      <br/><b><i>Company Name:</i></b> ".$companyName."
+                                      <br/><b><i>Phone: </i></b>".$phone."
+                                      <br/><b><i>Message: </i></b>".nl2br(str_replace('\\r\\n', "\r\n", $message))."<br/></p>";
+
+
+                            $text = "Hi,\nA new message has been added as below. Please take the neccessary action. 
+                                      \nFrom : ".$name.
+                                      "\nEmail : ".$emailFrom.
+                                      "\nCategory : ".$category.
+                                      "\nCompany Name : ".$companyName.
+                                      "\nPhone : ".$phone.
+                                      "\nMessage : ".str_replace('\\r\\n', "\r\n", $message);
+
+
+                        
+
+                            if($this->sendMail($emails,$subject,$html,$text,"")){
+
+//                                 echo "<div class='center'>Message was sent.</div>";                        
+                          
+                           }else {
+
+//                             echo  "<div class='center'>There was some error sending message.</div>";
+                           }
+
+
+
                         }
 
               }
@@ -1480,9 +1602,328 @@ class taitmaAdminOperation {
         echo "<div class='center'>The message is deleted.</div>";
         return;
       }
-  
 
+      private function createBill($serialNo,$companyName,$companyAddress ,$amount,$paymentDate,$billNumber){
+
+        $serialNo;
+        $tax1 = $tax2 =0 ;
+        $SrNo = 1 ;
+
+        //Add the taxes
+         $amount = intval($amount);
+
+         if(INVOICE_TAX_1>0){
+          $tax1 = $amount*(INVOICE_TAX_1/100);
+         }
+
+         if(INVOICE_TAX_2>0){
+          $tax2 = $amount*(INVOICE_TAX_2/100);
+         }
+
+        $totalBill = $amount+$tax1+$tax2;
+        
+        //Creating the html for bill 
+        // All Tables width are in mm
+       
+        $html = '<h3 align="center">TAX INVOICE</h3><br /><br />';
+ 
+        $html = $html.'<table border="0" cellpadding="0" cellspacing="5">
+            <thead>
+             <tr>
+              <td width="250" align="left" rowspan="4" ><b>'.INVOICE_NAME.'</b><br />
+                                      '.INVOICE_ADDRESS.'<br/>
+                                      '.INVOICE_CIN.'<br />         
+                                      '.INVOICE_EMAIL.'<br />
+              </td>
+              <td width="150" align="center" rowspan="4" >TAX INVOICE No. :<b>'.$billNumber.'</b></td>
+              <td width="100" align="right" rowspan="4" >Dated :<b>'.$paymentDate.'</b></td>
+             </tr><br/>
+             <tr>
+             </tr>
+            </thead>
+            <tbody></tbody>
+            </table><br /><br /><br />';
+
+         $html = $html.'<table border="0" cellpadding="0" cellspacing="5">
+                        <thead>
+                         <tr>
+                          <td width="40" ><b>Name:<br />Address :</b></td>
+                          <td width="210">'.$companyName.'<br />'.$companyAddress.'</td>
+                          </tr>                          
+                        </table><br /><br />';
+
+         $html =  $html.'<table border="0" cellpadding="0" cellspacing="5">
+            <thead>
+              <tr>
+              <td width="50" align="left">Sr No.</td>
+              <td width="300"  align="left">Particulars</td>
+              <td width="150"  align="right">Amount</td>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+                 <td width="50" align="left">'.$SrNo.'</td>
+                <td width="300"  align="left">Annual subscription</td>
+                <td width="150"  align="right">Rs. '.$amount.'</td>
+              </tr>';
+                    
+           if($tax1>0){
+               $html =  $html.'<tr>
+                    <td width="50" align="left">'.(++$SrNo).'</td>
+                    <td width="300"  align="left">Add: '.INVOICE_TAX_1_NAME.' @ '.INVOICE_TAX_1.'%    </td>
+                    <td width="150"  align="right">Rs. '.$tax1.'</td>
+                  </tr>';
+              }
+
+          if($tax2>0){
+               $html =  $html.'<tr>
+                    <td width="50" align="left">'.(++$SrNo).'</td>
+                    <td width="300"  align="left">Add: '.INVOICE_TAX_2_NAME.' @ '.INVOICE_TAX_2.'%    </td>
+                    <td width="150"  align="right">Rs. '.$tax2.'</td>
+                  </tr>';
+              }
+
+             $html =  $html.'<hr /><tr><td width="50" align="left"></td>
+                <td width="300"  align="left">Total    </td>
+                <td width="150"  align="right">Rs. '.$totalBill.'</td>
+             </tr>
+        
+            </tbody>
+          </table><br/ ><br /><br/ ><hr />';
+        
+
+          $html =  $html.'<table border="0" cellpadding="0" cellspacing="5">
+            <thead>
+              <tr>
+              <td width="250" align="left"></td>
+              <td width="250"  align="right"></td>
+             </tr>
+            </thead>
+            <tbody>
+             <tr>
+                 <td width="250" align="left">Amount Chargable (in words)<br />
+                 <b><font size="8">Indian Rupees '.$this->convert_number_to_words($totalBill).' only. </font></b></td>
+                 <td width="250"  align="right"> <i>E. & O.E</i> <br />
+                 <b>For '.INVOICE_NAME.'</b></td>
+              </tr><br />
+
+            <tr>
+                 <td width="250" align="left"><span  width="125">Company PAN :</span><span align="right" width="100"><b>'.INVOICE_COMPANY_PAN.'</b></span><br />
+                 Service Tax Registration No.:<span align="right"><b>'.INVOICE_SERVICE_TAX_REG.'</b></span></td>
+                <td width="250"  align="right"></td>
+             </tr><br />
+             <tr> 
+              <td width="250" align="left">Declaration<br>We declare that the particulars contained in this tax invoice are true and correct.</td>
+              <td width="250"  align="right">Authorised Signatory :<br />D S Nanabhoy (Secretary)</td>
+             </tr>
+            </tbody>
+          </table><br/ ><br /><br/ ><br />';
+        
+
+
+          $filename = INVOICE_FOLDER.$serialNo.PDF_EXTENTION;
+
+          ob_start();
+            // create new PDF document
+              $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+            $pdf->SetTitle('TAX INVOICE');
+            // set default header data
+            $pdf->SetHeaderData("", "", INVOICE_NAME, "");
+                         
+
+
+              // set header and footer fonts
+               $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+               $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+
+              // set default monospaced font
+              $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+              // set margins
+              $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+              $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+              $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+              // set auto page breaks
+               $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+              // set font
+              $pdf->SetFont('helvetica', 'B', 10);
+
+              // add a page
+              $pdf->AddPage();
+
+               // $pdf->Write(0, 'TAX INVOICE', '', 0, 'C', true, 0, false, false, 0);
+
+              $pdf->SetFont('helvetica', '', 8);
+
+            $pdf->writeHTML($html, true, false, true, false, '');
+
+          // $content = $pdf->Output('Bills/doc.pdf','F');
+
+          $pdf->Output($filename , 'F');
+            ob_end_clean();
+
+          return $filename;
+  
+        
+      }
+
+
+          
+
+
+      private function testBill(){
+
+          // create new PDF document
+         
+              echo $fileName = $this->createBill(109,"name","address",1000,"10-05-2016","B-123QWE");
+
+      }
+
+      private function convert_number_to_words($number) {
+    
+              $hyphen      = '-';
+              $conjunction = ' and ';
+              $separator   = ', ';
+              $negative    = 'negative ';
+              $decimal     = ' point ';
+              $dictionary  = array(
+                  0                   => 'zero',
+                  1                   => 'one',
+                  2                   => 'two',
+                  3                   => 'three',
+                  4                   => 'four',
+                  5                   => 'five',
+                  6                   => 'six',
+                  7                   => 'seven',
+                  8                   => 'eight',
+                  9                   => 'nine',
+                  10                  => 'ten',
+                  11                  => 'eleven',
+                  12                  => 'twelve',
+                  13                  => 'thirteen',
+                  14                  => 'fourteen',
+                  15                  => 'fifteen',
+                  16                  => 'sixteen',
+                  17                  => 'seventeen',
+                  18                  => 'eighteen',
+                  19                  => 'nineteen',
+                  20                  => 'twenty',
+                  30                  => 'thirty',
+                  40                  => 'fourty',
+                  50                  => 'fifty',
+                  60                  => 'sixty',
+                  70                  => 'seventy',
+                  80                  => 'eighty',
+                  90                  => 'ninety',
+                  100                 => 'hundred',
+                  1000                => 'thousand',
+                  1000000             => 'million',
+                  1000000000          => 'billion',
+                  1000000000000       => 'trillion',
+                  1000000000000000    => 'quadrillion',
+                  1000000000000000000 => 'quintillion'
+              );
+              
+              if (!is_numeric($number)) {
+                  return false;
+              }
+              
+              if (($number >= 0 && (int) $number < 0) || (int) $number < 0 - PHP_INT_MAX) {
+                  // overflow
+                  trigger_error(
+                      'convert_number_to_words only accepts numbers between -' . PHP_INT_MAX . ' and ' . PHP_INT_MAX,
+                      E_USER_WARNING
+                  );
+                  return false;
+              }
+
+              if ($number < 0) {
+                  return $negative .  $this->convert_number_to_words(abs($number));
+              }
+              
+              $string = $fraction = null;
+              
+              if (strpos($number, '.') !== false) {
+                  list($number, $fraction) = explode('.', $number);
+              }
+              
+              switch (true) {
+                  case $number < 21:
+                      $string = $dictionary[$number];
+                      break;
+                  case $number < 100:
+                      $tens   = ((int) ($number / 10)) * 10;
+                      $units  = $number % 10;
+                      $string = $dictionary[$tens];
+                      if ($units) {
+                          $string .= $hyphen . $dictionary[$units];
+                      }
+                      break;
+                  case $number < 1000:
+                      $hundreds  = $number / 100;
+                      $remainder = $number % 100;
+                      $string = $dictionary[$hundreds] . ' ' . $dictionary[100];
+                      if ($remainder) {
+                          $string .= $conjunction . $this->convert_number_to_words($remainder);
+                      }
+                      break;
+                  default:
+                      $baseUnit = pow(1000, floor(log($number, 1000)));
+                      $numBaseUnits = (int) ($number / $baseUnit);
+                      $remainder = $number % $baseUnit;
+                      $string =  $this->convert_number_to_words($numBaseUnits) . ' ' . $dictionary[$baseUnit];
+                      if ($remainder) {
+                          $string .= $remainder < 100 ? $conjunction : $separator;
+                          $string .=  $this->convert_number_to_words($remainder);
+                      }
+                      break;
+              }
+              
+              if (null !== $fraction && is_numeric($fraction)) {
+                  $string .= $decimal;
+                  $words = array();
+                  foreach (str_split((string) $fraction) as $number) {
+                      $words[] = $dictionary[$number];
+                  }
+                  $string .= implode(' ', $words);
+              }
+              
+              return $string;
+          }
+
+
+          private function sendMailWithAttachment($email,$subject,$html,$text,$attachment){
+            
+            $from = array(EMAILID_FROM =>EMAIL_FROM);
+            $to = array( $email => $email);
+
+            
+            $transport = Swift_SmtpTransport::newInstance(SMTP_SERVER, SMTP_PORT);
+            $transport->setUsername(SMTP_USER);
+            $transport->setPassword(SMTP_PASSWORD);
+            $swift = Swift_Mailer::newInstance($transport);
+
+            $message = new Swift_Message($subject);
+            $message->setFrom($from);
+            $message->setBody($html, 'text/html');
+            $message->setTo($to);
+            $message->addPart($text, 'text/plain');
+
+            $message->attach(Swift_Attachment::fromPath($attachment));
+
+            if ($recipients = $swift->send($message, $failures))
+            {
+               // echo 'Message successfully sent!';
+            } else {
+                // echo "There was an error:\n";
+              // print_r($failures);
+            }
+        return;
+     }
 
   }
-
-?>
+  

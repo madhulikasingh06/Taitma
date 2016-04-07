@@ -10,10 +10,10 @@
                 <div class="col-sm-4 inner-right-menu">
                      <ul>
 
-                      <?php getInnerNavBar() ;?>
-                     <!--     <li><a href="notice-board.php">Notice Board</a></li>
+                   <!--    <?php getInnerNavBar() ;?> -->
+                          <li><a href="notice-board.php">Notice Board</a></li>
                          <li><a href="register.php">Register</a></li>
-                        <li><a href="contact.php">Contact</a></li> -->
+                        <li><a href="contact.php">Contact</a></li>
                     </ul>
                 
         	    </div>

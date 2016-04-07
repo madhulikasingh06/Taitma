@@ -245,7 +245,7 @@
                         <div class="col-sm-offset-4 col-sm-8">
                             <!-- <button type="Submit">Submit</button> -->
                             <button type="Button" onClick="submitRegistrationForm();" >Submit</button>
-                            <button type="Reset" onClick="document.write('<?php resetRegistrationForm() ?>'); ">Reset</button>
+                            <button type="Reset" onClick="document.reload(); ">Reset</button>
                      </div>
 
 

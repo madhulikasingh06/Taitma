@@ -137,6 +137,29 @@ define("EMAIL_REMINDER_MEMBERSHIP_EXPIRY_SUBJECT","[TAITMA]- Reminder for member
 define("MEMBERSHIP_NUMBER_CHANGED_SUBJECT", "[TAITMA]- Membership number updated!");
 
 
+//Constants for Invoice Creation
+define("INVOICE_FOLDER", "/admin/Bills/");
+// define("INVOICE_FOLDER", "Bills/");
+define("PDF_EXTENTION", ".pdf");
+
+define("INVOICE_NAME", "The All India Toy Manufacturers' Association");
+define("INVOICE_ADDRESS", "301, Business Park, 18 SV Road, Malad West, Mumbai");
+define("INVOICE_CIN", "CIN: U36940MH1976NPL019122");
+define("INVOICE_EMAIL", "E-Mail :taitma76@gmail.com");
+
+//taxes  
+define("INVOICE_TAX_1_NAME", "Service Tax");
+define("INVOICE_TAX_1", 14.5);
+define("INVOICE_TAX_2_NAME", "VAT");
+define("INVOICE_TAX_2", 5);
+
+define("INVOICE_COMPANY_PAN", "AAAFT0564E");
+define("INVOICE_SERVICE_TAX_REG", "AAAFT0564SD001");
+
+//Subject for New message to all the members
+
+define("NEW_MESSAGE_SUBJECT", "[TAITMA]- A new message is posted.");
+
 
 
 

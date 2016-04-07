@@ -861,3 +861,11 @@ font-size: 12px;
      background-color: #0ABDC8;
   }
 
+
+p .readMore > a {
+/*		text-decoration: none; 
+*/		    font-size: 13px;
+		    color: #0ABDC8;
+
+}
+

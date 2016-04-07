@@ -102,9 +102,16 @@
                   <div  id ="message" > <?php 
 
                       if ($statusCode==SUCCESS) {
-                           echo "<meta http-equiv='refresh' content='0;index.php'>";
-                        // header('location:/index.php');	
-                         exit;
+                          
+                          if($_SESSION["accountStatus"]==3){
+                               echo "<meta http-equiv='refresh' content='0;profile.php'>";
+                                exit;
+                          }else {
+                             echo "<meta http-equiv='refresh' content='0;index.php'>";
+                            // header('location:/index.php'); 
+                             exit;
+                          }
+                          
                       }
                    
                   ?>

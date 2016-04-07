@@ -49,7 +49,8 @@
 
                       <input type="hidden" name="operation" value="register-user"/>
                       <input type="hidden" id="registerUserTokenPost" name="registerUserTokenPost" value="<?php echo $newToken; ?>"/>
-                            
+                      <input type="hidden" name="memberType" value="Regular"/>
+   
 
 
 
@@ -183,7 +184,7 @@
                               <input  class="input-box col-sm-8<?php if(!$memberSpecifiedCategoryErr==""){echo " errorBox" ;} ?>" type="" id="memberSpecifiedCategory"  name="memberSpecifiedCategory" value="<?php echo $memberSpecifiedCategory; ?>"/>
                           </div>
 
-                        <span  id="memberTypeMessage" class="col-sm-offset-4 error" ><?php echo $memberTypeErr; ?></span>
+<!--                         <span  id="memberTypeMessage" class="col-sm-offset-4 error" ><?php echo $memberTypeErr; ?></span>
                           <div class="form-group">
                             <label for="memberType" class="col-sm-4">Member Type:&nbsp;<sup>*</sup></label>
                              <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
@@ -209,7 +210,7 @@
                              </select>
 
 
-                          </div>
+                          </div> -->
 
                         <span  id="otherDetailsMessage" class="col-sm-offset-4 error" ><?php echo $otherDetailsErr;?></span>
                           <div class="form-group">

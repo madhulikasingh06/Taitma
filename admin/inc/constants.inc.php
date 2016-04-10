@@ -138,7 +138,7 @@ define("MEMBERSHIP_NUMBER_CHANGED_SUBJECT", "[TAITMA]- Membership number updated
 
 
 //Constants for Invoice Creation
-define("INVOICE_FOLDER", "/admin/Bills/");
+define("INVOICE_FOLDER", "admin/Bills/");
 // define("INVOICE_FOLDER", "Bills/");
 define("PDF_EXTENTION", ".pdf");
 
@@ -159,6 +159,12 @@ define("INVOICE_SERVICE_TAX_REG", "AAAFT0564SD001");
 //Subject for New message to all the members
 
 define("NEW_MESSAGE_SUBJECT", "[TAITMA]- A new message is posted.");
+
+define("FIRST_REMINDER_DAY", 30);
+define("SECOND_REMINDER_DAY", 10);
+define("THIRD_REMINDER_DAY", 0);
+define("FOURTH_REMINDER_DAY", -5);
+define("LAST_REMINDER_DAY", -15);
 
 
 

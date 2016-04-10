@@ -103,8 +103,7 @@ define("RECORDS_PER_PAGE", 50);
 
 define("MSG_PROFILE_INCOMPLETE", "Please complete your profile.");
 
-
-
+define("NO_SEARCH_RESULT", "No matching Members were found with the search criteria you have given.<br>Please check the search criteria and try again.");
 
 
 

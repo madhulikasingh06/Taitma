@@ -46,14 +46,6 @@
 
 		 if(isset($_GET["oper"])){
 
-			// if(isset($_GET["recs"]) && !empty($_GET["recs"])){
-			// 	  $records_per_page=intval($_GET["recs"]);
-
-			// }
-
-			// if($_SESSION["searchMemberToken"]==$_GET["token"]){
-
-				// $_SESSION["searchMemberToken"]="";
 
 				if(isset($_GET["sercrit1"])){
 
@@ -64,32 +56,34 @@
 						$searchCrit1 =$_GET["sercrit1"];
 						// echo "sercrit1 is ::".$_GET["sercrit1"];
 
-						if($searchCrit1>=0 AND $searchCrit1<=2){
+						// if($searchCrit1>=0 AND $searchCrit1<=2){
 
-							$status = $_GET["sercrit1"];
-							if(!empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
+						// 	$status = $_GET["sercrit1"];
+						// 	if(!empty($_GET["sercrit"]) AND !empty($_GET["serval"])){
 
-								 $searchCrit  = $_GET["sercrit"];
-								  $searchVal = $_GET["serval"];
+						// 		 $searchCrit  = $_GET["sercrit"];
+						// 		  $searchVal = $_GET["serval"];
 
-							 $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
-								$sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"] .' like "'.$_GET["serval"] .'%" AND serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
-								$result = $db -> query($sql);
-								if ($result->num_rows > 0) {
-									$total_members=$result->num_rows;
-								}
+						// 	 $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+						// 		$sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"] .' like "'.$_GET["serval"] .'%" AND serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+						// 		$result = $db -> query($sql);
+						// 		if ($result->num_rows > 0) {
+						// 			$total_members=$result->num_rows;
+						// 		}
 
 
-							}else {
-								 $query = 'SELECT * FROM Members_Profile where serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
-								$sql = 'SELECT serial_no FROM Members_Profile where serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
-								$result = $db -> query($sql);
-								if ($result->num_rows > 0) {
-									$total_members=$result->num_rows;
-								}
-							}
+						// 	}else {
+						// 		 $query = 'SELECT * FROM Members_Profile where serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+						// 		$sql = 'SELECT serial_no FROM Members_Profile where serial_no IN (SELECT serial_no from Member_Verification_Status WHERE Verification_Status ='.intval($status).')';
+						// 		$result = $db -> query($sql);
+						// 		if ($result->num_rows > 0) {
+						// 			$total_members=$result->num_rows;
+						// 		}
+						// 	}
 
-						}else if ($searchCrit1 >=3 AND $searchCrit1<=4){
+						// }else
+
+						 if ($searchCrit1 >=3 AND $searchCrit1<=4){
 
 							if($searchCrit1 == 3){
 								$member_category = "M";
@@ -281,15 +275,16 @@
 								    	<select class="" name="sercrit1">
 <!-- 								        	<option value="">Please select a criteria</option>
  -->								        <option value="All" <?php if($searchCrit1=="All") echo 'selected '; ?>>All</option>
-								        	<option value="0" <?php if($searchCrit1=="0") echo 'selected '; ?>>New/Unverified</option>
+							<!-- 	        	<option value="0" <?php if($searchCrit1=="0") echo 'selected '; ?>>New/Unverified</option>
 								        	<option value="1" <?php if($searchCrit1=="1") echo 'selected '; ?>>Unapproved</option>
-								        	<option value="2" <?php if($searchCrit1=="2") echo 'selected '; ?>>Approved</option>
+								        	<option value="2" <?php if($searchCrit1=="2") echo 'selected '; ?>>Approved</option> -->
 								        	<option value="3" <?php if($searchCrit1=="3") echo 'selected '; ?>>Manufacturers</option>
 								        	<option value="4" <?php if($searchCrit1=="4") echo 'selected '; ?>>Others</option>
-								        	<option value="5" <?php if($searchCrit1=="5") echo 'selected '; ?>>Regular Members</option>
+	<!-- 							        	<option value="5" <?php if($searchCrit1=="5") echo 'selected '; ?>>Regular Members</option>
 								        	<option value="6" <?php if($searchCrit1=="6") echo 'selected '; ?>>Premium Members</option>
 								        	<option value="7" <?php if($searchCrit1=="7") echo 'selected '; ?>>Enabled Members</option>
 								        	<option value="8" <?php if($searchCrit1=="8") echo 'selected '; ?>>Disabled Members</option>
+		-->
 								       
 
 								        </select>
@@ -297,17 +292,17 @@
 								    <div class="form-group" >
 								    	<select class="" name="sercrit">
 								        	<option value="" <?php if($searchCrit=="") echo 'selected '; ?>>Please select a criteria</option>
-								        	<option value="membership_no" <?php if($searchCrit=="membership_no") echo 'selected '; ?>>Membership Number</option>
-								        	<option value="email" <?php if($searchCrit=="email") echo 'selected '; ?>>Email Address</option>
+<!-- 								        	<option value="membership_no" <?php if($searchCrit=="membership_no") echo 'selected '; ?>>Membership Number</option>
+ -->								        	<option value="email" <?php if($searchCrit=="email") echo 'selected '; ?>>Email Address</option>
 								        	<option value="contact_person" <?php if($searchCrit=="contact_person") echo 'selected '; ?>>Contact Person</option>
 								        	<option value="company_name" <?php if($searchCrit=="company_name") echo 'selected '; ?>>Company Name</option>
 								        	<option value="region" <?php if($searchCrit=="region") echo 'selected '; ?>>Region</option>
 								        	<option value="state" <?php if($searchCrit=="state") echo 'selected '; ?>>State</option>
 								        	<option value="city" <?php if($searchCrit=="city") echo 'selected '; ?>>City</option>
-								        	<option value="pincode" <?php if($searchCrit=="pincode") echo 'selected '; ?>>Pincode</option>
-								        	<option value="phone" <?php if($searchCrit=="phone") echo 'selected '; ?>>Phone</option>
-								        	<option value="mobile" <?php if($searchCrit=="mobile") echo 'selected '; ?>>Mobile</option>
-
+<!-- 								        	<option value="pincode" <?php if($searchCrit=="pincode") echo 'selected '; ?>>Pincode</option>
+ -->								        	<option value="phone" <?php if($searchCrit=="phone") echo 'selected '; ?>>Phone</option>
+<!-- 								        	<option value="mobile" <?php if($searchCrit=="mobile") echo 'selected '; ?>>Mobile</option>
+ -->
 								        </select>
 								    </div>
 
@@ -349,37 +344,41 @@
 
 									<div class="col-sm-12" style="font-size:12px;padding-top:10px;padding-bottom:20px;">
 											<div class="row">
-												<div class="col-sm-2"><b><u>Email</u></b></div>
-												<div class="col-sm-2"  style="text-align:center;"><b><u>Membership No.</u></b></div>
-												<div class="col-sm-2"><b><u>Comapny Name</u></b></div>
-												<div class="col-sm-2"><b><u>Contact person/<br/>Phone/<br/>Mobile</u></b></div>
-												<div class="col-sm-1"><b><u>Region/<br/>City/<br/>Pincode</u></b></div>
-												<div class="col-sm-1"><b><u>Status</u></b></div>
+												<div class="col-sm-3"><b><u>Email</u></b></div>
+<!-- 												<div class="col-sm-2"  style="text-align:center;"><b><u>Membership No.</u></b></div>
+ -->											<div class="col-sm-3"><b><u>Comapny Name</u></b></div>
+												<div class="col-sm-2"><b><u>Contact person</u></b></div>
+												<div class="col-sm-2"><b><u>Phone</u></b></div>
+												<div class="col-sm-2"><b><u>Region/<br/>City</u></b></div>
+
+												<!-- <div class="col-sm-1"><b><u>Region/<br/>City/<br/>Pincode</u></b></div>
+ 												<div class="col-sm-1"><b><u>Status</u></b></div>
 												<div class="col-sm-2"><b><u>Member Type/<br/>Expiry Date</u></b></div>												
-											</div>
+												 -->
+ 											</div>
 										</div>	
                   					<?php 	while($row = $result1->fetch_assoc()) {
                   								 // echo "\nMEMBER member_type :: ".$row["member_type"];
 
-                  								$memberType_id =$row["member_type"];	
-                  								$serial_no = intval($row["serial_no"]);									        
-                  								$sql_mt = "SELECT member_desc FROM Members_Type WHERE member_type='$memberType_id'";
-										         if($result_mt = $db->query($sql_mt)){
-										             while ($obj = $result_mt->fetch_object()) {
-										                       $memberType =  $obj->member_desc;
-										             }
+                  	// 							$memberType_id =$row["member_type"];	
+                  	// 							$serial_no = intval($row["serial_no"]);									        
+                  	// 							$sql_mt = "SELECT member_desc FROM Members_Type WHERE member_type='$memberType_id'";
+										         // if($result_mt = $db->query($sql_mt)){
+										         //     while ($obj = $result_mt->fetch_object()) {
+										         //               $memberType =  $obj->member_desc;
+										         //     }
 
-										         }
+										         // }
 
-										         $sql_approved_status = $db -> prepare(getMemberStatus);
-										         $sql_approved_status -> bind_param("i",$serial_no);
-										         if($sql_approved_status->execute()){
-										         	$sql_approved_status -> bind_result($verification_status_desc);
-										         	while ( $sql_approved_status -> fetch()) {
-										         	    $member_status=$verification_status_desc;
-										         	}
+										         // $sql_approved_status = $db -> prepare(getMemberStatus);
+										         // $sql_approved_status -> bind_param("i",$serial_no);
+										         // if($sql_approved_status->execute()){
+										         // 	$sql_approved_status -> bind_result($verification_status_desc);
+										         // 	while ( $sql_approved_status -> fetch()) {
+										         // 	    $member_status=$verification_status_desc;
+										         // 	}
 
-										         }
+										         // }
 
 
 
@@ -388,42 +387,23 @@
 											<div class="row">
 <!-- 												<div class="col-sm-2" ><a href="member-profile-details.php?id=<?php echo $row["serial_no"]?>" class="<?php if($member_status=='new') echo ' error';?>"><?php echo $row["email"] ?></a><br/>
  -->
- 												<div class="col-sm-2" ><?php echo $row["email"] ?><br/>
-													<?php if ($member_status=='new') { ?> <span class="error"><I>unverified.</I></span><?php } ; ?>
-												</div>												
-												<?php if(intval($memberType_id)>0){ ?>
-												<div class="col-sm-2<?php if(empty($row["membership_no"])){echo ' error' ;} ?>" style="text-align:center;">
-													<?php  if(!empty($row["membership_no"])){echo $row["membership_no"]; } else {echo 'Pending Approval'; } ?>
+ 												<div class="col-sm-3" ><?php echo $row["email"] ?></div>
+											
+												<div class="col-sm-3"><?php echo ucfirst($row["company_name"]); ?></div>
+												<div class="col-sm-2"><?php echo ucfirst($row["contact_person"]); ?>												
 												</div>
-													<?php  }else { ?>
-												<div class="col-sm-2 center" ><p>-</p></div>
-
-												<?php	 } ?>
-
-												
-												<div class="col-sm-2"><?php echo ucfirst($row["company_name"]); ?></div>
-												<div class="col-sm-2"><?php echo ucfirst($row["contact_person"]); ?><br>
-													<?php echo ucfirst($row["phone"]); ?><br/>
-													<?php echo ucfirst($row["mobile"]); ?>
+											
+												<div class="col-sm-2"><?php echo ucfirst($row["phone"]); ?>
 												</div>
-												<div class="col-sm-1"><?php echo ucfirst($row["region"]); ?><br/>
+												<div class="col-sm-2"><?php echo ucfirst($row["region"]); ?><br/>
 													<?php echo ucfirst($row["city"]); ?><br/>
-													<?php echo $row["pincode"] ; ?>
+												<!-- 	<?php echo $row["pincode"] ; ?> -->
 												</div>
-
-												<div class="col-sm-1"><?php echo ucfirst($member_status); ?></div>
-												<div class="col-sm-2"><?php echo ucfirst($memberType); ?> <br/>
-													<?php echo $row["membership_expiry_date"]; ?>
-												</div>
-												
 	
 											</div>
 										</div>	
 
                   						<?php 
-
-
-
                   						} ?>
                   			
 								</div>

@@ -10,13 +10,15 @@
        $doc2= $doc1_name = $doc2_name = $doc1_ref =$doc2_ref = $membershipNumber = $disable = $disableDesc =  $disabledDate = 
        $addPaymentDetails = $paymentMode = $amount =$paymentNumber = $paymentAgainst = $payOtherDetails = 
        $paymentID= $membershipStartDate =$membershipExpiryDate = $reminder = $statusMsg= $statusCode = 
-       $billNumber =  $membershipRequested = $membershipMemo = $daysToExpiry=$membershipNumberOld =  "" ;
+       $billNumber =  $membershipRequested = $membershipMemo = $daysToExpiry=$membershipNumberOld =
+       $rejectDesc = "" ;
 
        $emailErr = $passwordErr = $confirmPasswordErr = $companyNameErr = $contactPersonErr = $address1Err = 
        $address2Err =$cityErr = $pincodeErr = $stateErr = $phoneErr = $mobileErr = $websiteErr = $regionErr = 
        $categoryErr = $memberSpecifiedCategoryErr = $memberTypeErr = $otherDetailsErr = $doc1Err = $doc2Err = 
        $membershipNumberErr  = $disableDescErr = $addPaymentDetailsErr = $paymentModeErr = $amountErr =$paymentNumberErr = 
-       $paymentAgainstErr = $payOtherDetailsErr = $paymentDateErr = $billNumberErr =   $memberTypeRequestedErr = "";
+       $paymentAgainstErr = $payOtherDetailsErr = $paymentDateErr = $billNumberErr =   $memberTypeRequestedErr = 
+       $tax1Err = $tax2Err =  $rejectDescErr = "";
 
         if(isset($_POST["operation"]) && ($_POST["operation"]=="approve-member")) { 
 
@@ -427,9 +429,14 @@
                               // if($membershipRequested) {   
                                     if($memberType_id==0) { ?>
                                 <button type="Button" class="button-common" style="margin: 0px;" data-toggle="modal" data-target="#addPaymentDetails"  >Upgrade Membership!</button>
+                                <button type="Button" class="button-common" style="margin: 0px;" data-toggle="modal" data-target="#rejectMembershipModal"  >Reject Membership!</button>
+
                             <?php } else if ($daysToExpiry <=30) { ?>
-                                <button type="Button" class="button-common" style="margin: 0px;" data-toggle="modal" data-target="#addPaymentDetails"  >Renew Membership!</button>
+                                <button type="Button" class="button-common" style="margin: 0px;" data-toggle="modal" data-target="#addPaymentDetails"  >Renew Membership!</button>]\                           <button type="Button" class="button-common" style="margin: 0px;" data-toggle="modal" data-target="#rejectMembershipModal"  >Reject Membership!</button>
+                           <button type="Button" class="button-common" style="margin: 0px;" data-toggle="modal" data-target="#rejectMembershipModal"  >Reject Membership!</button>
+
                              <?php }  ?>
+
                            <!-- }?> -->
                           </div>
 
@@ -636,6 +643,22 @@
                           <input id="amount" class="col-sm-8 input-box <?php if(!empty($amountErr)){ echo " errorBox" ;} ?>" type="text"  name="amount"  value="<?php echo $amount; ?>"/> 
                       </div>
 
+                      <span  id="tax1Message" class="col-sm-offset-4 error" ><?php echo $tax1Err;?></span>
+                      <div class="row  form-group">
+                          <label  for="tax1" class="col-sm-4"><?php echo INVOICE_TAX_1_NAME?>: </label>
+                          <input id="tax1" class="col-sm-8 input-box <?php if(!empty($tax1Err)){ echo " errorBox" ;} ?>" type="text"  name="tax1"  value="<?php echo INVOICE_TAX_1; ?>"/> 
+                            <b>%</b>
+                      </div>
+
+
+                      <span  id="tax2Message" class="col-sm-offset-4 error" ><?php echo $tax2Err;?></span>
+                      <div class="row  form-group">
+                          <label  for="tax2" class="col-sm-4"><?php echo INVOICE_TAX_2_NAME?>: </label>
+                          <input id="tax2" class="col-sm-8 input-box <?php if(!empty($tax2Err)){ echo " errorBox" ;} ?>" type="text"  name="tax2"  value="<?php echo INVOICE_TAX_2; ?>"/> 
+                          <b>%</b>
+                      </div>
+
+
 
                       <span  id="billNumberMessage" class="col-sm-offset-4 error" ><?php echo $billNumberErr;?></span>
                       <div class="row  form-group">
@@ -685,6 +708,57 @@
 
 <!-- MODAL DIV FOR ADDING PAYMENT TO USER ACCOUNT - ENDS -->
 
+
+<!-- MODAL DIV FOR REJECTING USER MEMBERSHIP REQUEST - STARTS -->
+
+
+         <div id="rejectMembershipModal" class="modal fade" role="dialog">
+              <div class="modal-dialog ">
+
+                  <!-- Modal content-->
+                  <div class="modal-content" style="border:1px solid #0ABDC8">
+                    <div class="modal-header site-header white-text ">
+                      <button type="button" class="close" data-dismiss="modal" >&times;</button>
+                      <h4 class="center">Reject Membership Request</h4>
+                    </div>
+
+                    <div class="modal-body transparent-bg">
+                        <form id="disableUserForm" >
+<!--                           <input type="hidden" name="operation" value="rejectMembershipRequest"  />
+                          <input type="hidden" name="serialNo" value="<?php echo $memberSerial; ?>" />
+ -->
+                          <div class="row center">
+                              <span id="rejectDescMessage"  class="col-sm-offset-2 error" ></span>
+
+                          </div>
+
+                           <div class="row">
+                                <label for="rejectDesc" class="col-sm-2">Reason for Rejecting the request :</label>
+                                
+                                <div class="form-group col-sm-10 center" >
+                                  <textarea  class="form-control col-sm-12 rounded-Box<?php if(!$rejectDescErr==""){echo " errorBox" ;} ?>" rows="5" id="rejectDesc" 
+                                   name="rejectDesc" ><?php echo $rejectDesc ?></textarea>
+                                
+                              </div>                        
+                          </div>
+                          
+                          <div class="row">
+                               <div class="col-sm-offset-4 col-sm-8">                                      
+                               <button type ="button" onCLick="rejectMembershipRequest('rejectDesc','rejectMembershipRequest','<?php echo $memberSerial; ?>')" >Submit</button>
+                               <button type="Reset">Reset</button>
+                               <button type="button"  data-dismiss="modal" >Cancel</button>                       
+                             </div>
+                            </div>
+ 
+                        </form>
+                    </div>
+                  </div>
+
+              </div>
+          </div>
+
+
+<!-- MODAL DIV FOR REJECTING USER MEMBERSHIP REQUEST  - ENDS -->
 
 
 

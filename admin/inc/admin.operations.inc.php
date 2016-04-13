@@ -87,6 +87,8 @@ class taitmaAdminOperation {
            return $this -> deleteMessage();
         }elseif ($operation == "testBill") {
             return $this ->testBill();
+          }elseif ($operation == "rejectMembershipRequest") {
+            return $this -> rejectMembershipRequest();
           }
 
     }
@@ -1364,6 +1366,10 @@ class taitmaAdminOperation {
 
       $billNumber = $_POST["billNumber"];
 
+      $tax1 = floatval($_POST["tax1"]);
+      $tax2 = floatval($_POST["tax2"]);
+
+
       if(strcasecmp($memberType,"Regular")==0){
         $memberTypeSQL = MEMBERSHIP_TYPE_REGULAR;
       }else if(strcasecmp($memberType,"Premium Yearly")==0){
@@ -1424,7 +1430,7 @@ class taitmaAdminOperation {
                                      }                                     
                                     // echo "email is ".$address;     
                                    //create the bill   
-                                   $attach = $this-> createBill($serialNo,$companyName,$address,$amount,$paymentDate,$billNumber);
+                                   $attach = $this-> createBill($serialNo,$companyName,$address,$amount,$tax1,$tax2,$paymentDate,$billNumber);
 
                                   //send a mail to the user with bill attachemnent
 
@@ -1603,7 +1609,7 @@ class taitmaAdminOperation {
         return;
       }
 
-      private function createBill($serialNo,$companyName,$companyAddress ,$amount,$paymentDate,$billNumber){
+      private function createBill($serialNo,$companyName,$companyAddress ,$amount,$tax1Val,$tax2Val,$paymentDate,$billNumber){
 
         $serialNo;
         $tax1 = $tax2 =0 ;
@@ -1612,12 +1618,12 @@ class taitmaAdminOperation {
         //Add the taxes
          $amount = intval($amount);
 
-         if(INVOICE_TAX_1>0){
-          $tax1 = $amount*(INVOICE_TAX_1/100);
+         if($tax1Val>0){
+          $tax1 = $amount*($tax1Val/100);
          }
 
-         if(INVOICE_TAX_2>0){
-          $tax2 = $amount*(INVOICE_TAX_2/100);
+         if($tax2Val>0){
+          $tax2 = $amount*($tax2Val/100);
          }
 
         $totalBill = $amount+$tax1+$tax2;
@@ -1655,37 +1661,37 @@ class taitmaAdminOperation {
          $html =  $html.'<table border="0" cellpadding="0" cellspacing="5">
             <thead>
               <tr>
-              <td width="50" align="left">Sr No.</td>
-              <td width="300"  align="left">Particulars</td>
-              <td width="150"  align="right">Amount</td>
+              <td width="50" align="left"><b>Sr No.</b></td>
+              <td width="300"  align="left"><b>Particulars</b></td>
+              <td width="150"  align="right"><b>Amount</b></td>
              </tr>
             </thead>
             <tbody>
              <tr>
                  <td width="50" align="left">'.$SrNo.'</td>
-                <td width="300"  align="left">Annual subscription</td>
-                <td width="150"  align="right">Rs. '.$amount.'</td>
+                <td width="400"  align="left">Annual subscription</td>
+                <td width="50"  align="right">Rs. '.$amount.'</td>
               </tr>';
                     
            if($tax1>0){
                $html =  $html.'<tr>
-                    <td width="50" align="left">'.(++$SrNo).'</td>
-                    <td width="300"  align="left">Add: '.INVOICE_TAX_1_NAME.' @ '.INVOICE_TAX_1.'%    </td>
-                    <td width="150"  align="right">Rs. '.$tax1.'</td>
+                    <td width="50" align="left"></td>
+                    <td width="400"  align="right">Add: '.INVOICE_TAX_1_NAME.' @ '.$tax1Val.'%    </td>
+                    <td width="50"  align="right">Rs. '.$tax1.'</td>
                   </tr>';
               }
 
           if($tax2>0){
                $html =  $html.'<tr>
-                    <td width="50" align="left">'.(++$SrNo).'</td>
-                    <td width="300"  align="left">Add: '.INVOICE_TAX_2_NAME.' @ '.INVOICE_TAX_2.'%    </td>
-                    <td width="150"  align="right">Rs. '.$tax2.'</td>
+                    <td width="50" align="left"></td>
+                    <td width="400"  align="right">Add: '.INVOICE_TAX_2_NAME.' @ '.$tax2Val.'%    </td>
+                    <td width="50"  align="right">Rs. '.$tax2.'</td>
                   </tr>';
               }
 
              $html =  $html.'<hr /><tr><td width="50" align="left"></td>
-                <td width="300"  align="left">Total    </td>
-                <td width="150"  align="right">Rs. '.$totalBill.'</td>
+                <td width="400"  align="left">Total    </td>
+                <td width="50"  align="right"><b>Rs. '.$totalBill.'</b></td>
              </tr>
         
             </tbody>
@@ -1779,7 +1785,7 @@ class taitmaAdminOperation {
 
           // create new PDF document
          
-              echo $fileName = $this->createBill(109,"name","address",1000,"10-05-2016","B-123QWE");
+              echo $fileName = $this->createBill(109,"name","address",1000,14.5,5,"10-05-2016","B-123QWE");
 
       }
 
@@ -1922,6 +1928,56 @@ class taitmaAdminOperation {
                 // echo "There was an error:\n";
               // print_r($failures);
             }
+        return;
+     }
+
+     private function rejectMembershipRequest(){
+
+      $serialNo       = intval($_POST["serialNo"]);
+      $rejectReason   = $_POST["rejectDesc"];
+      $email = "";
+
+
+      $sql = "UPDATE Members_Profile SET membership_requested=0 WHERE serial_no=".$serialNo;  
+
+      if($result = $this->_db->query($sql)){
+  
+
+           $sql = "SELECT * FROM Members_Profile WHERE serial_no=$serialNo";    
+                
+              if($result = $this->_db->query($sql)){
+
+                                         while ($row = $result->fetch_assoc()) {
+                                                   $email =  $row["email"];
+                                                   // $companyName=$row["company_name"];
+                                                   // $address = $row["address_1"].','.$row["city"].','.$row["pincode"];
+                                         }
+
+                                     }else {
+                                       die("Some error has occured : " .$this->_db->error);
+
+                                     }                                     
+                                    // echo "email is ".$address;     
+                                   //create the bill   
+                                   // $attach = $this-> createBill($serialNo,$companyName,$address,$amount,$tax1,$tax2,$paymentDate,$billNumber);
+
+                                  //send a mail to the user stating the reason
+
+                                     if(!empty($email)){
+                                        $subject = EMAIL_MEMBERSHIP_REJECTED_SUBJECT;
+                                        $text = "Dear Taitma Member,\nThis is to inform you that your request for membership could not be completed due to below reason -
+                                                    \n".$rejectReason. "\n\nFrom \nTaitma";
+                                        $html = "Dear Taitma Member,<br/> This is to inform you that your request for membership could not be completed due to below reason -
+                                             <br/><p><i>".$rejectReason."</p></i><br/>-Taitma";
+
+                                        $this->sendMail($email,$subject,$html,$text);
+                                      
+                                     }           
+
+
+
+        }
+
         return;
      }
 

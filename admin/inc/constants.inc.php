@@ -59,12 +59,12 @@ define("ERR_ACCOUNT_ADMIN_LOGIN_FAILED","Your are not authorized to view this pa
 
 define("EMAIL_VERIFICAITON_SUBJECT","[TAITMA]- Email verification.");
 
-define("EMAILID_FROM", "donotreply@taitma.cleari.in");
+define("EMAILID_FROM", "noreply@taitma.cleari.in");
 define("EMAIL_FROM", "TAITMA");
 define("SMTP_SERVER", "taitma.cleari.in");
 define("SMTP_PORT", 587);
-define("SMTP_USER","taitmacl");
-define("SMTP_PASSWORD","tait@123");
+define("SMTP_USER","noreply@taitma.cleari.in");
+define("SMTP_PASSWORD","nor@@123");
 
 define("MSG_ADMIN_APPROVAL_PENDING", "Your account approval is pending.");
 define('MSG_ACCOUNT_EDIT_PROFILE_SUCCESS', 'Your account is successfully updated.');
@@ -165,6 +165,8 @@ define("SECOND_REMINDER_DAY", 10);
 define("THIRD_REMINDER_DAY", 0);
 define("FOURTH_REMINDER_DAY", -5);
 define("LAST_REMINDER_DAY", -15);
+
+define("EMAIL_MEMBERSHIP_REJECTED_SUBJECT","[TAITMA]-Membership Request rejected.");
 
 
 

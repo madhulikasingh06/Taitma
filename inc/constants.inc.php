@@ -68,12 +68,12 @@ define("EMAIL_VERIFICAITON_SUBJECT","[TAITMA]- Email verification.");
 
 
 
-define("EMAILID_FROM", "donotreply@taitma.cleari.in");
+define("EMAILID_FROM", "noreply@taitma.cleari.in");
 define("EMAIL_FROM", "TAITMA");
 define("SMTP_SERVER", "taitma.cleari.in");
 define("SMTP_PORT", 587);
-define("SMTP_USER","taitmacl");
-define("SMTP_PASSWORD","tait@123");
+define("SMTP_USER","noreply@taitma.cleari.in");
+define("SMTP_PASSWORD","nor@@123");
 
 
 define("MSG_ADMIN_APPROVAL_PENDING", "Your account approval is pending.");
@@ -104,6 +104,9 @@ define("RECORDS_PER_PAGE", 50);
 define("MSG_PROFILE_INCOMPLETE", "Please complete your profile.");
 
 define("NO_SEARCH_RESULT", "No matching Members were found with the search criteria you have given.<br>Please check the search criteria and try again.");
+
+define("MSG_MEMBERSHIP_REQUEST_SUCCESS", "Your application for membership has been sent for approval. You will be contacted soon.");
+define("MSG_MEMBERSHIP_REQUEST_FAILURE", "Your application for membership could not be processed at the moment. Please try again later.");
 
 
 

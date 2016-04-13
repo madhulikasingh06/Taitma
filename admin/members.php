@@ -417,7 +417,14 @@
 												</div>
 
 												<div class="col-sm-1"><?php echo ucfirst($member_status); ?></div>
-												<div class="col-sm-2"><?php echo ucfirst($memberType); ?> <br/>
+												<div class="col-sm-2"><?php
+													if( $row["membership_requested"]==1){
+													 	echo '<span class="error">Pending Approval</span>';
+													}else {
+														echo ucfirst($memberType);
+													}
+
+												 ?> <br/>
 													<?php echo $row["membership_expiry_date"]; ?>
 												</div>
 												

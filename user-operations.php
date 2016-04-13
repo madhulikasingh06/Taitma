@@ -17,7 +17,8 @@
        //echo "\n\noperation : ee.$operation";
 
       $oper = new taitmaMembersOperation($db);
-      $status = $oper->processRequest($operation);
+      return $status = $oper->processRequest($operation);
+
 
      // echo "\n\noperation : ee.$operation";
 

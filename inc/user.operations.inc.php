@@ -1118,7 +1118,7 @@ class taitmaMembersOperation {
       $paymentAgainst = $_POST["paymentAgainst"];
       $otherDetails   = $_POST["payOtherDetails"];
       $memberType     = trim($_POST["memberTypeRequested"]);
-      $status = "";
+      $status = SUCCESS;
       $email = "";
 
       $membershipRequested = 1;
@@ -1308,7 +1308,12 @@ class taitmaMembersOperation {
 
 
 
+                        }else {
+                          $status = ERROR;
                         }
+
+              }else{
+                          $status = ERROR;
 
               }
 

@@ -828,6 +828,9 @@ function addPaymentDetails(memberId,operation,respDivId,memberTypeDiv){
                       var paymentNumber = document.getElementById("paymentNumber").value;
                       var paymentAgainst = document.getElementById("paymentAgainst").value;
                       var otherDetails = document.getElementById("payOtherDetails").value;
+                      var tax1 = document.getElementById("tax1").value;
+                      var tax2 = document.getElementById("tax2").value;
+
 
 
                       // alert(paymentDate+" & "+membershipStartDate +" & "+membershipEndDate +" & "+paymentMode +" & "+amount+" & "+ paymentNumber +" & "+paymentAgainst +" & "+otherDetails);
@@ -906,6 +909,31 @@ function addPaymentDetails(memberId,operation,respDivId,memberTypeDiv){
                           }
                       }
 
+                      if(tax1== null || tax1 ==""){
+                        isErrored = true;
+                        addErrorMessage("tax1Message","Please enter the tax amount.","tax1");
+                      }else{
+
+                          if(isNaN(tax1)){
+                            isErrored = true;
+                            addErrorMessage("tax1Message","Please enter a valid tax amount.","tax1");
+                          }else {
+                           removeErrorMessage("tax1Message","tax1");                         
+                          }
+                      }
+
+                      if(tax2== null || tax2 ==""){
+                        isErrored = true;
+                        addErrorMessage("tax2Message","Please enter the tax amount.","tax2");
+                      }else{
+
+                          if(isNaN(tax2)){
+                            isErrored = true;
+                            addErrorMessage("tax2Message","Please enter a valid tax amount.","tax2");
+                          }else {
+                           removeErrorMessage("tax2Message","tax2");                         
+                          }
+                      }
 
                     if(billNumber== null || billNumber ==""){
                         isErrored = true;
@@ -934,7 +962,7 @@ function addPaymentDetails(memberId,operation,respDivId,memberTypeDiv){
                       if(!isErrored){
 
                           var postVars = "operation="+operation+"&serialNo="+memberId+"&memberType="+memberType+"&paymentDate="+paymentDate+"&membershipStartDate="+membershipStartDate+"&membershipEndDate="+membershipEndDate+
-                                      "&paymentMode="+paymentMode+"&amount="+amount+"&billNumber="+billNumber+"&paymentNumber="+paymentNumber+"&paymentAgainst="+paymentAgainst+"&otherDetails="+otherDetails;
+                                      "&paymentMode="+paymentMode+"&amount="+amount+"&tax1="+tax1+"&tax2="+tax2+"&billNumber="+billNumber+"&paymentNumber="+paymentNumber+"&paymentAgainst="+paymentAgainst+"&otherDetails="+otherDetails;
                             // alert(postVars);
 
                             sendPaymentDetails(postVars,respDivId);
@@ -963,7 +991,7 @@ function sendPaymentDetails(postVars,divId){
                           xmlhttp.onreadystatechange = function() {
                               if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                                    document.getElementById(divId).innerHTML = xmlhttp.responseText;
-                                  location.reload(true);
+                                   location.reload(true);
                               }
                           }
 
@@ -1085,6 +1113,35 @@ function deleteMessage(id){
 
 
     
+}
+
+
+function rejectMembershipRequest(divId,operation,memberId){
+
+  var msgID = divId+"Message";
+
+  if(document.getElementById(divId)!=null)
+  var rejectDesc = document.getElementById(divId).value;
+
+  // alert("disabledDesc ::"+disabledDesc+"  MEMBEBER ID :: "+memberId+" Account Status :: "+accountStatus);
+
+  if(rejectDesc==null || rejectDesc == ""){
+    addErrorMessage(msgID,"Please enter a reason for rejecting the Memberhsip request.",divId);
+      // document.getElementById(msgID).innerHTML = "Please enter a reason for rejecting the Memberhsip request.",;
+      // document.getElementById(divId).className+= " error";
+      return;
+    }else {
+        removeErrorMessage(msgID,divId);
+
+            // document.getElementById(msgID).innerHTML = "";
+            // document.getElementById(divId).classList.remove("error");   
+
+    }
+
+    var postVars = "operation="+operation+"&serialNo="+memberId+"&rejectDesc="+rejectDesc;
+      sendPaymentDetails(postVars,msgID);
+
+
 }
 
 

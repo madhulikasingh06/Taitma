@@ -66,7 +66,7 @@ include_once "inc/admin.operations.inc.php";
 
           <?php } else { ?>
                   <li style="color:#EDEBE7;">Hello! </li>
-                <li><a href='javascript:onclick=showLoginBox();'>Login</a></li>
+                <li><a href='index.php'>Login</a></li>
          <?php } ?>       
       </ul>
     </div>

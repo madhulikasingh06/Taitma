@@ -74,6 +74,8 @@ function forwardMessage(messageId,divId){
 
 function addPaymentDetails(memberId,operation,respDivId,memberTypeDiv){
 
+  document.getElementById(respDivId).innerHTML = "<img id='processing' src='images/processing.gif' height='20'> </img>";
+
     var isErrored = false;
     var memberType = document.getElementById(memberTypeDiv).value;
      // alert(isErrored);
@@ -238,7 +240,8 @@ function addPaymentDetails(memberId,operation,respDivId,memberTypeDiv){
 
                       isErrored = !isErrored
                       console.log("isErrored : "+isErrored)
-                       document.getElementById(respDivId).innerHTML = "<img id='processing' src='images/processing.gif' height='20'> </img>";
+                      if(!isErrored)
+                       document.getElementById(respDivId).innerHTML = "";
                       return isErrored;
 
                     }

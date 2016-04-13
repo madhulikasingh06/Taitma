@@ -174,8 +174,12 @@
 
                           if($_SESSION["addPaymentToken"]==$_POST["addPaymentTokenPost"]){
                               $_SESSION["addPaymentToken"]='';
-                               include_once "user-operations.php";
-
+                               $response = include_once "user-operations.php"; 
+                                 // echo "<p class='center'>".$response."</p>";
+                              // header('location:'.$_SERVER["PHP_SELF"].'?requestMembership='.$response);
+                               echo "<meta http-equiv='refresh' content='0; url=?requestMembership=$response'>";
+                                 exit;
+                             
                           }
                         }
 
@@ -186,13 +190,26 @@
 
 
 
-		<p class="center">
-          <?php          if (isset($_GET["status"]) AND $_GET["status"]==1 ) {
+          <p  class="center">
+          <?php       if (isset($_GET["status"]) AND $_GET["status"]==1 ) {
                       echo MSG_ACCOUNT_EDIT_PROFILE_SUCCESS;
+                    }
+
+                    if(isset($_GET["requestMembership"])) {
+                        if($_GET["requestMembership"] == SUCCESS){
+
+                          echo MSG_MEMBERSHIP_REQUEST_SUCCESS;
+
+                        }else{
+                           echo MSG_MEMBERSHIP_REQUEST_FAILURE;
+
+                        }
+
                     }
             
                ?>
-		</p>
+              </p>
+
 
 
                 <!-- register-contents div starts -->
@@ -424,6 +441,7 @@
                             <?php  } ?>
                           </div>
 
+                        <?php if ($memberType_id !=0){?>
                        <span></span>
                        <div class="form-group">
                          <label for="receiveEnquiries" class="col-sm-4" >Receive Messages:</label>
@@ -432,7 +450,7 @@
                               <option value="0" <?php if(!$receiveMessage) echo 'selected' ?>>No</option>
                           </select>
                        </div>
- 
+
                      <span></span>
                        <div class="form-group">
                          <label for="receiveEnquiries" class="col-sm-4" >Show Profile to other members :</label>
@@ -441,6 +459,7 @@
                               <option value="0" <?php if(!$showProfile) echo 'selected' ?>>No</option>
                           </select>
                        </div>
+                       <?php  } ?>
 
 
                         <div class="col-sm-offset-4 col-sm-8"  style="padding-top:10px;">

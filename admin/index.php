@@ -68,8 +68,9 @@ $email="" ?>
                       <!-- <li><a href="register.php">Login / Register</a></li> -->
                       <li><?php if(!isset($_SESSION["loggedIN"])) { ?>
 
-                        <a href='javascript:onclick=showLoginBox();'>Login</a>
-                        <?php }else { ?><a href="logout.php">Logout</a> <?php }?></li>
+<!--                         <a href='javascript:onclick=showLoginBox();'>Login</a>
+ -->                                                <span>Login</span> 
+                           <?php }else { ?><a href="logout.php">Logout</a> <?php }?></li>
                       
 
 
@@ -113,7 +114,7 @@ $email="" ?>
               <div class="row"><!-- inside row 2 starts  -->
 
                     
-                    <div  id="login-box"  class="col-sm-12  trasparent-bg " style="display:none;">
+                    <div  id="login-box"  class="col-sm-12  trasparent-bg ">
 
                       <section id="" style="padding-top:0px;">
                       <?php 

@@ -27,8 +27,8 @@
 
     define("getFooterImages", "SELECT * From Banners WHERE enabled=1 ORDER By RAND() ASC LIMIT 7;");
 
-    define("getLimitedMembers", "SELECT * FROM Members_Profile");
-    define("getMembersCount", "SELECT serial_no FROM Members_Profile");
+    define("getLimitedMembers", "SELECT * FROM Members_Profile WHERE view_profile=1");
+    define("getMembersCount", "SELECT serial_no FROM Members_Profile WHERE view_profile=1");
 
     define("getMemberStatus", "SELECT verification_status_desc from Verification_Status where Verification_status = (SELECT verification_status from Member_Verification_Status where serial_no =?)");
 

@@ -95,16 +95,16 @@
 								$searchCrit  = $_GET["sercrit"];
 								  $searchVal = $_GET["serval"];
 
-								  $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  category="'.$member_category.'"';
-								  $sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  category="'.$member_category.'"';
+								  $query = 'SELECT * FROM Members_Profile where view_profile=1 AND '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  category="'.$member_category.'"';
+								  $sql = 'SELECT serial_no FROM Members_Profile where  view_profile=1 AND '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  category="'.$member_category.'"';
 								  $result = $db -> query($sql);
 								if ($result->num_rows > 0) {
 									$total_members=$result->num_rows;
 								}
 
 							}else {
-								 $query = 'SELECT * FROM Members_Profile where category="'.$member_category.'"';
-								  $sql = 'SELECT serial_no FROM Members_Profile where  category="'.$member_category.'"';
+								 $query = 'SELECT * FROM Members_Profile where  view_profile=1 AND  category="'.$member_category.'"';
+								  $sql = 'SELECT serial_no FROM Members_Profile where   view_profile=1 AND   view_profile=1 AND  category="'.$member_category.'"';
 								  $result = $db -> query($sql);
 								if ($result->num_rows > 0) {
 									$total_members=$result->num_rows;
@@ -126,16 +126,16 @@
 								$searchCrit  = $_GET["sercrit"];
 								  $searchVal = $_GET["serval"];
 
-								  $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  member_type='.$memberType;
-								  $sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  member_type='.$memberType;
+								  $query = 'SELECT * FROM Members_Profile where  view_profile=1 AND  '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  member_type='.$memberType;
+								  $sql = 'SELECT serial_no FROM Members_Profile where  view_profile=1 AND  '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  member_type='.$memberType;
 								  $result = $db -> query($sql);
 								if ($result->num_rows > 0) {
 									$total_members=$result->num_rows;
 								}
 
 							}else {
-								 $query = 'SELECT * FROM Members_Profile where member_type='.$memberType;
-								  $sql = 'SELECT serial_no FROM Members_Profile where  member_type = '.$memberType;
+								 $query = 'SELECT * FROM Members_Profile where  view_profile=1 AND  member_type='.$memberType;
+								  $sql = 'SELECT serial_no FROM Members_Profile where  view_profile=1 AND   member_type = '.$memberType;
 								  $result = $db -> query($sql);
 								if ($result->num_rows > 0) {
 									$total_members=$result->num_rows;
@@ -156,16 +156,16 @@
 								$searchCrit  = $_GET["sercrit"];
 								  $searchVal = $_GET["serval"];
 
-								   $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  disable='.$disable;
-								  $sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  disable='.$disable;
+								   $query = 'SELECT * FROM Members_Profile where  view_profile=1 AND  '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  disable='.$disable;
+								  $sql = 'SELECT serial_no FROM Members_Profile where  view_profile=1 AND '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" AND  disable='.$disable;
 								  $result = $db -> query($sql);
 								if ($result->num_rows > 0) {
 									$total_members=$result->num_rows;
 								}
 
 							}else {
-								 $query = 'SELECT * FROM Members_Profile where disable='.$disable;
-								  $sql = 'SELECT serial_no FROM Members_Profile where  disable = '.$disable;
+								 $query = 'SELECT * FROM Members_Profile where  view_profile=1 AND  disable='.$disable;
+								  $sql = 'SELECT serial_no FROM Members_Profile where   view_profile=1 AND  disable = '.$disable;
 								  $result = $db -> query($sql);
 								if ($result->num_rows > 0) {
 									$total_members=$result->num_rows;
@@ -183,8 +183,8 @@
 							 $searchCrit  = $_GET["sercrit"];
 							  $searchVal = $_GET["serval"];
 
-						 $query = 'SELECT * FROM Members_Profile where '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" ';
-							$sql = 'SELECT serial_no FROM Members_Profile where '.$_GET["sercrit"] .' like "'.$_GET["serval"] .'%"';
+						 $query = 'SELECT * FROM Members_Profile where  view_profile=1 AND  '.$_GET["sercrit"].' like "'.$_GET["serval"].'%" ';
+							$sql = 'SELECT serial_no FROM Members_Profile where  view_profile=1 AND '.$_GET["sercrit"] .' like "'.$_GET["serval"] .'%"';
 							$result = $db -> query($sql);
 							if ($result->num_rows > 0) {
 								$total_members=$result->num_rows;

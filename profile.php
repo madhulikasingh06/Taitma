@@ -154,10 +154,11 @@
 
                                   ?>
 
-<?php 
+							<?php 
               //             echo  $statusMsg; 
-                           header('location:'.$_SERVER["PHP_SELF"].'?status=1');
-                           exit;
+//                            header('location:'.$_SERVER["PHP_SELF"].'?status=1');
+                              echo "<meta http-equiv='refresh' content='0; url=?status=1'>";
+						          exit;
                           ?>
 
                                     <?php  } else {  ?>
@@ -407,6 +408,11 @@
                                 <button type="Button" class="button-common" style="margin: 0px;" data-toggle="modal" data-target="#addPaymentDetails"  >Renew Membership!</button>
                              <?php }  }?>
                               </div>
+
+                              <?php if($membershipRequested==1) {  
+                                echo "<p class='error'>Application is pending approval.</p>";
+                              }?>
+
               
                <!--               <select class="input-box col-sm-8 form-control <?php if(!$memberTypeErr==""){echo " errorBox" ;} ?>" id="memberType"  name="memberType" >
                                 <option value="" >Please choose a member type.</option>

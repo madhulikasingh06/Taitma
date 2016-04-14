@@ -470,7 +470,9 @@
                          <!--      <?php if (!empty($paymentID)){?> -->
 
                                     <b>Membership Start Date :</b><?php echo date_format($membershipStartDate,"m/d/Y");?><br/>
-                                    <b>Membership End Date :</b><?php echo date_format($membershipExpiryDate,"m/d/Y");?>
+                                    <b>Membership End Date :</b><?php echo date_format($membershipExpiryDate,"m/d/Y");  echo INVOICE_FOLDER ;?><br/>
+                                    <a href="<?php echo '../'.INVOICE_FOLDER.$memberSerial.PDF_EXTENTION ; ?>" class="text-color-blue" target="_blank" >Download Invoice</a>
+
                              <!--  <?php  } ?> -->
                               </div>
 

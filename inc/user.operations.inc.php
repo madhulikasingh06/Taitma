@@ -567,8 +567,17 @@ class taitmaMembersOperation {
         $doc_2 = NULL;
         $oldFile1 = "";
         $oldFile2 = "";
-        $receive_message = intval($_POST["receiveMessage"]);
-        $showProfile  = intval($_POST["showProfile"]);
+        $receive_message = $showProfile = 0;
+
+        if(isset($_POST["receiveMessage"])) {
+           $receive_message = intval($_POST["receiveMessage"]);
+ 
+        }
+
+        if(isset($_POST["showProfile"])){
+          $showProfile  = intval($_POST["showProfile"]);
+        }
+
         $result =  array();
 
         $email = stripslashes($email);

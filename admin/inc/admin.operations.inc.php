@@ -494,6 +494,7 @@ class taitmaAdminOperation {
                                     $_SESSION["userID"]=$email;
                                     $_SESSION["userSrNo"]=$serialNo;
                                     $_SESSION["memberType"] = $memberType;
+                                    $_SESSION["isAdmin"] = true;
                                     $result= array(SUCCESS ,MSG_ACCOUNT_LOGIN_SUCCESS);
 
 

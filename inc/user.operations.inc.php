@@ -103,6 +103,8 @@ class taitmaMembersOperation {
 
 
         $email = stripslashes($email);
+        $subscribe_newsletter = intval($_POST["subscribeNewsletter"]);
+
 
 
         try {
@@ -110,8 +112,8 @@ class taitmaMembersOperation {
            // encrypt the password
             $password = md5(stripslashes($password));
 
-            $stmt = $this->_db->prepare("CALL RegisterNewMemeber(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@serialNumber)");
-            $stmt -> bind_param("ssssssssssssssssss",$password, 
+            $stmt = $this->_db->prepare("CALL RegisterNewMemeber(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@serialNumber)");
+            $stmt -> bind_param("ssssssssssssssssssi",$password, 
                                                        $company_name , 
                                                         $contact_person, 
                                                         $address_1, 
@@ -128,7 +130,8 @@ class taitmaMembersOperation {
                                                         $member_specified_category, 
                                                         $member_type,
                                                         $other_details,
-                                                        $verCode);
+                                                        $verCode,
+                                                        $subscribe_newsletter);
 
 
                     
@@ -567,8 +570,13 @@ class taitmaMembersOperation {
         $doc_2 = NULL;
         $oldFile1 = "";
         $oldFile2 = "";
-        $receive_message = $showProfile = 0;
+        $subscribe_newsletter = intval($_POST["subscribeNewsletter"]);
 
+        // defaults for these fields
+        $receive_message = 0;
+        $showProfile = 1;
+
+      
         if(isset($_POST["receiveMessage"])) {
            $receive_message = intval($_POST["receiveMessage"]);
  
@@ -596,8 +604,8 @@ class taitmaMembersOperation {
 
            // encrypt the password
            
-            $stmt = $this->_db->prepare("CALL updateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
-            $stmt -> bind_param("isssssssssssssssssii",
+            $stmt = $this->_db->prepare("CALL updateMemberProfile(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,@status)");
+            $stmt -> bind_param("isssssssssssssssssiii",
                                                       $serial_no,
                                                       $password,
                                                        $company_name , 
@@ -617,7 +625,8 @@ class taitmaMembersOperation {
                                                         $member_type,
                                                         $other_details,
                                                         $receive_message,
-                                                        $showProfile
+                                                        $showProfile,
+                                                        $subscribe_newsletter
                                                         );
 
 

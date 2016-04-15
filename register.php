@@ -232,6 +232,15 @@
                           <input type="file" name="doc2" id="doc1">
                         </div> -->
 
+                      <span></span>
+                       <div class="form-group">
+                         <label for="subscribeNewsletter" class="col-sm-4" >Subscribe Newsletter :</label>
+                        <select class="input-box col-sm-6 form-control" name="subscribeNewsletter">
+                              <option value="1" selected >Yes</option>
+                              <option value="0" >No</option>
+                          </select>
+                       </div>
+
 
                         <span  id="captchaMessage" class="col-sm-offset-4 error" ><?php echo $captchaMessageErr;?></span>
                          <div class="form-group">

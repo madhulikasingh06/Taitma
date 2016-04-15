@@ -16,7 +16,7 @@
        $doc1_ref =$doc2_ref = $membershipStartDate = $membershipExpiryDate="";
        $addPaymentDetails = $paymentMode = $amount =$paymentNumber = $paymentAgainst = $payOtherDetails = 
        $paymentID= $membershipStartDate =$membershipExpiryDate = $reminder = $statusMsg= $statusCode = 
-       $billNumber = $receiveMessage = $showProfile =$daysToExpiry = $membershipRequested = "";       
+       $billNumber = $receiveMessage = $showProfile =$daysToExpiry = $membershipRequested = $subscribeNewsletter ="";       
 
        $emailErr = $passwordErr = $confirmPasswordErr = $companyNameErr = $contactPersonErr = $address1Err = 
        $address2Err =$cityErr = $pincodeErr = $stateErr = $phoneErr = $mobileErr = $websiteErr = $regionErr = 
@@ -65,6 +65,7 @@
             $receiveMessage = $row["receive_message"];
             $showProfile = $row["view_profile"];
             $membershipRequested = $row["membership_requested"];
+            $subscribeNewsletter = intval($row["recieve_newsletter"]);
 
          }
 
@@ -466,6 +467,16 @@
                           </select>
                        </div>
                        <?php  } ?>
+
+                       
+                       <span></span>
+                       <div class="form-group">
+                         <label for="subscribeNewsletter" class="col-sm-4" >Subscribe Newsletter :</label>
+                        <select class="input-box col-sm-6 form-control" name="subscribeNewsletter">
+                              <option value="1" <?php if($subscribeNewsletter) echo 'selected' ?> >Yes</option>
+                              <option value="0" <?php if(!$subscribeNewsletter) echo 'selected' ?>>No</option>
+                          </select>
+                       </div>
 
 
                         <div class="col-sm-offset-4 col-sm-8"  style="padding-top:10px;">

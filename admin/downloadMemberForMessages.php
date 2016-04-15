@@ -1,5 +1,5 @@
 <?php header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename=MembersForMessages.csv'); 
+header('Content-Disposition: attachment; filename=MembersForNewsletter.csv'); 
 // Disable caching
 header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
 header("Pragma: no-cache"); // HTTP 1.0
@@ -10,11 +10,11 @@ include_once "common/db_connect.php";
 				$output = fopen('php://output', 'w');
 
 				// output the column headings
-		fputcsv($output, array('Usernames/Emails'));
+		fputcsv($output, array('Usernames/Emails','Company Name'));
 
 				// fetch the data
 
-				$rows = $db->query('SELECT email FROM Members_Profile where receive_message=1');
+				$rows = $db->query('SELECT email,company_name FROM Members_Profile where recieve_newsletter=1');
 
 				// loop over the rows, outputting them
 				while ($row = $rows->fetch_assoc()) fputcsv($output, $row);

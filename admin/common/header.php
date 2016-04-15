@@ -75,7 +75,7 @@ include_once "inc/admin.operations.inc.php";
 
        
        
-            <?php if(isset($_SESSION["loggedIN"])) { ?> 
+            <?php if(isset($_SESSION["loggedIN"]) AND isset($_SESSION["isAdmin"]) AND $_SESSION["isAdmin"]) { ?> 
 
                <nav class="navbar">
                 <ul class="nav navbar-nav">

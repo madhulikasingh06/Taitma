@@ -113,7 +113,7 @@ $email="" ?>
                 ?>
               <div class="row"><!-- inside row 2 starts  -->
 
-                    
+                    <?php if(!isset($_SESSION["loggedIN"])) { ?>
                     <div  id="login-box"  class="col-sm-12  trasparent-bg ">
 
                       <section id="" style="padding-top:0px;">
@@ -158,6 +158,7 @@ $email="" ?>
                         </form><!-- form -->
                       </section><!-- content -->
                   </div><!-- login-box -->
+                <?php } ?>
               </div> <!-- inside row 2 ends  -->
 
             </div>  <!--col div ends-->
